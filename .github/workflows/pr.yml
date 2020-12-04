@@ -28,9 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install ShellCheck
-        shell: bash
-        run: sudo snap install shfmt
+      # ShellCheck is installed by default
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#installed-apt-packages
+      # - name: Install ShellCheck
+      #   shell: bash
+      #   run: sudo apt install shellcheck
+
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck
 
   tests:
     name: tests
