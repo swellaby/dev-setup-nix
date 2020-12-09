@@ -38,6 +38,7 @@ jobs:
         uses: ludeeus/action-shellcheck@1.0.0
         with:
           additional_files: '*.bats'
+          check_together: 'yes'
 
   tests:
     name: tests
