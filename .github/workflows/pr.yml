@@ -45,3 +45,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      # I think this version is a bit older and
+      # doesn't contain the JUnit support, but should
+      # suffice for the time being.
+      - name: Install bats
+        shell: bash
+        run: sudo apt install bats
+
+      - name: Run unit tests
+        shell: bash
+        run: bats -r tests/unit
