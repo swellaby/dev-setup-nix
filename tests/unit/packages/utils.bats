@@ -16,6 +16,30 @@ function teardown() {
   teardown_os_release_file
 }
 
+function assert_fedora_variables() {
+  local distro
+  local result
+  distro=${1}
+  result=${2}
+
+  assert_equal ${result} 0
+  assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
+  assert_equal "${LINUX_DISTRO}" "${distro}"
+  assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
+}
+
+function assert_debian_variables() {
+  local distro
+  local result
+  distro=${1}
+  result=${2}
+
+  assert_equal ${result} 0
+  assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
+  assert_equal "${LINUX_DISTRO}" "${distro}"
+  assert_equal "${LINUX_DISTRO_FAMILY}" "${DEBIAN_DISTRO_FAMILY}"
+}
+
 @test "error function writes correct contents to stderr" {
   exp="oh nose :("
   run error "${exp}"
@@ -53,8 +77,33 @@ function teardown() {
   mock_grep_distro ${CENTOS_DISTRO}
   initialize
 
-  assert_equal $? 0
-  assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
-  assert_equal "${LINUX_DISTRO}" "${CENTOS_DISTRO}"
-  assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
+  assert_fedora_variables ${CENTOS_DISTRO} $?
+}
+
+@test "rhel bootstrapped correctly" {
+  mock_grep_distro ${RHEL_DISTRO}
+  initialize
+
+  assert_fedora_variables ${RHEL_DISTRO} $?
+}
+
+@test "fedora bootstrapped correctly" {
+  mock_grep_distro ${FEDORA_DISTRO}
+  initialize
+
+  assert_fedora_variables ${FEDORA_DISTRO} $?
+}
+
+@test "ubuntu bootstrapped correctly" {
+  mock_grep_distro ${UBUNTU_DISTRO}
+  initialize
+
+  assert_debian_variables ${UBUNTU_DISTRO} $?
+}
+
+@test "debian bootstrapped correctly" {
+  mock_grep_distro ${DEBIAN_DISTRO}
+  initialize
+
+  assert_debian_variables ${DEBIAN_DISTRO} $?
 }
