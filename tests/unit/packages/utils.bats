@@ -22,7 +22,7 @@ function assert_fedora_variables() {
   distro=${1}
   result=${2}
 
-  assert_equal ${result} 0
+  assert_equal "${result}" 0
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
@@ -37,7 +37,7 @@ function assert_debian_variables() {
   distro=${1}
   result=${2}
 
-  assert_equal ${result} 0
+  assert_equal "${result}" 0
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${DEBIAN_DISTRO_FAMILY}"

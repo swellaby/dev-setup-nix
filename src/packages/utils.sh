@@ -44,7 +44,7 @@ readonly MACOS_INSTALL_SUBCOMMAND="install"
 INSTALLER_PREFIX=""
 INSTALLER_SUFFIX=""
 INSTALL_SUBCOMMAND=""
-INSTALL_COMMAND=""
+declare -x INSTALL_COMMAND=""
 
 function error() {
   echo "[swellaby_dotfiles]: $*" >&2
