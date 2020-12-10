@@ -46,11 +46,11 @@ function set_linux_variables() {
   echo "Detected Linux distro: ${LINUX_DISTRO}"
 
   case $id in
-    ${DEBIAN_DISTRO}) set_debian_variables ;;
-    ${UBUNTU_DISTRO}) set_debian_variables ;;
-    ${FEDORA_DISTRO}) set_fedora_variables ;;
-    ${RHEL_DISTRO}) set_fedora_variables ;;
-    ${CENTOS_DISTRO}) set_fedora_variables ;;
+    "${DEBIAN_DISTRO}") set_debian_variables ;;
+    "${UBUNTU_DISTRO}") set_debian_variables ;;
+    "${FEDORA_DISTRO}") set_fedora_variables ;;
+    "${RHEL_DISTRO}") set_fedora_variables ;;
+    "${CENTOS_DISTRO}") set_fedora_variables ;;
     *) error "Unsupported distro ${LINUX_DISTRO}" && exit 1 ;;
   esac
 }
