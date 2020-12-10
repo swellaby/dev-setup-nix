@@ -16,7 +16,7 @@ function teardown_os_release_file() {
   rm -f "${OS_RELEASE_TMP_FILE}" || true
 }
 
-function assert_error_output() {
+function assert_output_contains() {
   local output
   local exp_details
   output=$1

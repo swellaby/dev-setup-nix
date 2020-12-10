@@ -44,7 +44,14 @@ function assert_debian_variables() {
   exp="oh nose :("
   run error "${exp}"
   assert_equal "$status" 0
-  assert_error_output "${output}" "${exp}"
+  assert_output_contains "${output}" "${exp}"
+}
+
+@test "info function writes correct contents to stdout" {
+  exp="something or other"
+  run info "${exp}"
+  assert_equal "$status" 0
+  assert_output_contains "${output}" "${exp}"
 }
 
 @test "mac bootstrapped correctly" {
@@ -70,7 +77,7 @@ function assert_debian_variables() {
 
   run initialize
   assert_equal "$status" 1
-  assert_error_output "${output}" "${exp_err}"
+  assert_output_contains "${output}" "${exp_err}"
 }
 
 @test "centos bootstrapped correctly" {
@@ -106,4 +113,13 @@ function assert_debian_variables() {
   initialize
 
   assert_debian_variables ${DEBIAN_DISTRO} $?
+}
+
+@test "unsupported distro errors correctly" {
+  distro="super new kinda fake distro"
+  mock_grep_distro "${distro}"
+  run initialize
+  assert_equal "$status" 1
+  assert_output_contains "${lines[0]}" "Detected Linux distro: ${distro}"
+  assert_output_contains "${lines[1]}" "Unsupported distro ${distro}"
 }

@@ -25,6 +25,10 @@ function error() {
   echo "[swellaby_dotfiles]: $*" >&2
 }
 
+function info() {
+  echo "[swellaby_dotfiles]: $*" >&1
+}
+
 function set_debian_variables() {
   LINUX_DISTRO_FAMILY=${DEBIAN_DISTRO_FAMILY}
 }
@@ -43,7 +47,7 @@ function set_linux_variables() {
   local id
   id=$(grep -oP '(?<=^ID=).+' ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} | tr -d '"')
   LINUX_DISTRO=$id
-  echo "Detected Linux distro: ${LINUX_DISTRO}"
+  info "Detected Linux distro: ${LINUX_DISTRO}"
 
   case $id in
     "${DEBIAN_DISTRO}") set_debian_variables ;;
