@@ -18,30 +18,29 @@ function teardown() {
 
 @test "error function writes correct contents to stderr" {
   exp="oh nose :("
-  run error ${exp}
+  run error "${exp}"
   assert_equal "$status" 0
   assert_error_output "${output}" "${exp}"
 }
 
 @test "mac bootstrapped correctly" {
-  declare -x unix_name="Darwin"
-  initialize
+  unix_name="Darwin" initialize
+
   assert_equal $? 0
   assert_equal "${OPERATING_SYSTEM}" "${MAC_OS}"
 }
 
 @test "windows errors correctly" {
-  declare -x unix_name="MINGW"
-
   exp_err="[swellaby_dotfiles]: Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
 
-  run initialize
+  unix_name="MINGW" run initialize
+
   assert_equal "$status" 1
   assert_equal "${output}" "${exp_err}"
 }
 
 @test "linux install errors correctly without identification file" {
-  rm $OS_RELEASE_TMP_FILE
+  rm "${OS_RELEASE_TMP_FILE}"
   declare -x LINUX_DISTRO_OS_IDENTIFICATION_FILE=$OS_RELEASE_TMP_FILE
   exp_err="Detected Linux OS but did not find '${OS_RELEASE_TMP_FILE}' file"
 
