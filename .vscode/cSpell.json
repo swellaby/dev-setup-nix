@@ -2,7 +2,13 @@
   "version": "0.1",
   "language": "en",
   "words": [
-    "dotfiles"
+    "cygwin",
+    "dotfiles",
+    "mingw",
+    "readonly",
+    "shellcheck",
+    "swellaby",
+    "tmpdir"
   ],
   "flagWords": [
 

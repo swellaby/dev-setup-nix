@@ -29,6 +29,9 @@ function initialize() {
     error "Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
     exit 1
   fi
+
+  readonly OPERATING_SYSTEM
+  readonly unix_name
 }
 
 # Don't auto initialize during when sourced for running tests
