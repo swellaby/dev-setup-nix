@@ -2,12 +2,14 @@
   "version": "0.1",
   "language": "en",
   "words": [
+    "centos",
     "cygwin",
     "distro",
     "dotfiles",
     "mingw",
     "mkdir",
     "readonly",
+    "rhel",
     "shellcheck",
     "swellaby",
     "tmpdir"
