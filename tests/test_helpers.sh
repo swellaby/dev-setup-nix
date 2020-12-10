@@ -24,3 +24,13 @@ function assert_error_output() {
 
   assert_equal "${output}" "${ERROR_MESSAGE_PREFIX}${exp_details}"
 }
+
+function mock_grep_distro() {
+  _distro=$1
+
+  function grep() {
+    echo "${_distro}"
+  }
+
+  declare -f grep
+}

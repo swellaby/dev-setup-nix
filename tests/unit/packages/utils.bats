@@ -48,3 +48,13 @@ function teardown() {
   assert_equal "$status" 1
   assert_error_output "${output}" "${exp_err}"
 }
+
+@test "centos bootstrapped correctly" {
+  mock_grep_distro ${CENTOS_DISTRO}
+  initialize
+
+  assert_equal $? 0
+  assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
+  assert_equal "${LINUX_DISTRO}" "${CENTOS_DISTRO}"
+  assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
+}
