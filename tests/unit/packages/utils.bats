@@ -26,6 +26,8 @@ function assert_fedora_variables() {
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
+  assert_equal "${INSTALL_SUBCOMMAND}" "${FEDORA_INSTALL_SUBCOMMAND}"
+  assert_equal "${INSTALLER_SUFFIX}" "${FEDORA_INSTALLER_SUFFIX}"
 }
 
 function assert_debian_variables() {
@@ -38,6 +40,8 @@ function assert_debian_variables() {
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${DEBIAN_DISTRO_FAMILY}"
+  assert_equal "${INSTALL_SUBCOMMAND}" "${DEBIAN_INSTALL_SUBCOMMAND}"
+  assert_equal "${INSTALLER_SUFFIX}" "${DEBIAN_INSTALLER_SUFFIX}"
 }
 
 @test "error function writes correct contents to stderr" {
@@ -59,6 +63,8 @@ function assert_debian_variables() {
 
   assert_equal $? 0
   assert_equal "${OPERATING_SYSTEM}" "${MAC_OS}"
+  assert_equal "${PACKAGE_MANAGER}" "${MACOS_PACKAGE_MANAGER}"
+  assert_equal "${INSTALL_SUBCOMMAND}" "${MACOS_INSTALL_SUBCOMMAND}"
 }
 
 @test "windows errors correctly" {
@@ -120,6 +126,6 @@ function assert_debian_variables() {
   mock_grep_distro "${distro}"
   run initialize
   assert_equal "$status" 1
-  assert_output_contains "${lines[0]}" "Detected Linux distro: ${distro}"
-  assert_output_contains "${lines[1]}" "Unsupported distro ${distro}"
+  assert_output_contains "${lines[0]}" "Detected Linux distro: '${distro}'"
+  assert_output_contains "${lines[1]}" "Unsupported distro: '${distro}'"
 }

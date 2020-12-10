@@ -6,11 +6,13 @@
     "cygwin",
     "distro",
     "dotfiles",
+    "pacman",
     "mingw",
     "mkdir",
     "readonly",
     "rhel",
     "shellcheck",
+    "subcommand",
     "swellaby",
     "tmpdir"
   ],
