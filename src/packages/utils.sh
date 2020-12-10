@@ -80,6 +80,10 @@ function set_linux_variables() {
   LINUX_DISTRO=$id
   info "Detected Linux distro: '${LINUX_DISTRO}'"
 
+  if [ ${USER_ID} -ne 0 ]; then
+    INSTALLER_PREFIX="sudo"
+  fi
+
   case $id in
     "${DEBIAN_DISTRO}") set_debian_variables ;;
     "${UBUNTU_DISTRO}") set_debian_variables ;;
