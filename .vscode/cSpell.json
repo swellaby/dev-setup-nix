@@ -3,8 +3,10 @@
   "language": "en",
   "words": [
     "cygwin",
+    "distro",
     "dotfiles",
     "mingw",
+    "mkdir",
     "readonly",
     "shellcheck",
     "swellaby",

@@ -1,10 +1,14 @@
 # shellcheck shell=bash
 
+unix_name=$(uname)
+
 readonly MAC_OS="macos"
 readonly LINUX_OS="linux"
 declare -x OPERATING_SYSTEM=""
 
-unix_name=$(uname)
+# This file should be present on the vast majority of modern versions
+# of most major distributions, as well as anything running systemd
+declare -x LINUX_DISTRO_OS_IDENTIFICATION_FILE="/etc/os-release"
 
 function error() {
   echo "[swellaby_dotfiles]: $*" >&2
@@ -12,6 +16,11 @@ function error() {
 
 function set_linux_variables() {
   OPERATING_SYSTEM=$LINUX_OS
+  if [ ! -f ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} ]; then
+    error "Detected Linux OS but did not find '${LINUX_DISTRO_OS_IDENTIFICATION_FILE}' file"
+    exit 1
+  fi
+
   return 0
 }
 
@@ -30,8 +39,9 @@ function initialize() {
     exit 1
   fi
 
-  readonly OPERATING_SYSTEM
   readonly unix_name
+  readonly OPERATING_SYSTEM
+  readonly LINUX_DISTRO_OS_IDENTIFICATION_FILE
 }
 
 # Don't auto initialize during when sourced for running tests
