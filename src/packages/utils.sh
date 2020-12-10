@@ -1,5 +1,7 @@
 # shellcheck shell=bash
 
+# Enable easier mocking in tests
+USER_ID=${UID}
 unix_name=$(uname)
 
 readonly MAC_OS="macos"
@@ -104,11 +106,18 @@ function initialize() {
     exit 1
   fi
 
+  INSTALL_COMMAND="${INSTALLER_PREFIX} ${PACKAGE_MANAGER} ${INSTALL_SUBCOMMAND} ${INSTALLER_SUFFIX}"
+
   readonly unix_name
   readonly OPERATING_SYSTEM
   readonly LINUX_DISTRO_OS_IDENTIFICATION_FILE
   readonly LINUX_DISTRO
   readonly LINUX_DISTRO_FAMILY
+  readonly INSTALLER_PREFIX
+  readonly INSTALLER_SUFFIX
+  readonly PACKAGE_MANAGER
+  readonly INSTALL_COMMAND
+  readonly INSTALL_SUBCOMMAND
 }
 
 # Don't auto initialize during when sourced for running tests

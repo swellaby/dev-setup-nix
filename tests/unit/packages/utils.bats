@@ -68,12 +68,12 @@ function assert_debian_variables() {
 }
 
 @test "windows errors correctly" {
-  exp_err="[swellaby_dotfiles]: Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
+  exp_err="Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
 
   unix_name="MINGW" run initialize
 
   assert_equal "$status" 1
-  assert_equal "${output}" "${exp_err}"
+  assert_output_contains "${output}" "${exp_err}"
 }
 
 @test "linux install errors correctly without identification file" {
