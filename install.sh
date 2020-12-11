@@ -1,3 +1,5 @@
 #!/bin/bash
 
-echo "todo..."
+source src/packages/utils.sh
+
+install -n nyancat
