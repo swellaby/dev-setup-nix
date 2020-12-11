@@ -141,7 +141,7 @@ function install_snap() {
     return 1
   fi
 
-  ${INSTALLER_PREFIX} snap install ${snap_prefix} ${snap_name}
+  "${INSTALLER_PREFIX}" snap install "${snap_prefix}" "${snap_name}"
 }
 
 function install_package() {
@@ -165,7 +165,7 @@ function install_package() {
     shift
   done
 
-  if [ -z ${package_name} ]; then
+  if [ -z "${package_name}" ]; then
     error "No package name provided to 'install_package'"
     return 1
   fi
@@ -221,6 +221,7 @@ function install() {
       error "Snap install preferred but Snap not available. This is a bug!"
     else
       install_snap -n "${snap_name}"
+      # shellcheck disable=SC2181
       if [ $? -eq 0 ]; then
         return 0
       else

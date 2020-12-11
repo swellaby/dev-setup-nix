@@ -11,6 +11,7 @@ function setup() {
   source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
   setup_os_release_file
   mock_install_snap
+  # shellcheck disable=SC2119
   mock_install_package
 }
 
