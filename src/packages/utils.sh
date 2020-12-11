@@ -136,7 +136,7 @@ function install_snap() {
     shift
   done
 
-  if [ -z ${snap_name} ]; then
+  if [ -z "${snap_name}" ]; then
     error "No snap name provided to 'install_snap'"
     return 1
   fi
@@ -170,7 +170,7 @@ function install_package() {
     return 1
   fi
 
-  ${INSTALL_COMMAND} ${package_prefix} ${package_name}
+  "${INSTALL_COMMAND}" "${package_prefix}" "${package_name}"s
 }
 
 function install() {
@@ -231,8 +231,7 @@ function install() {
     fi
   fi
 
-  if [ -z ${package_name} ]; then
-    echo "# no package name?" >&3
+  if [ -z "${package_name}" ]; then
     error "No package name provided for installation"
     return 1
   fi
