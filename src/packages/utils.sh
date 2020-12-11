@@ -120,11 +120,11 @@ function install_snap() {
   local snap_prefix
   while [[ "$#" -gt 0 ]]; do
     case $1 in
-      -n|--snap-name)
+      -n | --snap-name)
         snap_name="${2}"
         shift
         ;;
-      -p|--snap-prefix)
+      -p | --snap-prefix)
         snap_prefix="${2}"
         shift
         ;;
@@ -149,11 +149,11 @@ function install_package() {
   local package_prefix
   while [[ "$#" -gt 0 ]]; do
     case $1 in
-      -n|--package-name)
+      -n | --package-name)
         package_name="${2}"
         shift
         ;;
-      -p|--package-prefix)
+      -p | --package-prefix)
         package_prefix="${2}"
         shift
         ;;
@@ -189,22 +189,22 @@ function install() {
 
   while [[ "$#" -gt 0 ]]; do
     case $1 in
-      -pfs|--prefer-snap)
+      -pfs | --prefer-snap)
         prefer_snap=true
         ;;
-      -n|--package-name)
+      -n | --package-name)
         package_name="${2}"
         shift
         ;;
-      -pp|--package-prefix)
+      -pp | --package-prefix)
         package_prefix="${2}"
         shift
         ;;
-      -s|--snap-name)
+      -s | --snap-name)
         snap_name="${2}"
         shift
         ;;
-      -sp|--snap-prefix)
+      -sp | --snap-prefix)
         snap_prefix="${2}"
         shift
         ;;
