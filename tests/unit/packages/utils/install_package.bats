@@ -8,7 +8,7 @@ source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
 
 readonly MOCK_PACKAGE_MANAGER_PREFIX="mock_pm_install: "
 readonly MOCK_INSTALL_COMMAND="mock_package_manager"
-readonly TEST_SUITE_PREFIX="utils::install_package::"
+readonly TEST_SUITE_PREFIX="packages::utils::install_package::"
 
 function mock_package_manager() {
   echo "${MOCK_PACKAGE_MANAGER_PREFIX}$*"

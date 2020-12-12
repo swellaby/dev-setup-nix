@@ -6,6 +6,8 @@ load "../../../../test_helper_libs/bats-assert/load"
 # shellcheck source=tests/test_helpers.sh
 source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
 
+readonly TEST_SUITE_PREFIX="packages::utils::initialize::"
+
 function setup() {
   # shellcheck source=src/packages/utils.sh
   source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
@@ -46,21 +48,21 @@ function assert_debian_variables() {
   assert_equal "${INSTALLER_SUFFIX}" "${DEBIAN_INSTALLER_SUFFIX}"
 }
 
-@test "error function writes correct contents to stderr" {
+@test "${TEST_SUITE_PREFIX}error function writes correct contents to stderr" {
   exp="oh nose :("
   run error "${exp}"
   assert_equal "$status" 0
   assert_output_contains "${output}" "${exp}"
 }
 
-@test "info function writes correct contents to stdout" {
+@test "${TEST_SUITE_PREFIX}info function writes correct contents to stdout" {
   exp="something or other"
   run info "${exp}"
   assert_equal "$status" 0
   assert_output_contains "${output}" "${exp}"
 }
 
-@test "mac bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
   unix_name="Darwin" initialize
 
   assert_equal $? 0
@@ -72,7 +74,7 @@ function assert_debian_variables() {
   assert_equal "${INSTALL_COMMAND}" " ${MACOS_PACKAGE_MANAGER} ${MACOS_INSTALL_SUBCOMMAND} "
 }
 
-@test "windows errors correctly" {
+@test "${TEST_SUITE_PREFIX}windows errors correctly" {
   exp_err="Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
 
   unix_name="MINGW" run initialize
@@ -81,7 +83,7 @@ function assert_debian_variables() {
   assert_output_contains "${output}" "${exp_err}"
 }
 
-@test "linux install errors correctly without identification file" {
+@test "${TEST_SUITE_PREFIX}linux install errors correctly without identification file" {
   rm "${OS_RELEASE_TMP_FILE}"
   exp_err="Detected Linux OS but did not find '${OS_RELEASE_TMP_FILE}' file"
 
@@ -90,42 +92,42 @@ function assert_debian_variables() {
   assert_output_contains "${output}" "${exp_err}"
 }
 
-@test "centos bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}centos bootstrapped correctly" {
   mock_grep_distro "${CENTOS_DISTRO}"
   initialize
 
   assert_fedora_variables "${CENTOS_DISTRO}" $?
 }
 
-@test "rhel bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}rhel bootstrapped correctly" {
   mock_grep_distro "${RHEL_DISTRO}"
   initialize
 
   assert_fedora_variables "${RHEL_DISTRO}" $?
 }
 
-@test "fedora bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}fedora bootstrapped correctly" {
   mock_grep_distro "${FEDORA_DISTRO}"
   initialize
 
   assert_fedora_variables "${FEDORA_DISTRO}" $?
 }
 
-@test "ubuntu bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}ubuntu bootstrapped correctly" {
   mock_grep_distro "${UBUNTU_DISTRO}"
   initialize
 
   assert_debian_variables "${UBUNTU_DISTRO}" $?
 }
 
-@test "debian bootstrapped correctly" {
+@test "${TEST_SUITE_PREFIX}debian bootstrapped correctly" {
   mock_grep_distro "${DEBIAN_DISTRO}"
   initialize
 
   assert_debian_variables "${DEBIAN_DISTRO}" $?
 }
 
-@test "unsupported distro errors correctly" {
+@test "${TEST_SUITE_PREFIX}unsupported distro errors correctly" {
   distro="super new kinda fake distro"
   mock_grep_distro "${distro}"
   run initialize
@@ -134,7 +136,7 @@ function assert_debian_variables() {
   assert_output_contains "${lines[1]}" "Unsupported distro: '${distro}'"
 }
 
-@test "linux install prefix set correctly with root" {
+@test "${TEST_SUITE_PREFIX}linux install prefix set correctly with root" {
   mock_grep_distro "${DEBIAN_DISTRO}"
   USER_ID=0 initialize
 
@@ -142,14 +144,14 @@ function assert_debian_variables() {
   assert_equal "${INSTALL_COMMAND}" " ${DEBIAN_PACKAGE_MANAGER} ${DEBIAN_INSTALL_SUBCOMMAND} ${DEBIAN_INSTALLER_SUFFIX}"
 }
 
-@test "linux install prefix set correctly without root" {
+@test "${TEST_SUITE_PREFIX}linux install prefix set correctly without root" {
   mock_grep_distro "${FEDORA_DISTRO}"
   USER_ID=1 initialize
   assert_equal "${INSTALLER_PREFIX}" "sudo"
   assert_equal "${INSTALL_COMMAND}" "sudo ${FEDORA_PACKAGE_MANAGER} ${FEDORA_INSTALL_SUBCOMMAND} ${FEDORA_INSTALLER_SUFFIX}"
 }
 
-@test "global defaults set correctly" {
+@test "${TEST_SUITE_PREFIX}global defaults set correctly" {
   assert_equal "${USER_ID}" "${UID}"
   assert_equal "${unix_name}" "$(uname)"
   assert_equal "${MAC_OS}" "macos"
