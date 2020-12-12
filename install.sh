@@ -2,4 +2,4 @@
 
 source src/packages/utils.sh
 
-install -n nyancat
+install_package -n nyancat -p

@@ -142,7 +142,8 @@ function install_snap() {
     return 1
   fi
 
-  "${INSTALLER_PREFIX}" snap install "${snap_prefix}" "${snap_name}"
+  # shellcheck disable=SC2086
+  ${INSTALLER_PREFIX} snap install ${snap_prefix} "${snap_name}"
 }
 
 function install_package() {
@@ -160,7 +161,7 @@ function install_package() {
         shift
         ;;
       *)
-        error "Invalid 'install_package' arg. This is a bug!"
+        error "Invalid 'install_package' arg: '${1}'. This is a bug!"
         exit 1
         ;;
     esac
@@ -168,11 +169,12 @@ function install_package() {
   done
 
   if [ -z "${package_name}" ]; then
-    error "No package name provided to 'install_package'"
+    error "No package name provided to 'install_package'. This is a bug!"
     return 1
   fi
 
-  "${INSTALL_COMMAND}" "${package_prefix}" "${package_name}"s
+  # shellcheck disable=SC2086
+  ${INSTALL_COMMAND} ${package_prefix} ${package_name}
 }
 
 function install() {
