@@ -138,7 +138,7 @@ function install_snap() {
   done
 
   if [ -z "${snap_name}" ]; then
-    error "No snap name provided to 'install_snap'"
+    error "No snap name provided to 'install_snap'. This is a bug!"
     return 1
   fi
 
