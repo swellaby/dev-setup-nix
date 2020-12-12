@@ -5,7 +5,9 @@
     "centos",
     "cygwin",
     "distro",
+    "dfpn",
     "dotfiles",
+    "ffpn",
     "pacman",
     "mingw",
     "mkdir",
@@ -13,6 +15,8 @@
     "readonly",
     "rhel",
     "shellcheck",
+    "shfmt",
+    "snapcraft",
     "subcommand",
     "swellaby",
     "tmpdir"

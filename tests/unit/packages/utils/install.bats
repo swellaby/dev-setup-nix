@@ -34,14 +34,30 @@ function teardown() {
 
 @test "snap preference disabled by default" {
   package_name="nyancat"
-  run install --package-name "${package_name}"
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install --debian-family-package-name "${package_name}"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${output}" "-n ${package_name}"
 }
 
+@test "snap installed correctly with prefix long arg name" {
+  snap_name="code"
+  snap_prefix="--classic"
+  SNAP_AVAILABLE=true run install --prefer-snap --snap-name "${snap_name}" --snap-prefix "${snap_prefix}"
+  assert_equal "${status}" 0
+  assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
+}
+
+@test "snap installed correctly with prefix short arg name" {
+  snap_name="slack"
+  snap_prefix="--classic"
+  SNAP_AVAILABLE=true run install -pfs -s "${snap_name}" -sp "${snap_prefix}"
+  assert_equal "${status}" 0
+  assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
+}
+
 @test "falls back to package manager with snap preference but snap unavailable" {
   package_name="wget"
-  SNAP_AVAILABLE=false run install --package-name "${package_name}" --prefer-snap
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=false run install --debian-family-package-name "${package_name}" --prefer-snap
   assert_equal "${status}" 0
   assert_output_contains "${lines[0]}" "Snap install preferred but Snap not available. This is a bug!"
   assert_mock_install_package_called_with "${lines[1]}" "-n ${package_name}"
@@ -51,10 +67,64 @@ function teardown() {
   mock_install_snap 1
   package_name="docker.io"
   snap_name="firefox"
-  SNAP_AVAILABLE=true run install -s "${snap_name}" -n "${package_name}" --prefer-snap
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=true run install --prefer-snap -s "${snap_name}" -dfpn "${package_name}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
   assert_output_contains "${lines[1]}" "Attempted but failed to install Snap: '${snap_name}'"
   assert_output_contains "${lines[2]}" "Falling back to package manager"
   assert_mock_install_package_called_with "${lines[3]}" "-n ${package_name}"
+}
+
+@test "utilizes package prefix for fedora family" {
+  package_name="foo"
+  package_prefix="don't you. forget about me."
+  LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" run install --fedora-family-package-name "${package_name}" -p "${package_prefix}"
+  assert_equal "${status}" 0
+  assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
+}
+
+@test "errors correctly on fedora family when corresponding package name not provided" {
+  package_name="oh debian"
+  exp_distro="${FEDORA_DISTRO}"
+  LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install -dfpn "${package_name}"
+  assert_equal "${status}" 0
+  assert_output_contains "${output}" "On ${exp_distro} but package name was not provided for platform. This is likely a bug."
+}
+
+@test "utilizes package prefix for debian family" {
+  package_name="bar"
+  package_prefix="wait, what was i supposed to do again?"
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install -dfpn "${package_name}" --package-prefix "${package_prefix}"
+  assert_equal "${status}" 0
+  assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
+}
+
+@test "errors correctly on debian family when corresponding package name not provided" {
+  package_name="oh fedora"
+  exp_distro="${UBUNTU_DISTRO}"
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install -ffpn "${package_name}"
+  assert_equal "${status}" 0
+  assert_output_contains "${output}" "On ${exp_distro} but package name was not provided for platform. This is likely a bug."
+}
+
+@test "correctly installs package on mac with no prefix" {
+  package_name="shfmt"
+  OPERATING_SYSTEM=${MAC_OS} run install -m "${package_name}"
+  assert_equal "${status}" 0
+  assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name}"
+}
+
+@test "correctly installs package on mac with prefix" {
+  package_name="visual-studio-code"
+  prefix="--cask"
+  OPERATING_SYSTEM=${MAC_OS} run install --mac-package-name "${package_name}" -mp "${prefix}"
+  assert_equal "${status}" 0
+  assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
+}
+
+@test "errors correctly on mac when corresponding package name not provided" {
+  package_name="oh linux"
+  OPERATING_SYSTEM="${MAC_OS}" run install -dfpn "${package_name}"
+  assert_equal "${status}" 0
+  assert_output_contains "${output}" "On Mac OS but package name was not provided for Mac OS platform. This is likely a bug."
 }

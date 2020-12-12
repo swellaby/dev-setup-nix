@@ -118,6 +118,7 @@ function set_macos_variables() {
 function install_snap() {
   local snap_name
   local snap_prefix
+
   while [[ "$#" -gt 0 ]]; do
     case $1 in
       -n | --snap-name)
@@ -147,6 +148,7 @@ function install_snap() {
 function install_package() {
   local package_name
   local package_prefix
+
   while [[ "$#" -gt 0 ]]; do
     case $1 in
       -n | --package-name)
@@ -175,10 +177,13 @@ function install_package() {
 
 function install() {
   local prefer_snap
-  local package_name
+  local fedora_family_package_name
+  local debian_family_package_name
   local package_prefix
   local snap_name
   local snap_prefix
+  local mac_package_name
+  local mac_package_prefix
 
   if [ $# -eq 0 ]; then
     error "No args passed to 'install' but at a minimum a snap or package name must be provided. This is a bug!"
@@ -192,11 +197,15 @@ function install() {
       -pfs | --prefer-snap)
         prefer_snap=true
         ;;
-      -n | --package-name)
-        package_name="${2}"
+      -ffpn | --fedora-family-package-name)
+        fedora_family_package_name="${2}"
         shift
         ;;
-      -pp | --package-prefix)
+      -dfpn | --debian-family-package-name)
+        debian_family_package_name="${2}"
+        shift
+        ;;
+      -p | --package-prefix)
         package_prefix="${2}"
         shift
         ;;
@@ -208,6 +217,14 @@ function install() {
         snap_prefix="${2}"
         shift
         ;;
+      -m | --mac-package-name)
+        mac_package_name="${2}"
+        shift
+        ;;
+      -mp | --mac_package-prefix)
+        mac_package_prefix="${2}"
+        shift
+        ;;
       *)
         error "Invalid 'install' arg: '${1}'. This is a bug!"
         exit 1
@@ -216,11 +233,14 @@ function install() {
     shift
   done
 
+  # First try to use Snapcraft provided the caller has indicated,
+  # and it is available with requisite parameters. Otherwise fall back
+  # to the platform package manager.
   if [ "${prefer_snap}" == true ]; then
     if [ ${SNAP_AVAILABLE} != true ]; then
       error "Snap install preferred but Snap not available. This is a bug!"
     else
-      install_snap -n "${snap_name}"
+      install_snap -n "${snap_name}"$([ -z "${snap_prefix}" ] && echo "" || echo " -p ${snap_prefix}")
       # shellcheck disable=SC2181
       if [ $? -eq 0 ]; then
         return 0
@@ -231,12 +251,37 @@ function install() {
     fi
   fi
 
-  if [ -z "${package_name}" ]; then
-    error "No package name provided for installation"
-    return 1
-  fi
+  # Just to encapsulate some common argument checking, no need to be public
+  # so function is defined within the containing install function.
+  function install_linux_package() {
+    local package="${1}"
+    local prefix="${2}"
+    if [ -z "${package}" ]; then
+      error "On ${LINUX_DISTRO} but package name was not provided for platform. This is likely a bug."
+      # We may want to consider exiting here at some point down the road. For now
+      # it's most likely a case of "not yet implemented" that shouldn't necessarily
+      # crash the whole script though.
+    else
+      install_package -n "${package}"$([ -z "${prefix}" ] && echo "" || echo " -p ${prefix}")
+    fi
+  }
 
-  install_package -n "${package_name}"
+  if [ "${LINUX_DISTRO_FAMILY}" == "${DEBIAN_DISTRO_FAMILY}" ]; then
+    install_linux_package "${debian_family_package_name}" "${package_prefix}"
+  elif [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
+    install_linux_package "${fedora_family_package_name}" "${package_prefix}"
+  elif [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ]; then
+    if [ -z "${mac_package_name}" ]; then
+      error "On Mac OS but package name was not provided for Mac OS platform. This is likely a bug."
+      # We may want to consider exiting here at some point down the road. For now
+      # it's most likely a case of "not yet implemented" that shouldn't necessarily
+      # crash the whole script though.
+    else
+      install_package -n "${mac_package_name}"$([ -z "${mac_package_prefix}" ] && echo "" || echo " -p ${mac_package_prefix}")
+    fi
+  else
+    error "Unable to install package on ${LINUX_DISTRO} because it is an unsupported platform. This is a bug!"
+  fi
 }
 
 function initialize() {
