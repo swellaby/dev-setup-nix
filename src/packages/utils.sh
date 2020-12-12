@@ -240,6 +240,7 @@ function install() {
     if [ ${SNAP_AVAILABLE} != true ]; then
       error "Snap install preferred but Snap not available. This is a bug!"
     else
+      # shellcheck disable=SC2046
       install_snap -n "${snap_name}"$([ -z "${snap_prefix}" ] && echo "" || echo " -p ${snap_prefix}")
       # shellcheck disable=SC2181
       if [ $? -eq 0 ]; then
@@ -262,6 +263,7 @@ function install() {
       # it's most likely a case of "not yet implemented" that shouldn't necessarily
       # crash the whole script though.
     else
+      # shellcheck disable=SC2046
       install_package -n "${package}"$([ -z "${prefix}" ] && echo "" || echo " -p ${prefix}")
     fi
   }
@@ -277,6 +279,7 @@ function install() {
       # it's most likely a case of "not yet implemented" that shouldn't necessarily
       # crash the whole script though.
     else
+      # shellcheck disable=SC2046
       install_package -n "${mac_package_name}"$([ -z "${mac_package_prefix}" ] && echo "" || echo " -p ${mac_package_prefix}")
     fi
   else
