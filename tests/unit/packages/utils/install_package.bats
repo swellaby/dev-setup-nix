@@ -11,7 +11,7 @@ readonly MOCK_INSTALL_COMMAND="mock_package_manager"
 readonly TEST_SUITE_PREFIX="utils::install_package::"
 
 function mock_package_manager() {
-  echo "${MOCK_PACKAGE_MANAGER_PREFIX}$@"
+  echo "${MOCK_PACKAGE_MANAGER_PREFIX}$*"
 }
 
 function assert_package_manager_called_with() {
