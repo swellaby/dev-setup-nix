@@ -1,4 +1,8 @@
 {
+  "files.exclude": {
+    "**/.git": true,
+    "test_helper_libs/**": true,
+  },
   "cSpell.enabled": true,
   "cSpell.ignorePaths": [
     "**/.git/**",

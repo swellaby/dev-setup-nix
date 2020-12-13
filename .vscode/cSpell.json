@@ -2,7 +2,24 @@
   "version": "0.1",
   "language": "en",
   "words": [
-    "dotfiles"
+    "centos",
+    "cygwin",
+    "distro",
+    "dfpn",
+    "dotfiles",
+    "ffpn",
+    "pacman",
+    "mingw",
+    "mkdir",
+    "nyancat",
+    "readonly",
+    "rhel",
+    "shellcheck",
+    "shfmt",
+    "snapcraft",
+    "subcommand",
+    "swellaby",
+    "tmpdir"
   ],
   "flagWords": [
 
