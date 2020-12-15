@@ -17,6 +17,7 @@
     "shellcheck",
     "shfmt",
     "snapcraft",
+    "snapd",
     "subcommand",
     "swellaby",
     "tmpdir"
