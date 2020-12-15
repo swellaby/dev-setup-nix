@@ -44,7 +44,7 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}snap installed correctly with prefix long arg name" {
   snap_name="code"
   snap_prefix="--classic"
-  SNAP_AVAILABLE=true run install --prefer-snap --snap-name "${snap_name}" --snap-prefix "${snap_prefix}"
+  SNAP_AVAILABLE=0 run install --prefer-snap --snap-name "${snap_name}" --snap-prefix "${snap_prefix}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
@@ -52,14 +52,14 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}snap installed correctly with prefix short arg name" {
   snap_name="slack"
   snap_prefix="--classic"
-  SNAP_AVAILABLE=true run install -pfs -s "${snap_name}" -sp "${snap_prefix}"
+  SNAP_AVAILABLE=0 run install -pfs -s "${snap_name}" -sp "${snap_prefix}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
 
 @test "${TEST_SUITE_PREFIX}falls back to package manager with snap preference but snap unavailable" {
   package_name="wget"
-  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=false run install --debian-family-package-name "${package_name}" --prefer-snap
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=1 run install --debian-family-package-name "${package_name}" --prefer-snap
   assert_equal "${status}" 0
   assert_output_contains "${lines[0]}" "Snap install preferred but Snap not available. This is a bug!"
   assert_mock_install_package_called_with "${lines[1]}" "-n ${package_name}"
@@ -69,7 +69,7 @@ function teardown() {
   mock_install_snap 1
   package_name="docker.io"
   snap_name="firefox"
-  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=true run install --prefer-snap -s "${snap_name}" -dfpn "${package_name}"
+  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=0 run install --prefer-snap -s "${snap_name}" -dfpn "${package_name}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
   assert_output_contains "${lines[1]}" "Attempted but failed to install Snap: '${snap_name}'"

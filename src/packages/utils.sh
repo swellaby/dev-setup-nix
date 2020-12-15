@@ -13,7 +13,7 @@ declare -x OPERATING_SYSTEM=""
 declare -x LINUX_DISTRO_OS_IDENTIFICATION_FILE="/etc/os-release"
 
 LINUX_DISTRO=""
-SNAP_AVAILABLE=true
+declare -ix SNAP_AVAILABLE
 readonly UBUNTU_DISTRO="ubuntu"
 readonly DEBIAN_DISTRO="debian"
 readonly FEDORA_DISTRO="fedora"
@@ -55,6 +55,22 @@ function info() {
   echo "[swellaby_dotfiles]: $*" >&1
 }
 
+function tool_installed() {
+  local tool_name=${1}
+
+  if command -v "${tool_name}" >/dev/null 2>&1; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function check_snapd_availability() {
+  tool_installed "snap"
+  SNAP_AVAILABLE=$?
+  return 0
+}
+
 function set_debian_variables() {
   LINUX_DISTRO_FAMILY=${DEBIAN_DISTRO_FAMILY}
   PACKAGE_MANAGER=${DEBIAN_PACKAGE_MANAGER}
@@ -85,6 +101,8 @@ function set_linux_variables() {
     INSTALLER_PREFIX="sudo"
   fi
 
+  check_snapd_availability
+
   case $id in
     "${DEBIAN_DISTRO}")
       set_debian_variables
@@ -112,7 +130,7 @@ function set_macos_variables() {
   OPERATING_SYSTEM=${MAC_OS}
   PACKAGE_MANAGER=${MACOS_PACKAGE_MANAGER}
   INSTALL_SUBCOMMAND=${MACOS_INSTALL_SUBCOMMAND}
-  SNAP_AVAILABLE=false
+  SNAP_AVAILABLE=0
 }
 
 function install_snap() {
@@ -239,7 +257,7 @@ function install() {
   # and it is available with requisite parameters. Otherwise fall back
   # to the platform package manager.
   if [ "${prefer_snap}" == true ]; then
-    if [ ${SNAP_AVAILABLE} != true ]; then
+    if [ ${SNAP_AVAILABLE} -ne 0 ]; then
       error "Snap install preferred but Snap not available. This is a bug!"
     else
       # shellcheck disable=SC2046

@@ -12,6 +12,10 @@ function setup() {
   # shellcheck source=src/packages/utils.sh
   source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
   setup_os_release_file
+
+  function check_snapd_availability() {
+    return 0
+  }
 }
 
 function teardown() {
@@ -46,20 +50,6 @@ function assert_debian_variables() {
   assert_equal "${PACKAGE_MANAGER}" "${DEBIAN_PACKAGE_MANAGER}"
   assert_equal "${INSTALL_SUBCOMMAND}" "${DEBIAN_INSTALL_SUBCOMMAND}"
   assert_equal "${INSTALLER_SUFFIX}" "${DEBIAN_INSTALLER_SUFFIX}"
-}
-
-@test "${TEST_SUITE_PREFIX}error function writes correct contents to stderr" {
-  exp="oh nose :("
-  run error "${exp}"
-  assert_equal "$status" 0
-  assert_output_contains "${output}" "${exp}"
-}
-
-@test "${TEST_SUITE_PREFIX}info function writes correct contents to stdout" {
-  exp="something or other"
-  run info "${exp}"
-  assert_equal "$status" 0
-  assert_output_contains "${output}" "${exp}"
 }
 
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
