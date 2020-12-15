@@ -48,20 +48,6 @@ function assert_debian_variables() {
   assert_equal "${INSTALLER_SUFFIX}" "${DEBIAN_INSTALLER_SUFFIX}"
 }
 
-@test "${TEST_SUITE_PREFIX}error function writes correct contents to stderr" {
-  exp="oh nose :("
-  run error "${exp}"
-  assert_equal "$status" 0
-  assert_output_contains "${output}" "${exp}"
-}
-
-@test "${TEST_SUITE_PREFIX}info function writes correct contents to stdout" {
-  exp="something or other"
-  run info "${exp}"
-  assert_equal "$status" 0
-  assert_output_contains "${output}" "${exp}"
-}
-
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
   unix_name="Darwin" initialize
 
