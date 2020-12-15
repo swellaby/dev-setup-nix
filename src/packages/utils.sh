@@ -58,11 +58,17 @@ function info() {
 function tool_installed() {
   local tool_name=${1}
 
-  command -v ${tool_name} >/dev/null 2>&1
+  if command -v "${tool_name}" >/dev/null 2>&1; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 function check_snapd_availability() {
-  SNAP_AVAILABLE=$(tool_installed "snap")
+  tool_installed "snap"
+  SNAP_AVAILABLE=$?
+  return 0
 }
 
 function set_debian_variables() {
