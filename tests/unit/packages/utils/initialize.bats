@@ -12,6 +12,10 @@ function setup() {
   # shellcheck source=src/packages/utils.sh
   source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
   setup_os_release_file
+
+  function check_snapd_availability() {
+    return 0
+  }
 }
 
 function teardown() {
