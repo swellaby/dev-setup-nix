@@ -57,3 +57,35 @@ function teardown() {
   assert_equal "${status}" 0
   assert_equal "${output}" "${prefix}snap"
 }
+
+@test "${TEST_SUITE_PREFIX}tool_installed::correctly handles missing tool" {
+  local tool_name="some-really-really-fake-tool-that-definitely-does-not-exist"
+  function command() {
+    if [ "${1}" == "-v" ] && [ "${2}" == "${tool_name}" ]; then
+      return 1
+    fi
+    exit 23
+  }
+
+  declare -x command
+
+  run tool_installed "${tool_name}"
+
+  assert_equal "${status}" 1
+}
+
+@test "${TEST_SUITE_PREFIX}tool_installed::correctly handles installed tool" {
+  local tool_name="curl"
+  function command() {
+    if [ "${1}" == "-v" ] && [ "${2}" == "${tool_name}" ]; then
+      return 0
+    fi
+    exit 8
+  }
+
+  declare -x command
+
+  run tool_installed "${tool_name}"
+
+  assert_equal "${status}" 0
+}
