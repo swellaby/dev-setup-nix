@@ -67,6 +67,7 @@ function teardown() {
     exit 23
   }
 
+  # shellcheck disable=SC2030
   declare -x command
 
   run tool_installed "${tool_name}"
@@ -83,6 +84,7 @@ function teardown() {
     exit 8
   }
 
+  # shellcheck disable=SC2030
   declare -x command
 
   run tool_installed "${tool_name}"
