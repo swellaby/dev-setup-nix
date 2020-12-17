@@ -2,4 +2,4 @@
 
 source src/packages/utils.sh
 
-install_package -n nyancat -p
+install -dfpn git
