@@ -10,14 +10,6 @@ source "${BATS_TEST_DIRNAME}/../../../../${PACKAGES_DEVELOPMENT_DIRECTORY_PATH_F
 
 readonly TEST_SUITE_PREFIX="${PACKAGES_DEVELOPMENT_SUITE_PREFIX}::git::install_git::"
 
-function setup() {
-  setup_os_release_file
-}
-
-function teardown() {
-  teardown_os_release_file
-}
-
 @test "${TEST_SUITE_PREFIX}uses correct args" {
   function install() {
     echo "$*"
@@ -25,6 +17,6 @@ function teardown() {
 
   run install_git
   assert_equal "$status" 0
-  assert_output_contains "${output}" "--debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
+  assert_call_args "${output}" "--debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
 }
 

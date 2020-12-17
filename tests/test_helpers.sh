@@ -32,6 +32,10 @@ function assert_output_contains() {
   assert_equal "${output}" "${ERROR_MESSAGE_PREFIX}${exp_details}"
 }
 
+function assert_call_args() {
+  assert_equal "${output}" "${1}"
+}
+
 function mock_grep_distro() {
   _distro=$1
 
