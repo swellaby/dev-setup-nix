@@ -31,29 +31,3 @@ function teardown() {
   assert_equal "$status" 0
   assert_output_contains "${output}" "${exp}"
 }
-
-@test "${TEST_SUITE_PREFIX}check_snapd_availability::sets global correctly" {
-  function tool_installed() {
-    return 1
-  }
-
-  set +e
-  check_snapd_availability
-  status=$?
-  set -e
-
-  assert_equal "${status}" 0
-  assert_equal "${SNAP_AVAILABLE}" 1
-}
-
-@test "${TEST_SUITE_PREFIX}check_snapd_availability::uses correct tool name" {
-  local prefix="mocked check_snapd_availability: "
-  function tool_installed() {
-    echo "${prefix}$*"
-    return 0
-  }
-
-  run check_snapd_availability
-  assert_equal "${status}" 0
-  assert_equal "${output}" "${prefix}snap"
-}
