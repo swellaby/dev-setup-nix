@@ -35,6 +35,7 @@ function assert_fedora_variables() {
   assert_equal "${PACKAGE_MANAGER}" "${FEDORA_PACKAGE_MANAGER}"
   assert_equal "${INSTALL_SUBCOMMAND}" "${FEDORA_INSTALL_SUBCOMMAND}"
   assert_equal "${INSTALLER_SUFFIX}" "${FEDORA_INSTALLER_SUFFIX}"
+  assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" false
 }
 
 function assert_debian_variables() {
@@ -50,6 +51,9 @@ function assert_debian_variables() {
   assert_equal "${PACKAGE_MANAGER}" "${DEBIAN_PACKAGE_MANAGER}"
   assert_equal "${INSTALL_SUBCOMMAND}" "${DEBIAN_INSTALL_SUBCOMMAND}"
   assert_equal "${INSTALLER_SUFFIX}" "${DEBIAN_INSTALLER_SUFFIX}"
+  assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" true
+  assert_equal "${UPDATE_PACKAGE_LISTS_COMMAND}" "${DEBIAN_UPDATE_PACKAGE_LISTS_COMMAND}"
+  assert_equal "${UPDATE_PACKAGE_LISTS_SUFFIX}" "${DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX}"
 }
 
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
@@ -62,6 +66,7 @@ function assert_debian_variables() {
   assert_equal "${INSTALLER_PREFIX}" ""
   assert_equal "${INSTALLER_SUFFIX}" ""
   assert_equal "${INSTALL_COMMAND}" " ${MACOS_PACKAGE_MANAGER} ${MACOS_INSTALL_SUBCOMMAND} "
+  assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" false
 }
 
 @test "${TEST_SUITE_PREFIX}windows errors correctly" {

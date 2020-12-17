@@ -34,6 +34,8 @@ PACKAGE_MANAGER=""
 readonly DEBIAN_PACKAGE_MANAGER="apt"
 readonly DEBIAN_INSTALL_SUBCOMMAND="install"
 readonly DEBIAN_INSTALLER_SUFFIX="-y --no-install-recommends"
+readonly DEBIAN_UPDATE_PACKAGE_LISTS_COMMAND="update"
+readonly DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX="-y"
 
 readonly FEDORA_PACKAGE_MANAGER="dnf"
 readonly FEDORA_INSTALL_SUBCOMMAND="install"
@@ -46,6 +48,9 @@ INSTALLER_PREFIX=""
 INSTALLER_SUFFIX=""
 INSTALL_SUBCOMMAND=""
 declare -x INSTALL_COMMAND=""
+declare -x UPDATE_PACKAGE_LISTS_COMMAND=""
+declare -x UPDATE_PACKAGE_LISTS_SUFFIX=""
+NEEDS_PACKAGE_LIST_UPDATES=false
 
 function error() {
   echo "[swellaby_dotfiles]: $*" >&2
@@ -71,11 +76,21 @@ function check_snapd_availability() {
   return 0
 }
 
+function update_package_lists() {
+  if [ "${NEEDS_PACKAGE_LIST_UPDATES}" == true ]; then
+    # shellcheck disable=SC2086
+    ${INSTALLER_PREFIX} ${PACKAGE_MANAGER} ${UPDATE_PACKAGE_LISTS_COMMAND} ${UPDATE_PACKAGE_LISTS_SUFFIX}
+  fi
+}
+
 function set_debian_variables() {
   LINUX_DISTRO_FAMILY=${DEBIAN_DISTRO_FAMILY}
   PACKAGE_MANAGER=${DEBIAN_PACKAGE_MANAGER}
   INSTALLER_SUFFIX=${DEBIAN_INSTALLER_SUFFIX}
   INSTALL_SUBCOMMAND=${DEBIAN_INSTALL_SUBCOMMAND}
+  NEEDS_PACKAGE_LIST_UPDATES=true
+  UPDATE_PACKAGE_LISTS_COMMAND=${DEBIAN_UPDATE_PACKAGE_LISTS_COMMAND}
+  UPDATE_PACKAGE_LISTS_SUFFIX=${DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX}
 }
 
 function set_fedora_variables() {
@@ -330,6 +345,9 @@ function initialize() {
   readonly INSTALL_COMMAND
   readonly INSTALL_SUBCOMMAND
   readonly SNAP_AVAILABLE
+  readonly UPDATE_PACKAGE_LISTS_COMMAND
+  readonly UPDATE_PACKAGE_LISTS_SUFFIX
+  readonly NEEDS_PACKAGE_LIST_UPDATES
 }
 
 # Don't auto initialize during when sourced for running tests
