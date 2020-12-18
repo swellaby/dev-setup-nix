@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly CURRENT_DIR=$(dirname "${BASH_SOURCE[0]}")
 
