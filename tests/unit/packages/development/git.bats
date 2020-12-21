@@ -17,6 +17,6 @@ readonly TEST_SUITE_PREFIX="${PACKAGES_DEVELOPMENT_SUITE_PREFIX}::git::install_g
 
   run install_git
   assert_equal "$status" 0
-  assert_call_args "${output}" "--debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
+  assert_call_args "--tool-name Git --debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
 }
 
