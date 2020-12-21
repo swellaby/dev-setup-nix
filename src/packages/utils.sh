@@ -215,6 +215,7 @@ function install_package() {
 }
 
 function install() {
+  local tool_name
   local prefer_snap
   local fedora_family_package_name
   local debian_family_package_name
@@ -232,44 +233,44 @@ function install() {
   prefer_snap=false
 
   while [[ "$#" -gt 0 ]]; do
+    # Assume a default shift of two since most arguments are
+    # options with values. Override this to `1` for any flags
+    local -i shift_count=2
     case $1 in
+      -t | --tool-name)
+        tool_name="${2}"
+        ;;
       -pfs | --prefer-snap)
         prefer_snap=true
+        shift_count=1
         ;;
       -ffpn | --fedora-family-package-name)
         fedora_family_package_name="${2}"
-        shift
         ;;
       -dfpn | --debian-family-package-name)
         debian_family_package_name="${2}"
-        shift
         ;;
       -p | --package-prefix)
         package_prefix="${2}"
-        shift
         ;;
       -s | --snap-name)
         snap_name="${2}"
-        shift
         ;;
       -sp | --snap-prefix)
         snap_prefix="${2}"
-        shift
         ;;
       -m | --mac-package-name)
         mac_package_name="${2}"
-        shift
         ;;
       -mp | --mac_package-prefix)
         mac_package_prefix="${2}"
-        shift
         ;;
       *)
         error "Invalid 'install' arg: '${1}'. This is a bug!"
         exit 1
         ;;
     esac
-    shift
+    shift $shift_count
   done
 
   # First try to use Snapcraft provided the caller has indicated,
@@ -285,7 +286,7 @@ function install() {
       if [ $? -eq 0 ]; then
         return 0
       else
-        error "Attempted but failed to install Snap: '${snap_name}'"
+        error "Attempted but failed to install tool: '${tool_name}' with Snap"
         error "Falling back to package manager"
       fi
     fi
@@ -297,7 +298,7 @@ function install() {
     local package="${1}"
     local prefix="${2}"
     if [ -z "${package}" ]; then
-      error "On ${LINUX_DISTRO} but package name was not provided for platform. This is likely a bug."
+      error "On ${LINUX_DISTRO} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
       # We may want to consider exiting here at some point down the road. For now
       # it's most likely a case of "not yet implemented" that shouldn't necessarily
       # crash the whole script though.
@@ -313,7 +314,7 @@ function install() {
     install_linux_package "${fedora_family_package_name}" "${package_prefix}"
   elif [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ]; then
     if [ -z "${mac_package_name}" ]; then
-      error "On Mac OS but package name was not provided for Mac OS platform. This is likely a bug."
+      error "On Mac OS but package name was not provided '${tool_name}' for Mac OS platform. This is likely a bug."
       # We may want to consider exiting here at some point down the road. For now
       # it's most likely a case of "not yet implemented" that shouldn't necessarily
       # crash the whole script though.
@@ -322,7 +323,7 @@ function install() {
       install_package -n "${mac_package_name}"$([ -z "${mac_package_prefix}" ] && echo "" || echo " -p ${mac_package_prefix}")
     fi
   else
-    error "Unable to install package on ${LINUX_DISTRO} because it is an unsupported platform. This is a bug!"
+    error "Unable to install '${tool_name}' on ${LINUX_DISTRO} because it is an unsupported platform. This is a bug!"
   fi
 }
 
