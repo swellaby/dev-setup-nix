@@ -34,6 +34,12 @@ function teardown() {
   assert_output_contains "${output}" "Invalid 'install' arg: '${fake_arg}'. This is a bug!"
 }
 
+@test "${TEST_SUITE_PREFIX}errors correctly on no tool_name arg" {
+  run install --debian-family-package-name "git"
+  assert_equal "${status}" 1
+  assert_output_contains "${output}" "No arg value was provided for 'tool_name'. This is a bug!"
+}
+
 @test "${TEST_SUITE_PREFIX}snap preference disabled by default" {
   package_name="nyancat"
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install \
