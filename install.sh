@@ -2,4 +2,4 @@
 
 source src/packages/utils.sh
 
-install -dfpn git
+install --prefer-snap -dfpn nyancat
