@@ -3,6 +3,7 @@
 # Enable easier mocking in tests
 USER_ID=${UID}
 unix_name=$(uname)
+declare -x SWELLABY_DOTFILES_QUIET=${SWELLABY_DOTFILES_QUIET:-false}
 
 readonly MAC_OS="macos"
 readonly LINUX_OS="linux"
@@ -57,6 +58,9 @@ function error() {
 }
 
 function info() {
+  if [ "${SWELLABY_DOTFILES_QUIET}" == "true" ]; then
+    return 0
+  fi
   echo "[swellaby_dotfiles]: $*" >&1
 }
 
@@ -348,6 +352,7 @@ function initialize() {
   readonly UPDATE_PACKAGE_LISTS_COMMAND
   readonly UPDATE_PACKAGE_LISTS_SUFFIX
   readonly NEEDS_PACKAGE_LIST_UPDATES
+  readonly SWELLABY_DOTFILES_QUIET
 }
 
 # Don't auto initialize during when sourced for running tests
