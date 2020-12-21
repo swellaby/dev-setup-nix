@@ -273,6 +273,11 @@ function install() {
     shift $shift_count
   done
 
+  if [ -z "${tool_name}" ]; then
+      error "No arg value was provided for 'tool_name'. This is a bug!"
+      exit 1
+  fi
+
   # First try to use Snapcraft provided the caller has indicated,
   # and it is available with requisite parameters. Otherwise fall back
   # to the platform package manager.
@@ -314,7 +319,7 @@ function install() {
     install_linux_package "${fedora_family_package_name}" "${package_prefix}"
   elif [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ]; then
     if [ -z "${mac_package_name}" ]; then
-      error "On Mac OS but package name was not provided '${tool_name}' for Mac OS platform. This is likely a bug."
+      error "On Mac OS but package name was not provided for '${tool_name}' for Mac OS platform. This is likely a bug."
       # We may want to consider exiting here at some point down the road. For now
       # it's most likely a case of "not yet implemented" that shouldn't necessarily
       # crash the whole script though.
