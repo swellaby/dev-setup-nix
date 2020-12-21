@@ -274,8 +274,8 @@ function install() {
   done
 
   if [ -z "${tool_name}" ]; then
-      error "No arg value was provided for 'tool_name'. This is a bug!"
-      exit 1
+    error "No arg value was provided for 'tool_name'. This is a bug!"
+    exit 1
   fi
 
   # First try to use Snapcraft provided the caller has indicated,
