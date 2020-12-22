@@ -19,6 +19,7 @@
     "snapcraft",
     "snapd",
     "subcommand",
+    "submodules",
     "swellaby",
     "tmpdir"
   ],
