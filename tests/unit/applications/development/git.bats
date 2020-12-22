@@ -5,10 +5,10 @@ load "../../../../submodules/bats-assert/load"
 
 # shellcheck source=tests/test_helpers.sh
 source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
-# shellcheck source=src/packages/development/git/git.sh
+# shellcheck source=src/applications/development/git/git.sh
 source "${BATS_TEST_DIRNAME}/../../../../${APPLICATIONS_DEVELOPMENT_DIRECTORY_PATH_FROM_ROOT}/git/git.sh"
 
-readonly TEST_SUITE_PREFIX="${PACKAGES_DEVELOPMENT_SUITE_PREFIX}::git::install_git::"
+readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::git::install_git::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
   function install() {

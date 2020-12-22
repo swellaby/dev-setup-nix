@@ -7,4 +7,4 @@ load "../../../submodules/bats-assert/load"
 source "${BATS_TEST_DIRNAME}/../../test_helpers.sh"
 
 readonly BASE_TEST_SUITE_PREFIX="utils::"
-readonly UTILS_SOURCE_PATH="${BATS_TEST_DIRNAME}/../../../src/utils.sh"
+declare -xr UTILS_SOURCE_PATH="${BATS_TEST_DIRNAME}/../../../src/utils.sh"
