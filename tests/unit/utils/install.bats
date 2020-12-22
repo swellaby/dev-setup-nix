@@ -34,7 +34,7 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}errors correctly on no tool_name arg" {
   run install --debian-family-package-name "git"
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "No arg value was provided for 'tool_name'. This is a bug!"
+  assert_output_contains "${output}" "No arg value was provided for '--application-name'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}snap preference disabled by default" {

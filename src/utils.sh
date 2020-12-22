@@ -274,7 +274,7 @@ function install() {
   done
 
   if [ -z "${application_name}" ]; then
-    error "No arg value was provided for 'application_name'. This is a bug!"
+    error "No arg value was provided for '--application-name'. This is a bug!"
     exit 1
   fi
 
