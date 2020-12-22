@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load "../../../../test_helper_libs/bats-support/load"
-load "../../../../test_helper_libs/bats-assert/load"
+load "../../../../submodules/bats-support/load"
+load "../../../../submodules/bats-assert/load"
 
 # shellcheck source=tests/test_helpers.sh
 source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
