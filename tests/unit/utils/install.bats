@@ -41,7 +41,7 @@ function teardown() {
   package_name="nyancat"
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install \
     --debian-family-package-name "${package_name}" \
-    -t "kitty"
+    -a "kitty"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${output}" "-n ${package_name}"
 }
@@ -51,7 +51,7 @@ function teardown() {
   snap_prefix="--classic"
   SNAP_AVAILABLE=0 run install \
     --prefer-snap --snap-name "${snap_name}" \
-    --snap-prefix "${snap_prefix}" --tool-name "VSCode"
+    --snap-prefix "${snap_prefix}" --application-name "VSCode"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
@@ -59,7 +59,7 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}snap installed correctly with prefix short arg name" {
   snap_name="slack"
   snap_prefix="--classic"
-  SNAP_AVAILABLE=0 run install -pfs -s "${snap_name}" -sp "${snap_prefix}" -t "Slack"
+  SNAP_AVAILABLE=0 run install -pfs -s "${snap_name}" -sp "${snap_prefix}" -a "Slack"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
@@ -69,7 +69,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=1 run install \
     --debian-family-package-name "${package_name}" \
     --prefer-snap \
-    -t "${package_name}"
+    -a "${package_name}"
   assert_equal "${status}" 0
   assert_output_contains "${lines[0]}" "Snap install preferred but Snap not available. This is a bug!"
   assert_mock_install_package_called_with "${lines[1]}" "-n ${package_name}"
@@ -83,7 +83,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" SNAP_AVAILABLE=0 run install \
     --prefer-snap -s "${snap_name}" \
     -dfpn "${package_name}" \
-    --tool-name "${tool_name}"
+    --application-name "${tool_name}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
   assert_output_contains "${lines[1]}" "Attempted but failed to install tool: '${tool_name}' with Snap"
@@ -97,7 +97,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" run install \
     --fedora-family-package-name "${package_name}" \
     -p "${package_prefix}" \
-    -t "qux"
+    -a "qux"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
 }
@@ -108,7 +108,7 @@ function teardown() {
   exp_distro="${FEDORA_DISTRO}"
   LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install \
     -dfpn "${package_name}" \
-    -t "${tool_name}"
+    -a "${tool_name}"
   assert_equal "${status}" 0
   assert_output_contains "${output}" "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
@@ -119,7 +119,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install \
     -dfpn "${package_name}" \
     --package-prefix "${package_prefix}" \
-    -t "stool"
+    -a "stool"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
 }
@@ -130,14 +130,14 @@ function teardown() {
   exp_distro="${UBUNTU_DISTRO}"
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install \
     -ffpn "${package_name}" \
-    --tool-name "${tool_name}"
+    --application-name "${tool_name}"
   assert_equal "${status}" 0
   assert_output_contains "${output}" "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package on mac with no prefix" {
   package_name="shfmt"
-  OPERATING_SYSTEM=${MAC_OS} run install -m "${package_name}" -t "${package_name}"
+  OPERATING_SYSTEM=${MAC_OS} run install -m "${package_name}" -a "${package_name}"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name}"
 }
@@ -148,7 +148,7 @@ function teardown() {
   OPERATING_SYSTEM=${MAC_OS} run install \
     --mac-package-name "${package_name}" \
     -mp "${prefix}" \
-    -t "VSCode"
+    -a "VSCode"
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
 }
@@ -156,7 +156,7 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}errors correctly on mac when corresponding package name not provided" {
   package_name="oh linux"
   tool_name="linux"
-  OPERATING_SYSTEM="${MAC_OS}" run install -dfpn "${package_name}" -t "${tool_name}"
+  OPERATING_SYSTEM="${MAC_OS}" run install -dfpn "${package_name}" -a "${tool_name}"
   assert_equal "${status}" 0
   assert_output_contains "${output}" "On Mac OS but package name was not provided for '${tool_name}' for Mac OS platform. This is likely a bug."
 }
