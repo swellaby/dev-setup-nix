@@ -10,4 +10,3 @@ declare -xr BASE_TEST_SUITE_PREFIX="utils::"
 # Use is verified, known to be consumed
 # shellcheck disable=SC2034
 readonly UTILS_SOURCE_PATH="${BATS_TEST_DIRNAME}/../../../src/utils.sh"
-
