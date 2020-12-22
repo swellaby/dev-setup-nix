@@ -1,16 +1,13 @@
 #!/usr/bin/env bats
 
-load "../../../../submodules/bats-support/load"
-load "../../../../submodules/bats-assert/load"
+# shellcheck source=tests/unit/utils/common.sh
+source "${BATS_TEST_DIRNAME}/common.sh"
 
-# shellcheck source=tests/test_helpers.sh
-source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
-
-readonly TEST_SUITE_PREFIX="packages::utils::initialize::"
+readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}initialize::"
 
 function setup() {
-  # shellcheck source=src/packages/utils.sh
-  source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
+  # shellcheck source=src/utils.sh
+  source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
 
   function check_snapd_availability() {

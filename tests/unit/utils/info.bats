@@ -1,14 +1,11 @@
 #!/usr/bin/env bats
 
-load "../../../../submodules/bats-support/load"
-load "../../../../submodules/bats-assert/load"
+# shellcheck source=tests/unit/utils/common.sh
+source "${BATS_TEST_DIRNAME}/common.sh"
+# shellcheck source=src/utils.sh
+source "${UTILS_SOURCE_PATH}"
 
-# shellcheck source=tests/test_helpers.sh
-source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
-# shellcheck source=src/packages/utils.sh
-source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
-
-readonly TEST_SUITE_PREFIX="packages::utils::info::"
+readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}info::"
 
 @test "${TEST_SUITE_PREFIX}does not write when quiet mode enabled" {
   exp="something or other"

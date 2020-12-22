@@ -1,14 +1,11 @@
 #!/usr/bin/env bats
 
-load "../../../../submodules/bats-support/load"
-load "../../../../submodules/bats-assert/load"
+# shellcheck source=tests/unit/utils/common.sh
+source "${BATS_TEST_DIRNAME}/common.sh"
 
-# shellcheck source=tests/test_helpers.sh
-source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
-
+readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}install_package::"
 readonly MOCK_PACKAGE_MANAGER_PREFIX="mock_pm_install: "
 readonly MOCK_INSTALL_COMMAND="mock_package_manager"
-readonly TEST_SUITE_PREFIX="packages::utils::install_package::"
 
 function mock_package_manager() {
   echo "${MOCK_PACKAGE_MANAGER_PREFIX}$*"
@@ -21,8 +18,8 @@ function assert_package_manager_called_with() {
 }
 
 function setup() {
-  # shellcheck source=src/packages/utils.sh
-  source "${BATS_TEST_DIRNAME}"/../../../../src/packages/utils.sh
+  # shellcheck source=src/utils.sh
+  source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
   declare -f mock_package_manager
   declare -x INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}"
