@@ -262,7 +262,7 @@ function install() {
       -m | --mac-package-name)
         mac_package_name="${2}"
         ;;
-      -mp | --mac_package-prefix)
+      -mp | --mac-package-prefix)
         mac_package_prefix="${2}"
         ;;
       *)
