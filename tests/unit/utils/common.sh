@@ -1,10 +1,10 @@
 # shellcheck shell=bash
 
-load "../../../submodules/bats-support/load"
-load "../../../submodules/bats-assert/load"
-
 # shellcheck source=tests/test_helpers.sh
 source "${BATS_TEST_DIRNAME}/../../test_helpers.sh"
+
+load "../../../${BATS_SUPPORT_LOAD_PATH_FROM_ROOT}"
+load "../../../${BATS_ASSERT_LOAD_PATH_FROM_ROOT}"
 
 declare -xr BASE_TEST_SUITE_PREFIX="utils::"
 # Use is verified, known to be consumed
