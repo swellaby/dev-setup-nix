@@ -142,7 +142,7 @@ function teardown() {
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name}"
 }
 
-@test "${TEST_SUITE_PREFIX}correctly installs package on mac with prefix" {
+@test "${TEST_SUITE_PREFIX}correctly installs package on mac with short prefix" {
   package_name="visual-studio-code"
   prefix="--cask"
   OPERATING_SYSTEM=${MAC_OS} run install \
@@ -152,6 +152,18 @@ function teardown() {
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
 }
+
+@test "${TEST_SUITE_PREFIX}correctly installs package on mac with long prefix" {
+  package_name="firefox"
+  prefix="--cask"
+  OPERATING_SYSTEM=${MAC_OS} run install \
+    --mac-package-name "${package_name}" \
+    --mac-package-prefix "${prefix}" \
+    -a "Firefox"
+  assert_equal "${status}" 0
+  assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
+}
+
 
 @test "${TEST_SUITE_PREFIX}errors correctly on mac when corresponding package name not provided" {
   package_name="oh linux"
