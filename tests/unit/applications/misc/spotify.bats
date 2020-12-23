@@ -1,12 +1,9 @@
 #!/usr/bin/env bats
 
-# shellcheck source=tests/test_helpers.sh
-source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
+# shellcheck source=tests/unit/applications/misc/common.sh
+source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/misc/spotify/spotify.sh
-source "${BATS_TEST_DIRNAME}/../../../../${APPLICATIONS_MISC_DIRECTORY_PATH_FROM_ROOT}/spotify/spotify.sh"
-
-load "../../../../${BATS_SUPPORT_LOAD_PATH_FROM_ROOT}"
-load "../../../../${BATS_ASSERT_LOAD_PATH_FROM_ROOT}"
+source "${MISC_DIRECTORY}/spotify/spotify.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::spotify::install_spotify::"
 
