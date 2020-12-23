@@ -1,12 +1,9 @@
 #!/usr/bin/env bats
 
-load "../../../../submodules/bats-support/load"
-load "../../../../submodules/bats-assert/load"
-
-# shellcheck source=tests/test_helpers.sh
-source "${BATS_TEST_DIRNAME}/../../../test_helpers.sh"
+# shellcheck source=tests/unit/applications/development/common.sh
+source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/development/git/git.sh
-source "${BATS_TEST_DIRNAME}/../../../../${APPLICATIONS_DEVELOPMENT_DIRECTORY_PATH_FROM_ROOT}/git/git.sh"
+source "${DEVELOPMENT_DIRECTORY}/git/git.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::git::install_git::"
 
