@@ -2,10 +2,10 @@
 
 # shellcheck source=tests/unit/applications/misc/common.sh
 source "${BATS_TEST_DIRNAME}/common.sh"
-# shellcheck source=src/applications/chat/discord/discord.sh
-source "${CHAT_DIRECTORY}/discord/discord.sh"
+# shellcheck source=src/applications/collaboration/discord/discord.sh
+source "${COLLABORATION_DIRECTORY}/discord/discord.sh"
 
-readonly TEST_SUITE_PREFIX="${APPLICATIONS_CHAT_SUITE_PREFIX}::discord::install_discord::"
+readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::discord::install_discord::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
   function install() {
