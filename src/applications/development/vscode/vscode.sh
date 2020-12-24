@@ -1,15 +1,5 @@
 # shellcheck shell=bash
 
-declare -ar ENABLED_VSCODE_EXTENSIONS=(
-  "swellaby.common-pack"
-)
-
-declare -ar DISABLED_VSCODE_EXTENSIONS=(
-  "swellaby.rust-pack"
-  "swellaby.node-pack"
-  "swellaby.common-pack"
-)
-
 function install_vscode() {
   install \
     --application-name "VS Code" \
@@ -35,6 +25,16 @@ function install_vscode_extension() {
 }
 
 function install_default_vscode_extensions() {
+  local -ar ENABLED_VSCODE_EXTENSIONS=(
+    "swellaby.common-pack"
+  )
+
+  local -ar DISABLED_VSCODE_EXTENSIONS=(
+    "swellaby.rust-pack"
+    "swellaby.node-pack"
+    "swellaby.python-pack"
+  )
+
   for extension in "${ENABLED_VSCODE_EXTENSIONS[@]}"; do
     install_vscode_extension "${extension}"
   done
