@@ -10,5 +10,5 @@ function install_flameshot() {
   install \
     --application-name "${application_name}" \
     --debian-family-package-name "${package_name}" \
-    --fedora-family-package-name "${package_name}" \
+    --fedora-family-package-name "${package_name}"
 }
