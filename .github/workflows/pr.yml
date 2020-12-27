@@ -39,18 +39,6 @@ jobs:
         shell: bash
         run: invoke lint
 
-      # ShellCheck is installed by default
-      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#installed-apt-packages
-      # - name: Install ShellCheck
-      #   shell: bash
-      #   run: sudo apt install shellcheck
-
-      # - name: Run ShellCheck
-      #   uses: ludeeus/action-shellcheck@1.0.0
-      #   with:
-      #     additional_files: '*.bats'
-      #     check_together: 'yes'
-
   tests:
     name: tests
     runs-on: ubuntu-latest
