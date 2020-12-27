@@ -2,7 +2,7 @@
 
 # Enable easier mocking in tests
 USER_ID=${UID}
-unix_name=$(uname)
+UNIX_NAME=$(uname)
 declare -x SWELLABY_DOTFILES_QUIET=${SWELLABY_DOTFILES_QUIET:-false}
 
 readonly MAC_OS="macos"
@@ -333,9 +333,9 @@ function install() {
 }
 
 function initialize() {
-  if [ "${unix_name}" == "Darwin" ]; then
+  if [ "${UNIX_NAME}" == "Darwin" ]; then
     set_macos_variables
-  elif [ "${unix_name}" == "Linux" ]; then
+  elif [ "${UNIX_NAME}" == "Linux" ]; then
     set_linux_variables
   else
     error "Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
@@ -344,7 +344,7 @@ function initialize() {
 
   INSTALL_COMMAND="${INSTALLER_PREFIX} ${PACKAGE_MANAGER} ${INSTALL_SUBCOMMAND} ${INSTALLER_SUFFIX}"
 
-  readonly unix_name
+  readonly UNIX_NAME
   readonly OPERATING_SYSTEM
   readonly LINUX_DISTRO_OS_IDENTIFICATION_FILE
   readonly LINUX_DISTRO
