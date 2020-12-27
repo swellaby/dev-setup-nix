@@ -24,7 +24,7 @@ def lint_python(c):
 @task(aliases=["ls"])
 def lint_shell(c):
     cmd = (
-        "find . -type f \( -name '*.sh' -o -name '*.bats' \) "
+        "find . -type f \\( -name '*.sh' -o -name '*.bats' \\) "
         "! -path '*/submodules/*' | xargs shellcheck -x"
     )
     return c.run(cmd, pty=True)

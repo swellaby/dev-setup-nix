@@ -54,7 +54,7 @@ function assert_debian_variables() {
 }
 
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
-  unix_name="Darwin" initialize
+  UNIX_NAME="Darwin" initialize
 
   assert_equal $? 0
   assert_equal "${OPERATING_SYSTEM}" "${MAC_OS}"
@@ -69,7 +69,7 @@ function assert_debian_variables() {
 @test "${TEST_SUITE_PREFIX}windows errors correctly" {
   exp_err="Unsupported OS. Are you on Windows using Git Bash or Cygwin?"
 
-  unix_name="MINGW" run initialize
+  UNIX_NAME="MINGW" run initialize
 
   assert_equal "$status" 1
   assert_output_contains "${output}" "${exp_err}"
@@ -145,7 +145,7 @@ function assert_debian_variables() {
 
 @test "${TEST_SUITE_PREFIX}global defaults set correctly" {
   assert_equal "${USER_ID}" "${UID}"
-  assert_equal "${unix_name}" "$(uname)"
+  assert_equal "${UNIX_NAME}" "$(uname)"
   assert_equal "${MAC_OS}" "macos"
   assert_equal "${LINUX_OS}" "linux"
   assert_equal "${UBUNTU_DISTRO}" "ubuntu"
