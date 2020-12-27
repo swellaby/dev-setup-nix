@@ -27,6 +27,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install dev tooling
+        shell: bash
+        run: pip install -r requirements.txt
+      - name: Run linters
+        shell: bash
+        run: invoke lint
 
       # ShellCheck is installed by default
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#installed-apt-packages
@@ -34,11 +40,11 @@ jobs:
       #   shell: bash
       #   run: sudo apt install shellcheck
 
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@1.0.0
-        with:
-          additional_files: '*.bats'
-          check_together: 'yes'
+      # - name: Run ShellCheck
+      #   uses: ludeeus/action-shellcheck@1.0.0
+      #   with:
+      #     additional_files: '*.bats'
+      #     check_together: 'yes'
 
   tests:
     name: tests
