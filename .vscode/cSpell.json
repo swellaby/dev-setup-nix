@@ -13,6 +13,7 @@
     "mingw",
     "mkdir",
     "nyancat",
+    "pycodestyle",
     "readonly",
     "rhel",
     "shellcheck",
