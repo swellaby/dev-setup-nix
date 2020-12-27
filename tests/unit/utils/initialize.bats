@@ -3,10 +3,10 @@
 # shellcheck source=tests/unit/utils/common.sh
 source "${BATS_TEST_DIRNAME}/common.sh"
 
-readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}initialize::"
+readonly TEST_SUITE_PREFIX=${BASE_TEST_SUITE_PREFIX}initialize::
 
 function setup() {
-  # shellcheck source=src/utils.sh
+
   source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
 
@@ -145,7 +145,7 @@ function assert_debian_variables() {
 
 @test "${TEST_SUITE_PREFIX}global defaults set correctly" {
   assert_equal "${USER_ID}" "${UID}"
-  assert_equal ${unix_name} "$(uname)"
+  assert_equal "${unix_name}" "$(uname)"
   assert_equal "${MAC_OS}" "macos"
   assert_equal "${LINUX_OS}" "linux"
   assert_equal "${UBUNTU_DISTRO}" "ubuntu"
