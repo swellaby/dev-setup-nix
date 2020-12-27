@@ -13,3 +13,6 @@ trim_trailing_whitespace = false
 
 [*.{sh,bats}]
 switch_case_indent = true
+
+[*.py]
+indent_size = 4
