@@ -3,7 +3,7 @@
 # Enable easier mocking in tests
 USER_ID=${UID}
 UNIX_NAME=$(uname)
-declare -x SWELLABY_DOTFILES_QUIET=${SWELLABY_DOTFILES_QUIET:-false}
+  declare -x SWELLABY_DOTFILES_QUIET=${SWELLABY_DOTFILES_QUIET:-false}
 
 readonly MAC_OS="macos"
 readonly LINUX_OS="linux"
