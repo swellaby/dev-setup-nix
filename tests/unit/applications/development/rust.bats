@@ -12,7 +12,7 @@ readonly SH_CALL_ARGS_PREFIX="mock_sh:"
 
 function setup() {
   function curl() {
-    echo "$*" >&${STD_OUT_TMP_FILE}
+    echo "$*" >&"${STD_OUT_TMP_FILE}"
   }
   declare -f curl
 
