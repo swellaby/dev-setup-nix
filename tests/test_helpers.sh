@@ -2,7 +2,11 @@
 
 readonly TMP_FILE_DIR=${BATS_TMPDIR}/bats/swellaby-dotfiles
 readonly OS_RELEASE_TMP_FILE=${TMP_FILE_DIR}/os-release
+# Use is verified, known to be consumed
+# shellcheck disable=SC2034
 readonly STD_ERR_TMP_FILE=${BATS_TMPDIR}/stderr
+# Use is verified, known to be consumed
+# shellcheck disable=SC2034
 readonly STD_OUT_TMP_FILE=${BATS_TMPDIR}/stdout
 readonly ERROR_MESSAGE_PREFIX="[swellaby_dotfiles]: "
 readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
