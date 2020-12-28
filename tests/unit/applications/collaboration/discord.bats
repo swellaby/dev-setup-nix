@@ -15,4 +15,3 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::discord:
   assert_equal "$status" 0
   assert_call_args "--application-name Discord --snap-name discord --prefer-snap --mac-package-name discord --mac-package-prefix --cask"
 }
-

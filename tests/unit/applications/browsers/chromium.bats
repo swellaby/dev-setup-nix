@@ -16,4 +16,3 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSERS_SUITE_PREFIX}::chromium::ins
   assert_equal "$status" 0
   assert_call_args "--application-name Chromium --debian-family-package-name ${exp_package}-browser --fedora-family-package-name ${exp_package} --mac-package-name ${exp_package} --mac-package-prefix --cask"
 }
-
