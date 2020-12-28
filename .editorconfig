@@ -16,3 +16,6 @@ switch_case_indent = true
 
 [*.py]
 indent_size = 4
+
+[submodules/**]
+ignore = true
