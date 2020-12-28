@@ -4,8 +4,7 @@ local_dir_name=$(dirname "${BASH_SOURCE[0]}")
 source "${local_dir_name}/../../misc/curl/curl.sh"
 
 function install_rust() {
-  tool_installed "curl"
-  if [ $? -ne 0 ]; then
+  if ! tool_installed "curl"; then
     install_curl
   fi
 
@@ -34,7 +33,7 @@ function install_rust() {
     --proto '=https' \
     --tlsv1.2 \
     -sSf https://sh.rustup.rs |
-    sh -s -- -y ${components}
+    sh -s -- -y "${components}"
 
-  source $HOME/.cargo/env
+  source "$HOME/.cargo/env"
 }

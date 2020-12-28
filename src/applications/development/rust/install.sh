@@ -5,4 +5,4 @@ readonly CURRENT_DIR=$(dirname "${BASH_SOURCE[0]}")
 source "${CURRENT_DIR}/../../../utils.sh"
 source "${CURRENT_DIR}/rust.sh"
 
-install_rust $@
+install_rust "$@"
