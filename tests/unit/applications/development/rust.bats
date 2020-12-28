@@ -6,7 +6,6 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 source "${DEVELOPMENT_DIRECTORY}/rust/rust.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::rust::install_rust::"
-readonly CURL_CALL_ARGS_PREFIX="mock_curl:"
 readonly INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
 readonly SH_CALL_ARGS_PREFIX="mock_sh:"
@@ -18,7 +17,7 @@ function setup() {
   declare -f curl
 
   function install_curl() {
-    echo "${INSTALL_CURL_CALL_ARGS_PREFIX} $*"
+    echo "${INSTALL_CURL_CALL_ARGS_PREFIX}"
   }
   declare -f install_curl
 
@@ -35,15 +34,16 @@ function setup() {
 }
 
 function teardown() {
-  rm -f ${STD_OUT_TMP_FILE} || true
+  rm -f "${STD_OUT_TMP_FILE}" || true
 }
 
 function assert_curl_call_args() {
-  assert_equal "$(cat $STD_OUT_TMP_FILE)" "${1}"
+  act=$(cat "${STD_OUT_TMP_FILE}")
+  assert_equal "${act}" "${1}"
 }
 
 function assert_install_curl_called() {
-  assert_line "${INSTALL_CURL_CALL_ARGS_PREFIX} ${1}"
+  assert_line "${INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
 function assert_tool_installed_call_args() {
@@ -81,7 +81,7 @@ function assert_sh_call_args() {
 @test "${TEST_SUITE_PREFIX}uses correct sh pipe options with no components" {
   run install_rust
   assert_success
-  assert_sh_call_args "-s -- -y"
+  assert_sh_call_args "-s -- -y "
 }
 
 @test "${TEST_SUITE_PREFIX}install_rust::uses correct sh pipe options with just rustfmt component (shorthand)" {
