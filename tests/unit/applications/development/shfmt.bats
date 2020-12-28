@@ -15,4 +15,3 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::shfmt::install_sh
   assert_equal "$status" 0
   assert_call_args "--application-name shfmt --snap-name shfmt --prefer-snap --mac-package-name shfmt"
 }
-

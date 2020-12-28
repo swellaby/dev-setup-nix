@@ -74,7 +74,7 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
   mock_install_vscode_extension_prefix="mock_install_vscode_extension:"
   install_count_prefix="act_num_extensions:"
   function install_vscode_extension() {
-    ((act_ext_count=act_ext_count+1))
+    ((act_ext_count = act_ext_count + 1))
     echo "${install_count_prefix} ${act_ext_count}"
     echo "${mock_install_vscode_extension_prefix} $*"
   }

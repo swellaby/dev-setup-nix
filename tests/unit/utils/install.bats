@@ -4,7 +4,6 @@
 source "${BATS_TEST_DIRNAME}/common.sh"
 readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}install::"
 
-
 function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
@@ -163,7 +162,6 @@ function teardown() {
   assert_equal "${status}" 0
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
 }
-
 
 @test "${TEST_SUITE_PREFIX}errors correctly on mac when corresponding package name not provided" {
   package_name="oh linux"

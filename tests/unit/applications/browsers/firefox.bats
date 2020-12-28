@@ -16,4 +16,3 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSERS_SUITE_PREFIX}::firefox::inst
   assert_equal "$status" 0
   assert_call_args "--application-name Firefox --debian-family-package-name ${exp_package} --fedora-family-package-name ${exp_package} --mac-package-name ${exp_package} --mac-package-prefix --cask"
 }
-

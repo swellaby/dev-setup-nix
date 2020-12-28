@@ -15,4 +15,3 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_SECURITY_SUITE_PREFIX}::authy::instal
   assert_equal "$status" 0
   assert_call_args "--application-name Authy (Twilio) --snap-name authy --snap-prefix --beta --prefer-snap --mac-package-name authy --mac-package-prefix --cask"
 }
-
