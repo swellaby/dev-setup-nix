@@ -36,7 +36,8 @@
     "tlsv",
     "tmpdir",
     "twilio",
-    "xargs"
+    "xargs",
+    "zulip"
   ],
   "flagWords": [
 
