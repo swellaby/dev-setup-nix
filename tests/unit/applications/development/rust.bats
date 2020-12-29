@@ -13,6 +13,7 @@ function setup() {
   mock_tool_installed
   mock_curl
   mock_source
+  mock_error
 
   function sh() {
     echo "${SH_CALL_ARGS_PREFIX} $*"
@@ -86,13 +87,9 @@ function assert_sh_call_args() {
 }
 
 @test "${TEST_SUITE_PREFIX}correctly errors on invalid parameter" {
-  local mock_error_prefix="mock_error:"
-  function error() {
-    echo "${mock_error_prefix} $*"
-  }
   run install_rust --not-a-real-thing
   assert_failure
-  assert_line "${mock_error_prefix} Invalid 'install_rust' arg: '--not-a-real-thing'. This is a bug!"
+  assert_error_call_args "Invalid 'install_rust' arg: '--not-a-real-thing'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}sources cargo directories after successful install" {
