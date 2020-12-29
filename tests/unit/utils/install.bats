@@ -42,7 +42,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" run install \
     --debian-family-package-name "${package_name}" \
     -a "kitty"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${output}" "-n ${package_name}"
 }
 
@@ -52,7 +52,7 @@ function teardown() {
   SNAP_AVAILABLE=0 run install \
     --prefer-snap --snap-name "${snap_name}" \
     --snap-prefix "${snap_prefix}" --application-name "VSCode"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
 
@@ -60,7 +60,7 @@ function teardown() {
   snap_name="slack"
   snap_prefix="--classic"
   SNAP_AVAILABLE=0 run install -pfs -s "${snap_name}" -sp "${snap_prefix}" -a "Slack"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name} -p ${snap_prefix}"
 }
 
@@ -70,7 +70,7 @@ function teardown() {
     --debian-family-package-name "${package_name}" \
     --prefer-snap \
     -a "${package_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_error_call_args "Snap install preferred but Snap not available. This is a bug!"
   assert_mock_install_package_called_with "${lines[1]}" "-n ${package_name}"
 }
@@ -84,7 +84,7 @@ function teardown() {
     --prefer-snap -s "${snap_name}" \
     -dfpn "${package_name}" \
     --application-name "${tool_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
   assert_error_call_args "Attempted but failed to install tool: '${tool_name}' with Snap"
   assert_error_call_args "Falling back to package manager"
@@ -98,7 +98,7 @@ function teardown() {
     --fedora-family-package-name "${package_name}" \
     -p "${package_prefix}" \
     -a "qux"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
 }
 
@@ -109,7 +109,7 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install \
     -dfpn "${package_name}" \
     -a "${tool_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_error_call_args "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
 
@@ -120,7 +120,7 @@ function teardown() {
     -dfpn "${package_name}" \
     --package-prefix "${package_prefix}" \
     -a "stool"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
 }
 
@@ -131,14 +131,14 @@ function teardown() {
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" LINUX_DISTRO="${exp_distro}" run install \
     -ffpn "${package_name}" \
     --application-name "${tool_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_error_call_args "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package on mac with no prefix" {
   package_name="shfmt"
   OPERATING_SYSTEM=${MAC_OS} run install -m "${package_name}" -a "${package_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name}"
 }
 
@@ -149,7 +149,7 @@ function teardown() {
     --mac-package-name "${package_name}" \
     -mp "${prefix}" \
     -a "VSCode"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
 }
 
@@ -160,7 +160,7 @@ function teardown() {
     --mac-package-name "${package_name}" \
     --mac-package-prefix "${prefix}" \
     -a "Firefox"
-  assert_equal "${status}" 0
+  assert_success
   assert_mock_install_package_called_with "${lines[0]}" "-n ${package_name} -p ${prefix}"
 }
 
@@ -168,6 +168,6 @@ function teardown() {
   package_name="oh linux"
   tool_name="linux"
   OPERATING_SYSTEM="${MAC_OS}" run install -dfpn "${package_name}" -a "${tool_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_error_call_args "On Mac OS but package name was not provided for '${tool_name}' for Mac OS platform. This is likely a bug."
 }
