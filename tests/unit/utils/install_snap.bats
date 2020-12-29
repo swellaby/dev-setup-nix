@@ -21,6 +21,7 @@ function setup() {
   source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
   declare -f snap
+  mock_Error
 }
 
 function teardown() {
@@ -31,13 +32,13 @@ function teardown() {
   invalid_arg="--crackle-pop"
   run install_snap "${invalid_arg}"
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "Invalid 'install_snap' arg: '${invalid_arg}'. This is a bug!"
+  assert_error_call_args "Invalid 'install_snap' arg: '${invalid_arg}'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no package name" {
   run install_snap
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "No snap name provided to 'install_snap'. This is a bug!"
+  assert_error_call_args "No snap name provided to 'install_snap'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs snap with short arg name and no prefix" {
