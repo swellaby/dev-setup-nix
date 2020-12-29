@@ -14,6 +14,8 @@ function setup() {
   }
 
   declare -f check_snapd_availability
+  mock_error
+  mock_info
 }
 
 function teardown() {
@@ -73,7 +75,7 @@ function assert_debian_variables() {
   UNIX_NAME="MINGW" run initialize
 
   assert_equal "$status" 1
-  assert_output_contains "${output}" "${exp_err}"
+  assert_error_call_args "${exp_err}"
 }
 
 @test "${TEST_SUITE_PREFIX}linux install errors correctly without identification file" {
@@ -82,7 +84,7 @@ function assert_debian_variables() {
 
   LINUX_DISTRO_OS_IDENTIFICATION_FILE="${OS_RELEASE_TMP_FILE}" run initialize
   assert_equal "$status" 1
-  assert_output_contains "${output}" "${exp_err}"
+  assert_error_call_args "${exp_err}"
 }
 
 @test "${TEST_SUITE_PREFIX}centos bootstrapped correctly" {
@@ -125,8 +127,8 @@ function assert_debian_variables() {
   mock_grep_distro "${distro}"
   run initialize
   assert_equal "$status" 1
-  assert_output_contains "${lines[0]}" "Detected Linux distro: '${distro}'"
-  assert_output_contains "${lines[1]}" "Unsupported distro: '${distro}'"
+  assert_info_call_args "Detected Linux distro: '${distro}'"
+  assert_error_call_args "Unsupported distro: '${distro}'"
 }
 
 @test "${TEST_SUITE_PREFIX}linux install prefix set correctly with root" {
