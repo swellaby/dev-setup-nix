@@ -11,5 +11,5 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::shellcheck
   mock_install
   run install_shellcheck
   assert_success
-  assert_call_args "--application-name ShellCheck --debian-family-package-name shellcheck --fedora-family-package-name ShellCheck --mac-package-name shellcheck"
+  assert_install_call_args "--application-name ShellCheck --debian-family-package-name shellcheck --fedora-family-package-name ShellCheck --mac-package-name shellcheck"
 }
