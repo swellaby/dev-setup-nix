@@ -15,7 +15,7 @@ function setup() {
 @test "${TEST_SUITE_PREFIX}install_vscode::uses correct args" {
   run install_vscode
   assert_success
-  assert_call_args "--application-name VS Code --snap-name code --snap-prefix --classic --prefer-snap --mac-package-name visual-studio-code --mac-package-prefix --cask"
+  assert_install_call_args "--application-name VS Code --snap-name code --snap-prefix --classic --prefer-snap --mac-package-name visual-studio-code --mac-package-prefix --cask"
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::returns 1 when code not on path" {

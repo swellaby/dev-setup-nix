@@ -11,5 +11,5 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::discord:
   mock_install
   run install_discord
   assert_success
-  assert_call_args "--application-name Discord --snap-name discord --prefer-snap --mac-package-name discord --mac-package-prefix --cask"
+  assert_install_call_args "--application-name Discord --snap-name discord --prefer-snap --mac-package-name discord --mac-package-prefix --cask"
 }

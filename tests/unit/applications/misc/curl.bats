@@ -11,5 +11,5 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::curl::install_cur
   mock_install
   run install_curl
   assert_success
-  assert_call_args "--application-name cURL --debian-family-package-name curl --fedora-family-package-name curl --mac-package-name curl"
+  assert_install_call_args "--application-name cURL --debian-family-package-name curl --fedora-family-package-name curl --mac-package-name curl"
 }

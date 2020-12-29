@@ -11,5 +11,5 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::git::insta
   mock_install
   run install_git
   assert_success
-  assert_call_args "--application-name Git --debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
+  assert_install_call_args "--application-name Git --debian-family-package-name git --fedora-family-package-name git --mac-package-name git"
 }

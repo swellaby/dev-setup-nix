@@ -16,7 +16,7 @@ function setup() {
 @test "${TEST_SUITE_PREFIX}uses correct args on Linux" {
   OPERATING_SYSTEM="${LINUX_OS}" run install_flameshot
   assert_success
-  assert_call_args "--application-name Flameshot --debian-family-package-name flameshot --fedora-family-package-name flameshot"
+  assert_install_call_args "--application-name Flameshot --debian-family-package-name flameshot --fedora-family-package-name flameshot"
 }
 
 @test "${TEST_SUITE_PREFIX}prints error on Mac" {
