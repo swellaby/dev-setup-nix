@@ -46,14 +46,14 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}correctly installs package with short arg name and no prefix" {
   package_name="nyancat"
   INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}" run install_package -n "${package_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_package_manager_called_with "${package_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package with long arg name and no prefix" {
   package_name="magic-lamp"
   INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}" run install_package --package-name "${package_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_package_manager_called_with "${package_name}"
 }
 
@@ -61,7 +61,7 @@ function teardown() {
   package_name="cat"
   prefix="--force"
   INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}" run install_package -n "${package_name}" -p "${prefix}"
-  assert_equal "${status}" 0
+  assert_success
   assert_package_manager_called_with "${prefix} ${package_name}"
 }
 
@@ -69,6 +69,6 @@ function teardown() {
   package_name="dog"
   prefix="--woof"
   INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}" run install_package --package-name "${package_name}" --package-prefix "${prefix}"
-  assert_equal "${status}" 0
+  assert_success
   assert_package_manager_called_with "${prefix} ${package_name}"
 }
