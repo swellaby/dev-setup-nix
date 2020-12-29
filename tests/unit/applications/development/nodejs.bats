@@ -12,17 +12,13 @@ readonly SOURCE_CALL_ARGS_PREFIX="mock_source:"
 readonly NVM_CALL_ARGS_PREFIX="mock_nvm:"
 
 function setup() {
-  function curl() {
-    echo "$*" >&"${STD_OUT_TMP_FILE}"
-  }
-  declare -f curl
+  mock_curl
+  mock_tool_installed
 
   function install_curl() {
     echo "${INSTALL_CURL_CALL_ARGS_PREFIX}"
   }
   declare -f install_curl
-
-  mock_tool_installed
 
   function bash() {
     echo "${BASH_CALL_ARGS_PREFIX}"
@@ -37,11 +33,6 @@ function setup() {
 
 function teardown() {
   rm -f "${STD_OUT_TMP_FILE}" || true
-}
-
-function assert_curl_call_args() {
-  act=$(cat "${STD_OUT_TMP_FILE}")
-  assert_equal "${act}" "${1}"
 }
 
 function assert_install_curl_called() {
