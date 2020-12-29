@@ -20,20 +20,20 @@ function teardown() {
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no args" {
   run install
-  assert_equal "${status}" 1
+  assert_failure
   assert_error_call_args "No args passed to 'install' but at a minimum a snap or package name must be provided. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on invalid arg" {
   fake_arg="--real-fake"
   run install "${fake_arg}"
-  assert_equal "${status}" 1
+  assert_failure
   assert_error_call_args "Invalid 'install' arg: '${fake_arg}'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no tool_name arg" {
   run install --debian-family-package-name "git"
-  assert_equal "${status}" 1
+  assert_failure
   assert_error_call_args "No arg value was provided for '--application-name'. This is a bug!"
 }
 

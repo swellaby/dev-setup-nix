@@ -28,7 +28,7 @@ function teardown() {
 
   run tool_installed "${tool_name}"
 
-  assert_equal "${status}" 1
+  assert_failure
 }
 
 @test "${TEST_SUITE_PREFIX}correctly handles installed tool" {

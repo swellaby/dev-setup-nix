@@ -33,13 +33,13 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}errors correctly on invalid args" {
   invalid_arg="--what-the-what"
   run install_package "${invalid_arg}"
-  assert_equal "${status}" 1
+  assert_failure
   assert_error_call_args "Invalid 'install_package' arg: '${invalid_arg}'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no package name" {
   run install_package
-  assert_equal "${status}" 1
+  assert_failure
   assert_error_call_args "No package name provided to 'install_package'. This is a bug!"
 }
 
