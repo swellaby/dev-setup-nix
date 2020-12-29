@@ -8,9 +8,7 @@ source "${DEVELOPMENT_DIRECTORY}/shfmt/shfmt.sh"
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::shfmt::install_shfmt::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
-  function install() {
-    echo "$*"
-  }
+  mock_install
   run install_shfmt
   assert_success
   assert_call_args "--application-name shfmt --snap-name shfmt --prefer-snap --mac-package-name shfmt"

@@ -8,9 +8,7 @@ source "${COLLABORATION_DIRECTORY}/zulip/zulip.sh"
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::zulip::install_zulip::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
-  function install() {
-    echo "$*"
-  }
+  mock_install
   run install_zulip
   assert_success
   assert_call_args "--application-name Zulip --snap-name zulip --prefer-snap --mac-package-name zulip --mac-package-prefix --cask"

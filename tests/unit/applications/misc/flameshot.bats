@@ -10,12 +10,10 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::flameshot::instal
 function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
+  mock_install
 }
 
 @test "${TEST_SUITE_PREFIX}uses correct args on Linux" {
-  function install() {
-    echo "$*"
-  }
   OPERATING_SYSTEM="${LINUX_OS}" run install_flameshot
   assert_success
   assert_call_args "--application-name Flameshot --debian-family-package-name flameshot --fedora-family-package-name flameshot"

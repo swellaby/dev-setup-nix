@@ -8,9 +8,7 @@ source "${BROWSERS_DIRECTORY}/chromium/chromium.sh"
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSERS_SUITE_PREFIX}::chromium::install_chromium::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
-  function install() {
-    echo "$*"
-  }
+  mock_install
   exp_package="chromium"
   run install_chromium
   assert_success

@@ -8,9 +8,7 @@ source "${MISC_DIRECTORY}/wget/wget.sh"
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::wget::install_wget::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
-  function install() {
-    echo "$*"
-  }
+  mock_install
   run install_wget
   assert_success
   assert_call_args "--application-name Wget --debian-family-package-name wget --fedora-family-package-name wget --mac-package-name wget"

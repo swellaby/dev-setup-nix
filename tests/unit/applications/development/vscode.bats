@@ -9,13 +9,10 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
 
 function setup() {
   mock_tool_installed
+  mock_install
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode::uses correct args" {
-  function install() {
-    echo "$*"
-  }
-
   run install_vscode
   assert_success
   assert_call_args "--application-name VS Code --snap-name code --snap-prefix --classic --prefer-snap --mac-package-name visual-studio-code --mac-package-prefix --cask"
