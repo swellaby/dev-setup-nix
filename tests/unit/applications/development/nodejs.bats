@@ -6,7 +6,6 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 source "${DEVELOPMENT_DIRECTORY}/nodejs/nodejs.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::nodejs::install_nodejs::"
-readonly INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly BASH_CALL_ARGS_PREFIX="mock_bash:"
 readonly SOURCE_CALL_ARGS_PREFIX="mock_source:"
 readonly NVM_CALL_ARGS_PREFIX="mock_nvm:"
@@ -14,11 +13,7 @@ readonly NVM_CALL_ARGS_PREFIX="mock_nvm:"
 function setup() {
   mock_curl
   mock_tool_installed
-
-  function install_curl() {
-    echo "${INSTALL_CURL_CALL_ARGS_PREFIX}"
-  }
-  declare -f install_curl
+  mock_install_curl
 
   function bash() {
     echo "${BASH_CALL_ARGS_PREFIX}"
@@ -33,10 +28,6 @@ function setup() {
 
 function teardown() {
   rm -f "${STD_OUT_TMP_FILE}" || true
-}
-
-function assert_install_curl_called() {
-  assert_line "${INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
 function assert_bash_call_args() {
