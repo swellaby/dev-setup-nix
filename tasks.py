@@ -42,7 +42,9 @@ def format_shell_bats(c):
 
 @task(aliases=["cfsb", "fcsb"])
 def check_format_shell_bats(c):
-    return shfmt_bats(c, True)
+    result = shfmt_bats(c, True)
+    print("shfmt completed successfully for *.bats files")
+    return result
 
 
 @task(aliases=["fss"])
@@ -52,7 +54,9 @@ def format_shell_sh(c):
 
 @task(aliases=["cfss", "fcss"])
 def check_format_shell_sh(c):
-    return shfmt_sh(c, True)
+    result = shfmt_sh(c, True)
+    print("shfmt completed successfully for *.sh files")
+    return result
 
 
 @task(aliases=["fs"], pre=[format_shell_sh, format_shell_bats])
@@ -103,7 +107,9 @@ def check_format(c):
 
 @task(aliases=["lp"])
 def lint_python(c):
-    return c.run("pycodestyle .", pty=True)
+    result = c.run("pycodestyle .", pty=True)
+    print("pycodestyle completed successfully")
+    return result
 
 
 @task(aliases=["ls"])
@@ -112,7 +118,9 @@ def lint_shell(c):
         "find . -type f \\( -name '*.sh' -o -name '*.bats' \\) "
         "! -path '*/submodules/*' | xargs shellcheck -x"
     )
-    return c.run(cmd, pty=True)
+    result = c.run(cmd, pty=True)
+    print("ShellCheck completed successfully")
+    return result
 
 
 @task(aliases=["l"])
@@ -120,14 +128,12 @@ def lint(c):
     shell_succeeded = True
     try:
         lint_shell(c)
-        print("ShellCheck completed successfully")
     except UnexpectedExit as err:
         shell_succeeded = False
 
     python_succeeded = True
     try:
         lint_python(c)
-        print("Pycodestyle completed successfully")
     except UnexpectedExit as err:
         python_succeeded = False
 
