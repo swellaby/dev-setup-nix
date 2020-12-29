@@ -14,6 +14,7 @@ function setup() {
   mock_curl
   mock_tool_installed
   mock_install_curl
+  mock_source
 
   function bash() {
     echo "${BASH_CALL_ARGS_PREFIX}"
@@ -62,10 +63,6 @@ function assert_bash_call_args() {
 }
 
 @test "${TEST_SUITE_PREFIX}sources nvm.sh if not already available" {
-  function source() {
-    echo "${SOURCE_CALL_ARGS_PREFIX} $*"
-  }
-  declare -f source
   function tool_installed() {
     echo "${TOOL_INSTALLED_CALL_ARGS_PREFIX} $*"
     if [ "${1}" == "nvm" ]; then
@@ -75,16 +72,12 @@ function assert_bash_call_args() {
     fi
   }
   run install_nodejs
-  assert_line "${SOURCE_CALL_ARGS_PREFIX} $HOME/.nvm/nvm.sh"
+  assert_source_call_args "$HOME/.nvm/nvm.sh"
 }
 
 @test "${TEST_SUITE_PREFIX}does not source nvm.sh if already available" {
-  function source() {
-    echo "${SOURCE_CALL_ARGS_PREFIX} $*"
-  }
-  declare -f source
   run install_nodejs
-  refute_line "${SOURCE_CALL_ARGS_PREFIX} $HOME/.nvm/nvm.sh"
+  refute_source_called
 }
 
 @test "${TEST_SUITE_PREFIX}installs correct Node.js versions" {
