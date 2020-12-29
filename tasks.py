@@ -3,6 +3,12 @@ from invoke.exceptions import UnexpectedExit
 from os.path import dirname, abspath
 
 root_dir = dirname(abspath(__file__))
+tests_root_dir = f"{root_dir}/tests"
+
+
+def bats(c, subdirectory, recursive=True):
+    recursive_flag = f"{'-r' if recursive is True else ''}"
+    return c.run(f"bats {recursive_flag} {tests_root_dir}/{subdirectory}", pty=True)
 
 
 def black(c, check):
@@ -147,3 +153,9 @@ def lint(c):
 
     if not shell_succeeded or not python_succeeded:
         raise UnexpectedExit(Result(command="lint", exited=1))
+
+
+@task(aliases=["ut", "tu"])
+def unit_tests(c):
+    print("Running unit tests...")
+    return bats(c, subdirectory="unit")
