@@ -7,7 +7,6 @@ source "${DEVELOPMENT_DIRECTORY}/rust/rust.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::rust::install_rust::"
 readonly INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
-readonly TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
 readonly SH_CALL_ARGS_PREFIX="mock_sh:"
 
 function setup() {

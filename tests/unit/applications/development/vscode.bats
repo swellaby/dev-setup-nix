@@ -42,7 +42,6 @@ function setup() {
   mock_info_prefix="mock_info:"
   mock_code_prefix="mock_code:"
 
-  mock_tool_installed
   function info() {
     echo "${mock_info_prefix} $*"
   }
