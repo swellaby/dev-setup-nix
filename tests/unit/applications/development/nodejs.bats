@@ -7,7 +7,6 @@ source "${DEVELOPMENT_DIRECTORY}/nodejs/nodejs.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::nodejs::install_nodejs::"
 readonly BASH_CALL_ARGS_PREFIX="mock_bash:"
-readonly SOURCE_CALL_ARGS_PREFIX="mock_source:"
 readonly NVM_CALL_ARGS_PREFIX="mock_nvm:"
 
 function setup() {
