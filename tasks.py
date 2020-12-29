@@ -115,6 +115,21 @@ def lint_shell(c):
     return c.run(cmd, pty=True)
 
 
-@task(aliases=["l"], pre=[lint_shell, lint_python])
+@task(aliases=["l"])
 def lint(c):
-    pass
+    shell_succeeded = True
+    try:
+        lint_shell(c)
+        print("ShellCheck completed successfully")
+    except UnexpectedExit as err:
+        shell_succeeded = False
+
+    python_succeeded = True
+    try:
+        lint_python(c)
+        print("Pycodestyle completed successfully")
+    except UnexpectedExit as err:
+        python_succeeded = False
+
+    if not shell_succeeded or not python_succeeded:
+        raise UnexpectedExit(Result(command="lint", exited=1))
