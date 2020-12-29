@@ -12,6 +12,7 @@ function setup() {
   mock_install_curl
   mock_tool_installed
   mock_curl
+  mock_source
 
   function sh() {
     echo "${SH_CALL_ARGS_PREFIX} $*"
@@ -95,11 +96,6 @@ function assert_sh_call_args() {
 }
 
 @test "${TEST_SUITE_PREFIX}sources cargo directories after successful install" {
-  local mock_source_prefix="mock_source:"
-  function source() {
-    echo "${mock_source_prefix} $*"
-  }
-  declare -f source
   run install_rust
-  assert_line "${mock_source_prefix} $HOME/.cargo/env"
+  assert_source_call_args "$HOME/.cargo/env"
 }
