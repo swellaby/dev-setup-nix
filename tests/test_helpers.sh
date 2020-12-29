@@ -8,7 +8,7 @@ readonly STD_ERR_TMP_FILE=${BATS_TMPDIR}/stderr
 # Use is verified, known to be consumed
 # shellcheck disable=SC2034
 readonly STD_OUT_TMP_FILE=${BATS_TMPDIR}/stdout
-readonly LOG_MESSAGE_PREFIX="[swellaby_dotfiles]:"
+declare -xr LOG_MESSAGE_PREFIX="[swellaby_dotfiles]:"
 readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
 readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
 readonly MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
