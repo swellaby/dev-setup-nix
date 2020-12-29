@@ -18,12 +18,12 @@ readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}info::"
   exp="something or other"
   run info "${exp}"
   assert_success
-  assert_output_contains "${output}" "${exp}"
+  assert_line "${LOG_MESSAGE_PREFIX} ${exp}"
 }
 
 @test "${TEST_SUITE_PREFIX}writes correct contents to stdout when quiet mode disabled" {
   exp="no sound of silence here"
   SWELLABY_DOTFILES_QUIET=false run info "${exp}"
   assert_success
-  assert_output_contains "${output}" "${exp}"
+  assert_line "${LOG_MESSAGE_PREFIX} ${exp}"
 }

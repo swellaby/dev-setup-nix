@@ -11,5 +11,5 @@ readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}error::"
   exp="oh nose :("
   run error "${exp}"
   assert_success
-  assert_output_contains "${output}" "${exp}"
+  assert_line "${LOG_MESSAGE_PREFIX} ${exp}"
 }
