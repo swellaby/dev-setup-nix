@@ -6,7 +6,7 @@ root_dir = dirname(abspath(__file__))
 tests_root_dir = f"{root_dir}/tests"
 
 
-def bats(c, subdirectory, recursive=True):
+def bats(c, subdirectory="", recursive=True):
     recursive_flag = f"{'-r' if recursive is True else ''}"
     return c.run(f"bats {recursive_flag} {tests_root_dir}/{subdirectory}", pty=True)
 
@@ -158,4 +158,12 @@ def lint(c):
 @task(aliases=["ut", "tu"])
 def unit_tests(c):
     print("Running unit tests...")
+    print()
     return bats(c, subdirectory="unit")
+
+
+@task(aliases=["t"])
+def test(c):
+    print("Running all tests...")
+    print()
+    return bats(c)
