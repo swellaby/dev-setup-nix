@@ -13,6 +13,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSERS_SUITE_PREFIX}::firefox::inst
   }
   exp_package="firefox"
   run install_firefox
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name Firefox --debian-family-package-name ${exp_package} --fedora-family-package-name ${exp_package} --mac-package-name ${exp_package} --mac-package-prefix --cask"
 }

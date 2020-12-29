@@ -12,6 +12,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::curl::install_cur
     echo "$*"
   }
   run install_curl
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name cURL --debian-family-package-name curl --fedora-family-package-name curl --mac-package-name curl"
 }

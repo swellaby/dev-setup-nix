@@ -17,7 +17,7 @@ function setup() {
   }
 
   run install_vscode
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name VS Code --snap-name code --snap-prefix --classic --prefer-snap --mac-package-name visual-studio-code --mac-package-prefix --cask"
 }
 
@@ -51,7 +51,7 @@ function setup() {
 
   run install_vscode_extension "${extension}"
 
-  assert_equal "$status" 0
+  assert_success
   assert_tool_installed_call_args "code"
   assert_equal "${lines[1]}" "${mock_info_prefix} Installing VS Code extension: '${extension}'"
   assert_equal "${lines[2]}" "${mock_code_prefix} --install-extension ${extension} --force"

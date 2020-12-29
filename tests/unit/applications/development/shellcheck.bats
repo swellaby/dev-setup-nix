@@ -13,6 +13,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::shellcheck
   }
 
   run install_shellcheck
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name ShellCheck --debian-family-package-name shellcheck --fedora-family-package-name ShellCheck --mac-package-name shellcheck"
 }

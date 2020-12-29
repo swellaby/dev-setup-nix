@@ -10,6 +10,6 @@ readonly TEST_SUITE_PREFIX="${BASE_TEST_SUITE_PREFIX}error::"
 @test "${TEST_SUITE_PREFIX}writes correct contents to stderr" {
   exp="oh nose :("
   run error "${exp}"
-  assert_equal "$status" 0
+  assert_success
   assert_output_contains "${output}" "${exp}"
 }

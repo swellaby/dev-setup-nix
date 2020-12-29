@@ -12,6 +12,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::wget::install_wge
     echo "$*"
   }
   run install_wget
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name Wget --debian-family-package-name wget --fedora-family-package-name wget --mac-package-name wget"
 }
