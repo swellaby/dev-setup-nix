@@ -17,6 +17,7 @@ readonly MOCK_CURL_CALL_ARGS_PREFIX="mock_curl:"
 readonly MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly MOCKED_SOURCE_CALL_ARGS_PREFIX="mock_source:"
 readonly MOCKED_ERROR_CALL_ARGS_PREFIX="mock_error:"
+readonly MOCKED_INFO_CALL_ARGS_PREFIX="mock_info:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -186,4 +187,15 @@ function mock_error() {
 
 function assert_error_call_args() {
   assert_line "${MOCKED_ERROR_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_info() {
+  function info() {
+    echo "${MOCKED_INFO_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f info
+}
+
+function assert_info_call_args() {
+  assert_line "${MOCKED_INFO_CALL_ARGS_PREFIX} ${1}"
 }
