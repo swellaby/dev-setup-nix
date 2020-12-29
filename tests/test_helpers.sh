@@ -13,6 +13,7 @@ readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
 readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
 readonly MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
 readonly MOCKED_INSTALL_CALL_ARGS_PREFIX="mock_install:"
+readonly MOCK_CURL_CALL_ARGS_PREFIX="mock_curl:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -52,18 +53,6 @@ function assert_output_contains() {
   assert_equal "${output}" "${ERROR_MESSAGE_PREFIX}${exp_details}"
 }
 
-function assert_call_args() {
-  assert_equal "${output}" "${1}"
-}
-
-function assert_tool_installed_call_args() {
-  assert_line "${MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
-}
-
-function assert_install_call_args() {
-  assert_line "${MOCKED_INSTALL_CALL_ARGS_PREFIX} ${1}"
-}
-
 function mock_tool_installed() {
   _mocked_tool_installed_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
 
@@ -76,11 +65,31 @@ function mock_tool_installed() {
   declare -f tool_installed
 }
 
+function assert_tool_installed_call_args() {
+  assert_line "${MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
+}
+
 function mock_install() {
   function install() {
     echo "${MOCKED_INSTALL_CALL_ARGS_PREFIX} $*"
   }
   declare -f install
+}
+
+function assert_install_call_args() {
+  assert_line "${MOCKED_INSTALL_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_curl() {
+  function curl() {
+    echo "${MOCK_CURL_CALL_ARGS_PREFIX} $*" >&"${STD_OUT_TMP_FILE}"
+  }
+  declare -f curl
+}
+
+function assert_curl_call_args() {
+  act=$(cat "${STD_OUT_TMP_FILE}")
+  assert_equal "${act}" "${MOCK_CURL_CALL_ARGS_PREFIX} ${1}"
 }
 
 function mock_grep_distro() {
@@ -91,18 +100,6 @@ function mock_grep_distro() {
   }
 
   declare -f grep
-}
-
-function mock_install_snap() {
-  _install_snap_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
-
-  function install_snap() {
-    echo "${MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX}$*"
-    # shellcheck disable=SC2086
-    return ${_install_snap_return_code}
-  }
-
-  declare -f install_snap
 }
 
 function mock_install_package() {
@@ -117,15 +114,6 @@ function mock_install_package() {
   declare -f install_package
 }
 
-function assert_mock_install_snap_called_with() {
-  local output
-  local exp_args
-  output="${1}"
-  exp_args="${2}"
-
-  assert_equal "${output}" "${MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX}${exp_args}"
-}
-
 function assert_mock_install_package_called_with() {
   local output
   local exp_args
@@ -133,4 +121,25 @@ function assert_mock_install_package_called_with() {
   exp_args="${2}"
 
   assert_equal "${output}" "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX}${exp_args}"
+}
+
+function mock_install_snap() {
+  _install_snap_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
+
+  function install_snap() {
+    echo "${MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX}$*"
+    # shellcheck disable=SC2086
+    return ${_install_snap_return_code}
+  }
+
+  declare -f install_snap
+}
+
+function assert_mock_install_snap_called_with() {
+  local output
+  local exp_args
+  output="${1}"
+  exp_args="${2}"
+
+  assert_equal "${output}" "${MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX}${exp_args}"
 }
