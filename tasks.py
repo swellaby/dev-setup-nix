@@ -8,7 +8,9 @@ tests_root_dir = f"{root_dir}/tests"
 
 def bats(c, subdirectory="", recursive=True):
     recursive_flag = f"{'-r' if recursive is True else ''}"
-    return c.run(f"bats {recursive_flag} {tests_root_dir}/{subdirectory}", pty=True)
+    return c.run(
+        f"bats {recursive_flag} {tests_root_dir}/{subdirectory}", pty=True
+    )
 
 
 def black(c, check):
