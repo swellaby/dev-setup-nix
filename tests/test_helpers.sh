@@ -12,6 +12,7 @@ readonly ERROR_MESSAGE_PREFIX="[swellaby_dotfiles]: "
 readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
 readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
 readonly MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
+readonly MOCKED_INSTALL_CALL_ARGS_PREFIX="mock_install:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -69,6 +70,13 @@ function mock_tool_installed() {
   }
 
   declare -f tool_installed
+}
+
+function mock_install() {
+  function install() {
+    echo "${MOCKED_INSTALL_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f install
 }
 
 function mock_grep_distro() {
