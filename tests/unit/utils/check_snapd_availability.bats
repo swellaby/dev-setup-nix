@@ -16,9 +16,7 @@ function teardown() {
 }
 
 @test "${TEST_SUITE_PREFIX}sets global correctly" {
-  function tool_installed() {
-    return 1
-  }
+  mock_tool_installed 1
 
   set +e
   check_snapd_availability
@@ -31,12 +29,9 @@ function teardown() {
 
 @test "${TEST_SUITE_PREFIX}uses correct tool name" {
   local prefix="mocked check_snapd_availability: "
-  function tool_installed() {
-    echo "${prefix}$*"
-    return 0
-  }
+  mock_tool_installed
 
   run check_snapd_availability
   assert_equal "${status}" 0
-  assert_equal "${output}" "${prefix}snap"
+  assert_tool_installed_call_args "snap"
 }
