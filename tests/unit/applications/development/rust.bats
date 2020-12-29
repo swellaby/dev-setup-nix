@@ -10,17 +10,13 @@ readonly INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly SH_CALL_ARGS_PREFIX="mock_sh:"
 
 function setup() {
-  function curl() {
-    echo "$*" >&"${STD_OUT_TMP_FILE}"
-  }
-  declare -f curl
-
   function install_curl() {
     echo "${INSTALL_CURL_CALL_ARGS_PREFIX}"
   }
   declare -f install_curl
 
   mock_tool_installed
+  mock_curl
 
   function sh() {
     echo "${SH_CALL_ARGS_PREFIX} $*"
@@ -30,11 +26,6 @@ function setup() {
 
 function teardown() {
   rm -f "${STD_OUT_TMP_FILE}" || true
-}
-
-function assert_curl_call_args() {
-  act=$(cat "${STD_OUT_TMP_FILE}")
-  assert_equal "${act}" "${1}"
 }
 
 function assert_install_curl_called() {
