@@ -46,6 +46,7 @@ def format_shell_bats(c):
 
 @task(aliases=["cfsb", "fcsb"])
 def check_format_shell_bats(c):
+    print("Running shfmt for *.bats files...")
     result = shfmt_bats(c, True)
     print("shfmt completed successfully for *.bats files")
     return result
@@ -58,6 +59,7 @@ def format_shell_sh(c):
 
 @task(aliases=["cfss", "fcss"])
 def check_format_shell_sh(c):
+    print("Running shfmt for *.sh files...")
     result = shfmt_sh(c, True)
     print("shfmt completed successfully for *.sh files")
     return result
@@ -111,6 +113,7 @@ def check_format(c):
 
 @task(aliases=["lp"])
 def lint_python(c):
+    print("Running pycodestyle...")
     result = c.run(f"pycodestyle {root_dir}", pty=True)
     print("pycodestyle completed successfully")
     return result
@@ -118,6 +121,7 @@ def lint_python(c):
 
 @task(aliases=["ls"])
 def lint_shell(c):
+    print("Running ShellCheck...")
     cmd = (
         f"find {root_dir} -type f \\( -name '*.sh' -o -name '*.bats' \\) "
         f"! -path '*/submodules/*' | xargs shellcheck -x -P {root_dir}"
