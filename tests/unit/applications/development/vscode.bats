@@ -10,6 +10,7 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
 function setup() {
   mock_tool_installed
   mock_install
+  mock_error
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode::uses correct args" {
@@ -20,18 +21,12 @@ function setup() {
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::returns 1 when code not on path" {
   extension="swellaby.common-pack"
-  mock_error_prefix="mock_error:"
-
   mock_tool_installed 7
-  function error() {
-    echo "${mock_error_prefix} $*"
-  }
-
   run install_vscode_extension "${extension}"
 
   assert_equal "$status" 1
   assert_tool_installed_call_args "code"
-  assert_equal "${lines[1]}" "${mock_error_prefix} Attempted to install VS Code extension '${extension}' but 'code' not on PATH"
+  assert_error_call_args "Attempted to install VS Code extension '${extension}' but 'code' not on PATH"
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::installs extension when code on path" {
