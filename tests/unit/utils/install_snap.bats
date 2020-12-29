@@ -44,14 +44,14 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}correctly installs snap with short arg name and no prefix" {
   snap_name="discord"
   run install_snap -n "${snap_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_snap_called_with "${snap_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs snap with long arg name and no prefix" {
   snap_name="shfmt"
   run install_snap --snap-name "${snap_name}"
-  assert_equal "${status}" 0
+  assert_success
   assert_snap_called_with "${snap_name}"
 }
 
@@ -59,7 +59,7 @@ function teardown() {
   snap_name="code"
   prefix="--classic"
   run install_snap -n "${snap_name}" -p "${prefix}"
-  assert_equal "${status}" 0
+  assert_success
   assert_snap_called_with "${prefix} ${snap_name}"
 }
 
@@ -67,6 +67,6 @@ function teardown() {
   snap_name="slack"
   prefix="--classic"
   run install_snap --snap-name "${snap_name}" --snap-prefix "${prefix}"
-  assert_equal "${status}" 0
+  assert_success
   assert_snap_called_with "${prefix} ${snap_name}"
 }
