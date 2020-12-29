@@ -45,5 +45,5 @@ function teardown() {
 
   run tool_installed "${tool_name}"
 
-  assert_equal "${status}" 0
+  assert_success
 }
