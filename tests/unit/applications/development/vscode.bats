@@ -11,6 +11,7 @@ function setup() {
   mock_tool_installed
   mock_install
   mock_error
+  mock_info
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode::uses correct args" {
@@ -31,12 +32,7 @@ function setup() {
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::installs extension when code on path" {
   extension="swellaby.rust-pack"
-  mock_info_prefix="mock_info:"
   mock_code_prefix="mock_code:"
-
-  function info() {
-    echo "${mock_info_prefix} $*"
-  }
   function code() {
     echo "${mock_code_prefix} $*"
   }
@@ -45,7 +41,7 @@ function setup() {
 
   assert_success
   assert_tool_installed_call_args "code"
-  assert_equal "${lines[1]}" "${mock_info_prefix} Installing VS Code extension: '${extension}'"
+  assert_info_call_args "Installing VS Code extension: '${extension}'"
   assert_equal "${lines[2]}" "${mock_code_prefix} --install-extension ${extension} --force"
 }
 
