@@ -6,13 +6,14 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 readonly TEST_SUITE_PREFIX=${BASE_TEST_SUITE_PREFIX}initialize::
 
 function setup() {
-
   source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
 
   function check_snapd_availability() {
     return 0
   }
+
+  declare -f check_snapd_availability
 }
 
 function teardown() {
