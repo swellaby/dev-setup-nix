@@ -23,11 +23,7 @@ function setup() {
   }
   declare -f install_curl
 
-  function tool_installed() {
-    echo "${TOOL_INSTALLED_CALL_ARGS_PREFIX} $*"
-    return 0
-  }
-  declare -f tool_installed
+  mock_tool_installed
 
   function bash() {
     echo "${BASH_CALL_ARGS_PREFIX}"
@@ -53,19 +49,12 @@ function assert_install_curl_called() {
   assert_line "${INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
-function assert_tool_installed_call_args() {
-  assert_line "${TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
-}
-
 function assert_bash_call_args() {
   assert_line "${BASH_CALL_ARGS_PREFIX}"
 }
 
 @test "${TEST_SUITE_PREFIX}installs curl if not available" {
-  function tool_installed() {
-    echo "${TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
-    return 1
-  }
+  mock_tool_installed 1
   run install_nodejs
   assert_success
   assert_tool_installed_call_args "curl"
