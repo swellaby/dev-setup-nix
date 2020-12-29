@@ -30,7 +30,7 @@ function setup() {
   declare -f tool_installed
 
   function bash() {
-    echo "${BASH_CALL_ARGS_PREFIX} $*"
+    echo "${BASH_CALL_ARGS_PREFIX}"
   }
   declare -f bash
 
@@ -58,7 +58,7 @@ function assert_tool_installed_call_args() {
 }
 
 function assert_bash_call_args() {
-  assert_line "${BASH_CALL_ARGS_PREFIX} ${1}"
+  assert_line "${BASH_CALL_ARGS_PREFIX}"
 }
 
 @test "${TEST_SUITE_PREFIX}installs curl if not available" {
@@ -92,9 +92,8 @@ function assert_bash_call_args() {
 }
 
 @test "${TEST_SUITE_PREFIX}sources nvm.sh if not already available" {
-  local mock_source_prefix="mock_source:"
   function source() {
-    echo "${mock_source_prefix} $*"
+    echo "${SOURCE_CALL_ARGS_PREFIX} $*"
   }
   declare -f source
   function tool_installed() {
@@ -106,5 +105,5 @@ function assert_bash_call_args() {
     fi
   }
   run install_nodejs
-  assert_line "${mock_source_prefix} $HOME/.nvm/nvm.sh"
+  assert_line "${SOURCE_CALL_ARGS_PREFIX} $HOME/.nvm/nvm.sh"
 }
