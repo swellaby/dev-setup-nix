@@ -60,6 +60,10 @@ function assert_tool_installed_call_args() {
   assert_line "${MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
 }
 
+function assert_install_call_args() {
+  assert_line "${MOCKED_INSTALL_CALL_ARGS_PREFIX} ${1}"
+}
+
 function mock_tool_installed() {
   _mocked_tool_installed_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
 
