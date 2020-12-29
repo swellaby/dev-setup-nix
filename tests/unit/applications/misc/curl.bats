@@ -8,9 +8,7 @@ source "${MISC_DIRECTORY}/curl/curl.sh"
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_MISC_SUITE_PREFIX}::curl::install_curl::"
 
 @test "${TEST_SUITE_PREFIX}uses correct args" {
-  function install() {
-    echo "$*"
-  }
+  mock_install
   run install_curl
   assert_success
   assert_call_args "--application-name cURL --debian-family-package-name curl --fedora-family-package-name curl --mac-package-name curl"
