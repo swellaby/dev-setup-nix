@@ -21,7 +21,7 @@ function setup() {
   source "${UTILS_SOURCE_PATH}"
   setup_os_release_file
   declare -f snap
-  mock_Error
+  mock_error
 }
 
 function teardown() {
