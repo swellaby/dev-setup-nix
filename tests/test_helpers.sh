@@ -16,6 +16,7 @@ readonly MOCKED_INSTALL_CALL_ARGS_PREFIX="mock_install:"
 readonly MOCK_CURL_CALL_ARGS_PREFIX="mock_curl:"
 readonly MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly MOCKED_SOURCE_CALL_ARGS_PREFIX="mock_source:"
+readonly MOCKED_ERROR_CALL_ARGS_PREFIX="mock_error:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -174,4 +175,15 @@ function refute_source_call_args() {
 
 function refute_source_called() {
   refute_line --partial "${MOCKED_SOURCE_CALL_ARGS_PREFIX}"
+}
+
+function mock_error() {
+  function error() {
+    echo "${MOCKED_ERROR_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f error
+}
+
+function assert_error_call_args() {
+  assert_line "${MOCKED_ERROR_CALL_ARGS_PREFIX} ${1}"
 }
