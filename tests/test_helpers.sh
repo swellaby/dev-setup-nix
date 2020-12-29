@@ -14,6 +14,7 @@ readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
 readonly MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
 readonly MOCKED_INSTALL_CALL_ARGS_PREFIX="mock_install:"
 readonly MOCK_CURL_CALL_ARGS_PREFIX="mock_curl:"
+readonly MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -90,6 +91,17 @@ function mock_curl() {
 function assert_curl_call_args() {
   act=$(cat "${STD_OUT_TMP_FILE}")
   assert_equal "${act}" "${MOCK_CURL_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_install_curl() {
+  function install_curl() {
+    echo "${MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX}"
+  }
+  declare -f install_curl
+}
+
+function assert_install_curl_called() {
+  assert_line "${MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
 function mock_grep_distro() {
