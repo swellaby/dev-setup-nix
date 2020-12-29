@@ -6,15 +6,10 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 source "${DEVELOPMENT_DIRECTORY}/rust/rust.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::rust::install_rust::"
-readonly INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly SH_CALL_ARGS_PREFIX="mock_sh:"
 
 function setup() {
-  function install_curl() {
-    echo "${INSTALL_CURL_CALL_ARGS_PREFIX}"
-  }
-  declare -f install_curl
-
+  mock_install_curl
   mock_tool_installed
   mock_curl
 
@@ -26,10 +21,6 @@ function setup() {
 
 function teardown() {
   rm -f "${STD_OUT_TMP_FILE}" || true
-}
-
-function assert_install_curl_called() {
-  assert_line "${INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
 function assert_sh_call_args() {
