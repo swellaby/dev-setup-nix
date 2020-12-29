@@ -11,6 +11,7 @@ function setup() {
   mock_install_snap
   # shellcheck disable=SC2119
   mock_install_package
+  mock_error
 }
 
 function teardown() {
@@ -20,20 +21,20 @@ function teardown() {
 @test "${TEST_SUITE_PREFIX}errors correctly on no args" {
   run install
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "No args passed to 'install' but at a minimum a snap or package name must be provided. This is a bug!"
+  assert_error_call_args "No args passed to 'install' but at a minimum a snap or package name must be provided. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on invalid arg" {
   fake_arg="--real-fake"
   run install "${fake_arg}"
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "Invalid 'install' arg: '${fake_arg}'. This is a bug!"
+  assert_error_call_args "Invalid 'install' arg: '${fake_arg}'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no tool_name arg" {
   run install --debian-family-package-name "git"
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "No arg value was provided for '--application-name'. This is a bug!"
+  assert_error_call_args "No arg value was provided for '--application-name'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}snap preference disabled by default" {
@@ -70,7 +71,7 @@ function teardown() {
     --prefer-snap \
     -a "${package_name}"
   assert_equal "${status}" 0
-  assert_output_contains "${lines[0]}" "Snap install preferred but Snap not available. This is a bug!"
+  assert_error_call_args "Snap install preferred but Snap not available. This is a bug!"
   assert_mock_install_package_called_with "${lines[1]}" "-n ${package_name}"
 }
 
@@ -85,8 +86,8 @@ function teardown() {
     --application-name "${tool_name}"
   assert_equal "${status}" 0
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
-  assert_output_contains "${lines[1]}" "Attempted but failed to install tool: '${tool_name}' with Snap"
-  assert_output_contains "${lines[2]}" "Falling back to package manager"
+  assert_error_call_args "Attempted but failed to install tool: '${tool_name}' with Snap"
+  assert_error_call_args "Falling back to package manager"
   assert_mock_install_package_called_with "${lines[3]}" "-n ${package_name}"
 }
 
@@ -109,7 +110,7 @@ function teardown() {
     -dfpn "${package_name}" \
     -a "${tool_name}"
   assert_equal "${status}" 0
-  assert_output_contains "${output}" "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
+  assert_error_call_args "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
 
 @test "${TEST_SUITE_PREFIX}utilizes package prefix for debian family" {
@@ -131,7 +132,7 @@ function teardown() {
     -ffpn "${package_name}" \
     --application-name "${tool_name}"
   assert_equal "${status}" 0
-  assert_output_contains "${output}" "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
+  assert_error_call_args "On ${exp_distro} but package name for '${tool_name}' was not provided for platform. This is likely a bug."
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package on mac with no prefix" {
@@ -168,5 +169,5 @@ function teardown() {
   tool_name="linux"
   OPERATING_SYSTEM="${MAC_OS}" run install -dfpn "${package_name}" -a "${tool_name}"
   assert_equal "${status}" 0
-  assert_output_contains "${output}" "On Mac OS but package name was not provided for '${tool_name}' for Mac OS platform. This is likely a bug."
+  assert_error_call_args "On Mac OS but package name was not provided for '${tool_name}' for Mac OS platform. This is likely a bug."
 }
