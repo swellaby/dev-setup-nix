@@ -7,6 +7,10 @@ source "${DEVELOPMENT_DIRECTORY}/vscode/vscode.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
 
+function setup() {
+  mock_tool_installed
+}
+
 @test "${TEST_SUITE_PREFIX}install_vscode::uses correct args" {
   function install() {
     echo "$*"
@@ -19,13 +23,9 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::returns 1 when code not on path" {
   extension="swellaby.common-pack"
-  mock_tool_installed_prefix="mock_tool_installed:"
   mock_error_prefix="mock_error:"
 
-  function tool_installed() {
-    echo "${mock_tool_installed_prefix} $*"
-    return 7
-  }
+  mock_tool_installed 7
   function error() {
     echo "${mock_error_prefix} $*"
   }
@@ -33,20 +33,16 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
   run install_vscode_extension "${extension}"
 
   assert_equal "$status" 1
-  assert_equal "${lines[0]}" "${mock_tool_installed_prefix} code"
+  assert_tool_installed_call_args "code"
   assert_equal "${lines[1]}" "${mock_error_prefix} Attempted to install VS Code extension '${extension}' but 'code' not on PATH"
 }
 
 @test "${TEST_SUITE_PREFIX}install_vscode_extension::installs extension when code on path" {
   extension="swellaby.rust-pack"
-  mock_tool_installed_prefix="mock_tool_installed:"
   mock_info_prefix="mock_info:"
   mock_code_prefix="mock_code:"
 
-  function tool_installed() {
-    echo "${mock_tool_installed_prefix} $*"
-    return 0
-  }
+  mock_tool_installed
   function info() {
     echo "${mock_info_prefix} $*"
   }
@@ -57,7 +53,7 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_DEVELOPMENT_SUITE_PREFIX}::vscode::"
   run install_vscode_extension "${extension}"
 
   assert_equal "$status" 0
-  assert_equal "${lines[0]}" "${mock_tool_installed_prefix} code"
+  assert_tool_installed_call_args "code"
   assert_equal "${lines[1]}" "${mock_info_prefix} Installing VS Code extension: '${extension}'"
   assert_equal "${lines[2]}" "${mock_code_prefix} --install-extension ${extension} --force"
 }
