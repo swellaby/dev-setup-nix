@@ -1,9 +1,13 @@
 from invoke import task, Result
 from invoke.exceptions import UnexpectedExit
+from os.path import dirname, abspath
+
+root_dir = dirname(abspath(__file__))
 
 
 def black(c, check):
-    cmd = f"black . --line-length=79 {'--check' if check is True else ''}"
+    check_flag = f"{'--check' if check is True else ''}"
+    cmd = f"black {root_dir} --line-length=79 {check_flag}"
     return c.run(cmd, pty=True)
 
 
@@ -21,7 +25,7 @@ def shfmt_bats(c, check):
     mode = f"{'-d' if check is True else '-w'}"
     cmd = (
         "result=0 && "
-        "for file in $(find . -type f \\( -name '*.bats' \\) "
+        f"for file in $(find {root_dir} -type f \\( -name '*.bats' \\) "
         "! -path '*/submodules/*'); do "
         f"shfmt {mode} -i 2 -ci --ln bats $file; "
         "if [ $? -ne 0 ]; then result=1; fi; done && "
@@ -107,7 +111,7 @@ def check_format(c):
 
 @task(aliases=["lp"])
 def lint_python(c):
-    result = c.run("pycodestyle .", pty=True)
+    result = c.run(f"pycodestyle {root_dir}", pty=True)
     print("pycodestyle completed successfully")
     return result
 
@@ -115,8 +119,8 @@ def lint_python(c):
 @task(aliases=["ls"])
 def lint_shell(c):
     cmd = (
-        "find . -type f \\( -name '*.sh' -o -name '*.bats' \\) "
-        "! -path '*/submodules/*' | xargs shellcheck -x"
+        f"find {root_dir} -type f \\( -name '*.sh' -o -name '*.bats' \\) "
+        f"! -path '*/submodules/*' | xargs shellcheck -x -P {root_dir}"
     )
     result = c.run(cmd, pty=True)
     print("ShellCheck completed successfully")
