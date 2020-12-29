@@ -23,6 +23,7 @@ function setup() {
   setup_os_release_file
   declare -f mock_package_manager
   declare -x INSTALL_COMMAND="${MOCK_INSTALL_COMMAND}"
+  mock_error
 }
 
 function teardown() {
@@ -33,13 +34,13 @@ function teardown() {
   invalid_arg="--what-the-what"
   run install_package "${invalid_arg}"
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "Invalid 'install_package' arg: '${invalid_arg}'. This is a bug!"
+  assert_error_call_args "Invalid 'install_package' arg: '${invalid_arg}'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on no package name" {
   run install_package
   assert_equal "${status}" 1
-  assert_output_contains "${output}" "No package name provided to 'install_package'. This is a bug!"
+  assert_error_call_args "No package name provided to 'install_package'. This is a bug!"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package with short arg name and no prefix" {
