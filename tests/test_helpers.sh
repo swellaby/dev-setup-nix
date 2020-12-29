@@ -11,7 +11,8 @@ readonly STD_OUT_TMP_FILE=${BATS_TMPDIR}/stdout
 readonly ERROR_MESSAGE_PREFIX="[swellaby_dotfiles]: "
 readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
 readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
-readonly MOCKED_DEFAULT_RETURN_CODE=0
+readonly MOCKED_TOOL_INSTALLED_PREFIX="mock_tool_installed:"
+declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
 readonly APPLICATIONS_DIRECTORY_PATH_FROM_ROOT="${SRC_DIRECTORY_PATH_FROM_ROOT}/applications"
@@ -52,6 +53,22 @@ function assert_output_contains() {
 
 function assert_call_args() {
   assert_equal "${output}" "${1}"
+}
+
+function assert_tool_installed_call_args() {
+  assert_line "${MOCKED_TOOL_INSTALLED_PREFIX} ${1}"
+}
+
+function mock_tool_installed() {
+  _mocked_tool_installed_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
+
+  function tool_installed() {
+    echo "${MOCKED_TOOL_INSTALLED_PREFIX} $*"
+    # shellcheck disable=SC2086
+    return ${_mocked_tool_installed_return_code}
+  }
+
+  declare -f tool_installed
 }
 
 function mock_grep_distro() {
