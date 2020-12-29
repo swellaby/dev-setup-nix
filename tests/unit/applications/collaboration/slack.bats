@@ -12,6 +12,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::slack::i
     echo "$*"
   }
   run install_slack
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name Slack --snap-name slack --snap-prefix --classic --prefer-snap --mac-package-name slack --mac-package-prefix --cask"
 }

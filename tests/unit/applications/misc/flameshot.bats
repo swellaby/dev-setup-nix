@@ -17,12 +17,12 @@ function setup() {
     echo "$*"
   }
   OPERATING_SYSTEM="${LINUX_OS}" run install_flameshot
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name Flameshot --debian-family-package-name flameshot --fedora-family-package-name flameshot"
 }
 
 @test "${TEST_SUITE_PREFIX}prints error on Mac" {
   OPERATING_SYSTEM="${MAC_OS}" run install_flameshot
-  assert_equal "$status" 0
+  assert_success
   assert_output_contains "${output}" "Flameshot installation is not currently supported on Mac"
 }

@@ -12,6 +12,6 @@ readonly TEST_SUITE_PREFIX="${APPLICATIONS_COLLABORATION_SUITE_PREFIX}::zulip::i
     echo "$*"
   }
   run install_zulip
-  assert_equal "$status" 0
+  assert_success
   assert_call_args "--application-name Zulip --snap-name zulip --prefer-snap --mac-package-name zulip --mac-package-prefix --cask"
 }
