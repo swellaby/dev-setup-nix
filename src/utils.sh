@@ -39,12 +39,16 @@ readonly DEBIAN_UPDATE_PACKAGE_LISTS_COMMAND="update"
 readonly DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX="-y"
 readonly DEBIAN_REMOVE_SUBCOMMAND="remove"
 readonly DEBIAN_REMOVE_SUFFIX="-y"
+readonly DEBIAN_PACKAGE_KEY_MANAGEMENT_TOOL="apt-key"
+readonly DEBIAN_ADD_SIGNING_KEY_SUBCOMMAND="add"
 
 readonly FEDORA_PACKAGE_MANAGER="dnf"
 readonly FEDORA_INSTALL_SUBCOMMAND="install"
 readonly FEDORA_INSTALLER_SUFFIX="-y"
 readonly FEDORA_REMOVE_SUBCOMMAND="remove"
 readonly FEDORA_REMOVE_SUFFIX="-y"
+readonly FEDORA_PACKAGE_KEY_MANAGEMENT_TOOL="rpm"
+readonly FEDORA_ADD_SIGNING_KEY_SUBCOMMAND="--import"
 
 readonly MACOS_PACKAGE_MANAGER="brew"
 readonly MACOS_INSTALL_SUBCOMMAND="install"
@@ -376,6 +380,54 @@ function install() {
   fi
 }
 
+function add_remote_signing_key() {
+  if [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ]; then
+    error "Package signing keys are not supported on MacOS. This is a bug!"
+    return 1
+  fi
+
+  local key_url
+
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+      -u | --key-url)
+        key_url="${2}"
+        shift 2
+        ;;
+      *)
+        error "Invalid 'add_remote_signing_key' arg: '${1}'. This is a bug!"
+        exit 1
+        ;;
+    esac
+  done
+
+  if [ -z "${key_url}" ]; then
+    error "No url for signing key provided to 'add_remote_signing_key'. This is a bug!"
+    return 1
+  fi
+
+  if [ "${LINUX_DISTRO_FAMILY}" == "${DEBIAN_DISTRO_FAMILY}" ]; then
+    if ! tool_installed "curl"; then
+      if ! install_package -n "curl"; then
+        error "curl was not found and attempt to install failed."
+        return 1
+      fi
+    fi
+
+    # shellcheck disable=SC2086
+    curl -fsSL "${key_url}" |
+      ${INSTALLER_PREFIX} ${DEBIAN_PACKAGE_KEY_MANAGEMENT_TOOL} \
+        ${DEBIAN_ADD_SIGNING_KEY_SUBCOMMAND} -
+  elif [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
+    # shellcheck disable=SC2086
+    ${INSTALLER_PREFIX} ${FEDORA_PACKAGE_KEY_MANAGEMENT_TOOL} \
+      ${FEDORA_ADD_SIGNING_KEY_SUBCOMMAND} "${key_url}"
+  else
+    error "Tried to install a package signing key on an supported distro: '${LINUX_DISTRO}'. This is likely a bug."
+    return 1
+  fi
+}
+
 function initialize() {
   if [ "${UNIX_NAME}" == "Darwin" ]; then
     set_macos_variables
@@ -409,7 +461,7 @@ function initialize() {
   readonly SWELLABY_DOTFILES_QUIET
 }
 
-# Don't auto initialize during when sourced for running tests
+# Don't auto initialize when sourced for running tests
 # https://github.com/bats-core/bats-core#special-variables
 if [[ -z ${BATS_TEST_NAME} ]]; then
   initialize
