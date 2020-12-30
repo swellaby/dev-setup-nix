@@ -46,7 +46,7 @@ function setup() {
 @test "${TEST_SUITE_PREFIX}runs correctly on a Fedora based distro" {
   local key_url="https://packages.microsoft.com/keys/microsoft.asc"
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}"
-    run add_remote_signing_key --key-url "${key_url}"
+  run add_remote_signing_key --key-url "${key_url}"
   assert_success
   assert_rpm_call_args "--import ${key_url}"
 }
@@ -55,7 +55,7 @@ function setup() {
   mock_tool_installed 1
   mock_install_package 1
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}"
-    run add_remote_signing_key -u "abc.com"
+  run add_remote_signing_key -u "abc.com"
   assert_failure
   assert_tool_installed_call_args "curl"
   assert_mock_install_package_call_args "-n curl"
@@ -64,7 +64,7 @@ function setup() {
 
 @test "${TEST_SUITE_PREFIX}does not attempt to re-install curl on a Debian based distro when already available" {
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}"
-    run add_remote_signing_key -u "github.com"
+  run add_remote_signing_key -u "github.com"
   assert_success
   refute_mock_install_package_called
 }
@@ -72,7 +72,7 @@ function setup() {
 @test "${TEST_SUITE_PREFIX}runs correctly on a Debian based distro" {
   local key_url="https://download.docker.com/linux/ubuntu/gpg"
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}"
-    run add_remote_signing_key --key-url "${key_url}"
+  run add_remote_signing_key --key-url "${key_url}"
   assert_success
   assert_curl_call_args "-fsSL ${key_url}"
   assert_apt_key_call_args "add -"
