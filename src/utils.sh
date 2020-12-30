@@ -228,6 +228,37 @@ function install_package() {
   ${INSTALL_COMMAND} ${package_prefix} ${package_name}
 }
 
+function remove_package() {
+  local package_name
+  local package_prefix
+
+  while [[ "$#" -gt 0 ]]; do
+    case $1 in
+      -n | --package-name)
+        package_name="${2}"
+        shift
+        ;;
+      -p | --package-prefix)
+        package_prefix="${2}"
+        shift
+        ;;
+      *)
+        error "Invalid 'remove_package' arg: '${1}'. This is a bug!"
+        exit 1
+        ;;
+    esac
+    shift
+  done
+
+  if [ -z "${package_name}" ]; then
+    error "No package name provided to 'remove_package'. This is a bug!"
+    return 1
+  fi
+
+  # shellcheck disable=SC2086
+  ${REMOVE_COMMAND} ${package_prefix} ${package_name}
+}
+
 function install() {
   local application_name
   local prefer_snap
