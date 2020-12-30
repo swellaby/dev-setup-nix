@@ -36,6 +36,8 @@ function assert_fedora_variables() {
   assert_equal "${INSTALL_SUBCOMMAND}" "${FEDORA_INSTALL_SUBCOMMAND}"
   assert_equal "${INSTALLER_SUFFIX}" "${FEDORA_INSTALLER_SUFFIX}"
   assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" false
+  assert_equal "${REMOVE_SUBCOMMAND}" "${FEDORA_REMOVE_SUBCOMMAND}"
+  assert_equal "${REMOVE_SUFFIX}" "${FEDORA_REMOVE_SUFFIX}"
 }
 
 function assert_debian_variables() {
@@ -54,6 +56,8 @@ function assert_debian_variables() {
   assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" true
   assert_equal "${UPDATE_PACKAGE_LISTS_COMMAND}" "${DEBIAN_UPDATE_PACKAGE_LISTS_COMMAND}"
   assert_equal "${UPDATE_PACKAGE_LISTS_SUFFIX}" "${DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX}"
+  assert_equal "${REMOVE_SUBCOMMAND}" "${DEBIAN_REMOVE_SUBCOMMAND}"
+  assert_equal "${REMOVE_SUFFIX}" "${DEBIAN_REMOVE_SUFFIX}"
 }
 
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
@@ -67,6 +71,7 @@ function assert_debian_variables() {
   assert_equal "${INSTALLER_SUFFIX}" ""
   assert_equal "${INSTALL_COMMAND}" " ${MACOS_PACKAGE_MANAGER} ${MACOS_INSTALL_SUBCOMMAND} "
   assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" false
+  assert_equal "${REMOVE_SUBCOMMAND}" "${MACOS_REMOVE_SUBCOMMAND}"
 }
 
 @test "${TEST_SUITE_PREFIX}windows errors correctly" {
@@ -162,9 +167,14 @@ function assert_debian_variables() {
   assert_equal "${DEBIAN_PACKAGE_MANAGER}" "apt"
   assert_equal "${DEBIAN_INSTALL_SUBCOMMAND}" "install"
   assert_equal "${DEBIAN_INSTALLER_SUFFIX}" "-y --no-install-recommends"
+  assert_equal "${DEBIAN_REMOVE_SUBCOMMAND}" "remove"
+  assert_equal "${DEBIAN_REMOVE_SUFFIX}" "-y"
   assert_equal "${FEDORA_PACKAGE_MANAGER}" "dnf"
   assert_equal "${FEDORA_INSTALL_SUBCOMMAND}" "install"
   assert_equal "${FEDORA_INSTALLER_SUFFIX}" "-y"
+  assert_equal "${FEDORA_REMOVE_SUBCOMMAND}" "remove"
+  assert_equal "${FEDORA_REMOVE_SUFFIX}" "-y"
   assert_equal "${MACOS_PACKAGE_MANAGER}" "brew"
   assert_equal "${MACOS_INSTALL_SUBCOMMAND}" "install"
+  assert_equal "${MACOS_REMOVE_SUBCOMMAND}" "uninstall"
 }
