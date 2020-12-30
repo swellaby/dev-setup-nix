@@ -10,7 +10,7 @@ readonly STD_OUT_TMP_FILE=${BATS_TMPDIR}/stdout
 # shellcheck disable=SC2034
 readonly LOG_MESSAGE_PREFIX="[swellaby_dotfiles]:"
 readonly MOCKED_INSTALL_SNAP_CALL_ARGS_PREFIX="mock_install_snap: "
-readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package: "
+readonly MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX="mock_install_package:"
 readonly MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX="mock_tool_installed:"
 readonly MOCKED_INSTALL_CALL_ARGS_PREFIX="mock_install:"
 readonly MOCK_CURL_CALL_ARGS_PREFIX="mock_curl:"
@@ -18,6 +18,8 @@ readonly MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX="mock_install_curl:"
 readonly MOCKED_SOURCE_CALL_ARGS_PREFIX="mock_source:"
 readonly MOCKED_ERROR_CALL_ARGS_PREFIX="mock_error:"
 readonly MOCKED_INFO_CALL_ARGS_PREFIX="mock_info:"
+readonly MOCKED_RPM_CALL_ARGS_PREFIX="mock_rpm:"
+readonly MOCKED_APT_KEY_CALL_ARGS_PREFIX="mock_apt-key:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -112,7 +114,7 @@ function mock_install_package() {
   _install_package_return_code=${1:-$MOCKED_DEFAULT_RETURN_CODE}
 
   function install_package() {
-    echo "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX}$*"
+    echo "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX} $*"
     # shellcheck disable=SC2086
     return ${_install_package_return_code}
   }
@@ -120,13 +122,12 @@ function mock_install_package() {
   declare -f install_package
 }
 
-function assert_mock_install_package_called_with() {
-  local output
-  local exp_args
-  output="${1}"
-  exp_args="${2}"
+function assert_mock_install_package_call_args() {
+  assert_line "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX} ${1}"
+}
 
-  assert_equal "${output}" "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX}${exp_args}"
+function refute_mock_install_package_called() {
+  refute_line --partial "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX}"
 }
 
 function mock_install_snap() {
@@ -189,4 +190,26 @@ function mock_info() {
 
 function assert_info_call_args() {
   assert_line "${MOCKED_INFO_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_rpm() {
+  function rpm() {
+    echo "${MOCKED_RPM_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f rpm
+}
+
+function assert_rpm_call_args() {
+  assert_line "${MOCKED_RPM_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_apt_key() {
+  function apt-key() {
+    echo "${MOCKED_APT_KEY_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f apt-key
+}
+
+function assert_apt_key_call_args() {
+  assert_line "${MOCKED_APT_KEY_CALL_ARGS_PREFIX} ${1}"
 }
