@@ -43,7 +43,7 @@ function teardown() {
     --debian-family-package-name "${package_name}" \
     -a "kitty"
   assert_success
-  assert_mock_install_package_call_args "${output}" "-n ${package_name}"
+  assert_mock_install_package_call_args "-n ${package_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}snap installed correctly with prefix long arg name" {
@@ -72,7 +72,7 @@ function teardown() {
     -a "${package_name}"
   assert_success
   assert_error_call_args "Snap install preferred but Snap not available. This is a bug!"
-  assert_mock_install_package_call_args "${lines[1]}" "-n ${package_name}"
+  assert_mock_install_package_call_args "-n ${package_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}falls back to package manager with snap preference but snap install failed" {
@@ -88,7 +88,7 @@ function teardown() {
   assert_mock_install_snap_called_with "${lines[0]}" "-n ${snap_name}"
   assert_error_call_args "Attempted but failed to install tool: '${tool_name}' with Snap"
   assert_error_call_args "Falling back to package manager"
-  assert_mock_install_package_call_args "${lines[3]}" "-n ${package_name}"
+  assert_mock_install_package_call_args "-n ${package_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}utilizes package prefix for fedora family" {
@@ -99,7 +99,7 @@ function teardown() {
     -p "${package_prefix}" \
     -a "qux"
   assert_success
-  assert_mock_install_package_call_args "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
+  assert_mock_install_package_call_args "-n ${package_name} -p ${package_prefix}"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on fedora family when corresponding package name not provided" {
@@ -121,7 +121,7 @@ function teardown() {
     --package-prefix "${package_prefix}" \
     -a "stool"
   assert_success
-  assert_mock_install_package_call_args "${lines[0]}" "-n ${package_name} -p ${package_prefix}"
+  assert_mock_install_package_call_args "-n ${package_name} -p ${package_prefix}"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on debian family when corresponding package name not provided" {
@@ -139,7 +139,7 @@ function teardown() {
   package_name="shfmt"
   OPERATING_SYSTEM=${MAC_OS} run install -m "${package_name}" -a "${package_name}"
   assert_success
-  assert_mock_install_package_call_args "${lines[0]}" "-n ${package_name}"
+  assert_mock_install_package_call_args "-n ${package_name}"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package on mac with short prefix" {
@@ -150,7 +150,7 @@ function teardown() {
     -mp "${prefix}" \
     -a "VSCode"
   assert_success
-  assert_mock_install_package_call_args "${lines[0]}" "-n ${package_name} -p ${prefix}"
+  assert_mock_install_package_call_args "-n ${package_name} -p ${prefix}"
 }
 
 @test "${TEST_SUITE_PREFIX}correctly installs package on mac with long prefix" {
@@ -161,7 +161,7 @@ function teardown() {
     --mac-package-prefix "${prefix}" \
     -a "Firefox"
   assert_success
-  assert_mock_install_package_call_args "${lines[0]}" "-n ${package_name} -p ${prefix}"
+  assert_mock_install_package_call_args "-n ${package_name} -p ${prefix}"
 }
 
 @test "${TEST_SUITE_PREFIX}errors correctly on mac when corresponding package name not provided" {
