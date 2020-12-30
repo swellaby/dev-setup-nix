@@ -61,7 +61,6 @@ REMOVE_SUBCOMMAND=""
 REMOVE_SUFFIX=""
 declare -x REMOVE_COMMAND=""
 
-
 function error() {
   echo "[swellaby_dotfiles]: $*" >&2
 }
