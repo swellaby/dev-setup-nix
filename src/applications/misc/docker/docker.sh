@@ -117,7 +117,7 @@ function install_docker() {
     install \
       --application-name "Docker" \
       --mac-package-name "docker"
-    return
+    return $?
   fi
 
   cleanup_docker_packages
