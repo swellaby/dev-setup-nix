@@ -25,6 +25,8 @@ readonly MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX="mock_add-apt-repository:"
 readonly MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX="mock_remove_package:"
 readonly MOCKED_DPKG_CALL_ARGS_PREFIX="mock_dpkg:"
 readonly MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX="mock_add_package_repository:"
+readonly MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX="mock_update_package_lists:"
+readonly MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX="mock_add_remote_signing_key:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -80,6 +82,10 @@ function mock_install() {
 
 function assert_install_call_args() {
   assert_line "${MOCKED_INSTALL_CALL_ARGS_PREFIX} ${1}"
+}
+
+function refute_install_called() {
+  refute_line --partial "${MOCKED_INSTALL_CALL_ARGS_PREFIX}"
 }
 
 function mock_curl() {
@@ -299,4 +305,36 @@ function assert_add_package_repository_call_args() {
 
 function refute_add_package_repository_called() {
   refute_line "${MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX}"
+}
+
+function mock_update_package_lists() {
+  function update_package_lists() {
+    echo "${MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX}"
+  }
+  declare -f update_package_lists
+}
+
+function assert_update_package_lists_called() {
+  assert_line "${MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX}"
+}
+
+function refute_update_package_lists_called() {
+  echo " "
+  refute_line "${MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX}"
+}
+
+function mock_add_remote_signing_key() {
+  function add_remote_signing_key() {
+    echo "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f add_remote_signing_key
+}
+
+function assert_add_remote_signing_key_called() {
+  assert_line "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX}"
+}
+
+function refute_add_remote_signing_key_called() {
+  echo " "
+  refute_line "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX}"
 }
