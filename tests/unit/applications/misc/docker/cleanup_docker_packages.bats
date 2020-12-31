@@ -41,7 +41,7 @@ function setup() {
   LINUX_DISTRO="${distro}" run cleanup_docker_packages
   assert_failure
   refute_remove_package_called
-  assert_error_call_args "Unsupported distro: '${distro}'"
+  assert_error_call_args "Unsupported distro for docker installation: '${distro}'"
 }
 
 function assert_correct_packages_removed() {
@@ -50,10 +50,10 @@ function assert_correct_packages_removed() {
   local -a exp_package_list=("$@")
 
   local -i act_package_count=0
-  install_count_prefix="act_num_extensions:"
+  remove_count_prefix="act_num_packages:"
   function remove_package() {
     ((act_package_count = act_package_count + 1))
-    echo "${install_count_prefix} ${act_package_count}"
+    echo "${remove_count_prefix} ${act_package_count}"
     echo "${MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX} $*"
   }
   LINUX_DISTRO="${distro}" run cleanup_docker_packages
@@ -64,7 +64,7 @@ function assert_correct_packages_removed() {
     assert_remove_package_call_args "-n ${extension}"
   done
 
-  assert_correct_call_count "${install_count_prefix}" ${exp_package_count}
+  assert_correct_call_count "${remove_count_prefix}" ${exp_package_count}
 }
 
 @test "${TEST_SUITE_PREFIX}removes correct packages on Debian" {
