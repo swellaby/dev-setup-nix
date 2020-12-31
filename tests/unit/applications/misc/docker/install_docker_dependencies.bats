@@ -9,7 +9,7 @@ function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
   mock_install_curl
-  mock_install_package
+  mock_install_package 0
   mock_error
   OPERATING_SYSTEM="${LINUX_OS}"
 }
@@ -57,5 +57,5 @@ function setup() {
   for package in "${exp_package_list[@]}"; do
     assert_line "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX} -n ${package}"
   done
-  assert_correct_call_count "${install_count_prefix}" ${exp_package_count}
+  assert_correct_call_count "${install_count_prefix}" "${exp_package_count}"
 }

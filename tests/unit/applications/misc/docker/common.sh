@@ -7,6 +7,7 @@ source "${BATS_TEST_DIRNAME}/../../../../test_helpers.sh"
 readonly MISC_DIRECTORY="${BATS_TEST_DIRNAME}/../../../../../${APPLICATIONS_MISC_DIRECTORY_PATH_FROM_ROOT}"
 # shellcheck source=src/applications/misc/docker/docker.sh
 source "${MISC_DIRECTORY}/docker/docker.sh"
+# shellcheck disable=SC2034
 readonly DOCKER_DIRECTORY="${MISC_DIRECTORY}/docker"
 # Use is verified, known to be consumed
 # shellcheck disable=SC2034

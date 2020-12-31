@@ -9,7 +9,7 @@ function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
   mock_add_package_repository
-  mock_install_package
+  mock_install_package 0
   mock_error
   OPERATING_SYSTEM="${LINUX_OS}"
   LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}"
@@ -30,7 +30,6 @@ function assert_correct_repo_added_on_debian_based_distro() {
   local distro="${2}"
   mock_dpkg "${arch}"
   exp_codename="focal"
-  lsb_release_prefix="mock_lsb_release"
   function lsb_release() {
     if [ "${1}" == "-cs" ]; then
       echo "${exp_codename}"

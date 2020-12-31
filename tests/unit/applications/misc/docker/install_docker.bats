@@ -11,7 +11,7 @@ readonly MOCK_ADD_DOCKER_REPOSITORY_PREFIX="mock_add_docker_repository:"
 function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
-  mock_install_package
+  mock_install_package 0
   mock_update_package_lists
   mock_install
   mock_add_remote_signing_key
@@ -67,6 +67,6 @@ function setup() {
   for package in "${exp_package_list[@]}"; do
     assert_line "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX} -n ${package}"
   done
-  assert_correct_call_count "${install_count_prefix}" ${exp_package_count}
+  assert_correct_call_count "${install_count_prefix}" "${exp_package_count}"
 
 }
