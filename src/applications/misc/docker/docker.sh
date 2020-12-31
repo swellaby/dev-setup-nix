@@ -51,8 +51,8 @@ function cleanup_docker_packages() {
       remove_packages "${DOCKER_CLEANUP_PACKAGES_COMMON_FEDORA_BASED[@]}"
       ;;
     *)
-      error "Unsupported distro: '${LINUX_DISTRO}'"
-      exit 1
+      error "Unsupported distro for docker installation: '${LINUX_DISTRO}'"
+      return 1
       ;;
   esac
 }
@@ -60,6 +60,11 @@ function cleanup_docker_packages() {
 function install_docker_dependencies() {
   if [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ] || [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
     return
+  fi
+
+  if [ "${LINUX_DISTRO_FAMILY}" != "${DEBIAN_DISTRO_FAMILY}" ]; then
+    error "Unsupported distro for docker installation: '${LINUX_DISTRO}'"
+    return 1
   fi
 
   local -ar debian_based_dependencies=(
