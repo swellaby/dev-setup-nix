@@ -41,7 +41,6 @@ function refute_package_repository_management_tool_called() {
 function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
-  mock_tool_installed
   mock_install_package
   mock_error
   mock_dnf
