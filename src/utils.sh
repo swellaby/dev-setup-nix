@@ -41,6 +41,11 @@ readonly DEBIAN_REMOVE_SUBCOMMAND="remove"
 readonly DEBIAN_REMOVE_SUFFIX="-y"
 readonly DEBIAN_PACKAGE_KEY_MANAGEMENT_TOOL="apt-key"
 readonly DEBIAN_ADD_SIGNING_KEY_SUBCOMMAND="add"
+readonly DEBIAN_PACKAGE_KEY_MANAGEMENT_TOOL="apt-key"
+readonly DEBIAN_ADD_SIGNING_KEY_SUBCOMMAND="add"
+readonly DEBIAN_PACKAGE_REPOSITORY_MANAGEMENT_TOOL="add-apt-repository"
+readonly DEBIAN_ADD_PACKAGE_REPOSITORY_SUBCOMMAND=""
+readonly DEBIAN_ADD_PACKAGE_REPOSITORY_SUFFIX=""
 
 readonly FEDORA_PACKAGE_MANAGER="dnf"
 readonly FEDORA_INSTALL_SUBCOMMAND="install"
@@ -49,6 +54,9 @@ readonly FEDORA_REMOVE_SUBCOMMAND="remove"
 readonly FEDORA_REMOVE_SUFFIX="-y"
 readonly FEDORA_PACKAGE_KEY_MANAGEMENT_TOOL="rpm"
 readonly FEDORA_ADD_SIGNING_KEY_SUBCOMMAND="--import"
+readonly FEDORA_PACKAGE_REPOSITORY_MANAGEMENT_TOOL="${FEDORA_PACKAGE_MANAGER}"
+readonly FEDORA_ADD_PACKAGE_REPOSITORY_SUBCOMMAND="config-manager"
+readonly FEDORA_ADD_PACKAGE_REPOSITORY_SUFFIX="--add-repository"
 
 readonly MACOS_PACKAGE_MANAGER="brew"
 readonly MACOS_INSTALL_SUBCOMMAND="install"
@@ -64,6 +72,10 @@ NEEDS_PACKAGE_LIST_UPDATES=false
 REMOVE_SUBCOMMAND=""
 REMOVE_SUFFIX=""
 declare -x REMOVE_COMMAND=""
+PACKAGE_REPOSITORY_MANAGEMENT_TOOL=""
+ADD_PACKAGE_REPOSITORY_SUBCOMMAND=""
+ADD_PACKAGE_REPOSITORY_SUFFIX=""
+declare -x ADD_PACKAGE_REPOSITORY_COMMAND=""
 
 function error() {
   echo "[swellaby_dotfiles]: $*" >&2
@@ -428,6 +440,46 @@ function add_remote_signing_key() {
   fi
 }
 
+function add_package_repository() {
+  if [ "${OPERATING_SYSTEM}" == "${MAC_OS}" ]; then
+    error "Adding package repositories is not supported on MacOS. This is a bug!"
+    return 1
+  fi
+
+  local package_repository
+
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+      -r | --package-repository)
+        package_repository="${2}"
+        shift 2
+        ;;
+      *)
+        error "Invalid 'add_package_repository' arg: '${1}'. This is a bug!"
+        exit 1
+        ;;
+    esac
+  done
+
+  if [ "${LINUX_DISTRO_FAMILY}" != "${DEBIAN_DISTRO_FAMILY}" ]
+    && [ "${LINUX_DISTRO_FAMILY}" != "${FEDORA_DISTRO_FAMILY}" ]; then
+      error "Tried to install a package signing key on an supported distro: '${LINUX_DISTRO}'. This is likely a bug."
+      return 1
+  fi
+
+  if [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
+    if ! ${PACKAGE_REPOSITORY_MANAGEMENT_TOOL} ${ADD_PACKAGE_REPOSITORY_SUBCOMMAND} -h; then
+      if ! install_package -n "dnf-plugins-core"; then
+        error "dnf config-manager plugin was not found and attempt to install failed."
+        return 1
+      fi
+    fi
+  fi
+
+  # shellcheck disable=SC2086
+  ${ADD_PACKAGE_REPOSITORY_COMMAND} "${package_repository}"
+}
+
 function initialize() {
   if [ "${UNIX_NAME}" == "Darwin" ]; then
     set_macos_variables
@@ -459,6 +511,10 @@ function initialize() {
   readonly UPDATE_PACKAGE_LISTS_SUFFIX
   readonly NEEDS_PACKAGE_LIST_UPDATES
   readonly SWELLABY_DOTFILES_QUIET
+  readonly PACKAGE_REPOSITORY_MANAGEMENT_TOOL
+  readonly ADD_PACKAGE_REPOSITORY_SUBCOMMAND
+  readonly ADD_PACKAGE_REPOSITORY_SUFFIX
+  readonly ADD_PACKAGE_REPOSITORY_COMMAND
 }
 
 # Don't auto initialize when sourced for running tests
