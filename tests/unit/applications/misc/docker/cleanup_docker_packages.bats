@@ -64,7 +64,7 @@ function assert_correct_packages_removed() {
     assert_remove_package_call_args "-n ${extension}"
   done
 
-  assert_correct_call_count "${remove_count_prefix}" ${exp_package_count}
+  assert_correct_call_count "${remove_count_prefix}" "${exp_package_count}"
 }
 
 @test "${TEST_SUITE_PREFIX}removes correct packages on Debian" {
