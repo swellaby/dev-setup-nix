@@ -266,8 +266,14 @@ function assert_correct_call_count() {
 }
 
 function mock_dpkg() {
+  _mock_dpkg_print_architecture=$1
   function dpkg() {
-    echo "${MOCKED_DPKG_CALL_ARGS_PREFIX} $*"
+    if [ -n "${_mock_dpkg_print_architecture}" ] &&
+      [ "${1}" == "--print-architecture" ]; then
+      echo "${_mock_dpkg_print_architecture}"
+    else
+      echo "${MOCKED_DPKG_CALL_ARGS_PREFIX} $*"
+    fi
   }
   declare -f dpkg
 }
