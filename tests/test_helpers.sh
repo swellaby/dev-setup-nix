@@ -20,6 +20,8 @@ readonly MOCKED_ERROR_CALL_ARGS_PREFIX="mock_error:"
 readonly MOCKED_INFO_CALL_ARGS_PREFIX="mock_info:"
 readonly MOCKED_RPM_CALL_ARGS_PREFIX="mock_rpm:"
 readonly MOCKED_APT_KEY_CALL_ARGS_PREFIX="mock_apt-key:"
+readonly MOCKED_DNF_CALL_ARGS_PREFIX="mock_dnf:"
+readonly MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX="mock_add-apt-repository:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -212,4 +214,26 @@ function mock_apt_key() {
 
 function assert_apt_key_call_args() {
   assert_line "${MOCKED_APT_KEY_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_dnf() {
+  function dnf() {
+    echo "${MOCKED_DNF_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f dnf
+}
+
+function assert_dnf_call_args() {
+  assert_line "${MOCKED_DNF_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_add_apt_repository() {
+  function add-apt-repository() {
+    echo "${MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f add-apt-repository
+}
+
+function assert_add_apt_repository_call_args() {
+  assert_line "${MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX} ${1}"
 }
