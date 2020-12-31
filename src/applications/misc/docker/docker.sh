@@ -93,7 +93,8 @@ function add_docker_repository() {
     # Since we know that we're on a Debian-based system, we can go ahead
     # and use dpkg to normalize the architectures instead of using the more
     # generalized `uname -m` or `arch` and then having to map them ourselves.
-    local arch=$(dpkg --print-architecture)
+    local arch
+    arch=$(dpkg --print-architecture)
     case "${arch}" in
       "amd64" | "arm64" | "armhf") ;;
 
@@ -103,7 +104,8 @@ function add_docker_repository() {
         ;;
     esac
     local repo_url="https://download.docker.com/linux/${LINUX_DISTRO}"
-    local codename="$(lsb_release -cs)"
+    local codename
+    codename="$(lsb_release -cs)"
     local repo="deb [arch=${arch}] ${repo_url} ${codename} stable"
     add_package_repository -r "${repo}"
   else
