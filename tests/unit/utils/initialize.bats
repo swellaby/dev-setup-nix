@@ -38,6 +38,9 @@ function assert_fedora_variables() {
   assert_equal "${NEEDS_PACKAGE_LIST_UPDATES}" false
   assert_equal "${REMOVE_SUBCOMMAND}" "${FEDORA_REMOVE_SUBCOMMAND}"
   assert_equal "${REMOVE_SUFFIX}" "${FEDORA_REMOVE_SUFFIX}"
+  assert_equal "${PACKAGE_REPOSITORY_MANAGEMENT_TOOL}" "${FEDORA_PACKAGE_REPOSITORY_MANAGEMENT_TOOL}"
+  assert_equal "${ADD_PACKAGE_REPOSITORY_SUBCOMMAND}" "${FEDORA_ADD_PACKAGE_REPOSITORY_SUBCOMMAND}"
+  assert_equal "${ADD_PACKAGE_REPOSITORY_SUFFIX}" "${FEDORA_ADD_PACKAGE_REPOSITORY_SUFFIX}"
 }
 
 function assert_debian_variables() {
@@ -58,6 +61,9 @@ function assert_debian_variables() {
   assert_equal "${UPDATE_PACKAGE_LISTS_SUFFIX}" "${DEBIAN_UPDATE_PACKAGE_LISTS_SUFFIX}"
   assert_equal "${REMOVE_SUBCOMMAND}" "${DEBIAN_REMOVE_SUBCOMMAND}"
   assert_equal "${REMOVE_SUFFIX}" "${DEBIAN_REMOVE_SUFFIX}"
+  assert_equal "${PACKAGE_REPOSITORY_MANAGEMENT_TOOL}" "${DEBIAN_PACKAGE_REPOSITORY_MANAGEMENT_TOOL}"
+  assert_equal "${ADD_PACKAGE_REPOSITORY_SUBCOMMAND}" ""
+  assert_equal "${ADD_PACKAGE_REPOSITORY_SUFFIX}" ""
 }
 
 @test "${TEST_SUITE_PREFIX}mac bootstrapped correctly" {
