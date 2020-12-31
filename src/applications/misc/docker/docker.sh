@@ -102,12 +102,12 @@ function add_docker_repository() {
         return 1
         ;;
     esac
-    local repo="deb [arch=${arch}] \
-      https://download.docker.com/linux/${LINUX_DISTRO} \
-      $(lsb_release -cs) stable"
+    local repo_url="https://download.docker.com/linux/${LINUX_DISTRO}"
+    local codename="$(lsb_release -cs)"
+    local repo="deb [arch=${arch}] ${repo_url} ${codename} stable"
     add_package_repository -r "${repo}"
   else
-    error ""
+    error "Unsupported distro for docker installation: '${LINUX_DISTRO}'"
     return 1
   fi
 }
