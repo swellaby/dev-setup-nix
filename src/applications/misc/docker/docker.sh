@@ -95,8 +95,8 @@ function add_docker_repository() {
     # generalized `uname -m` or `arch` and then having to map them ourselves.
     local arch=$(dpkg --print-architecture)
     case "${arch}" in
-      "amd64" | "arm64" | "armhf")
-        ;;
+      "amd64" | "arm64" | "armhf") ;;
+
       *)
         error "Unsupported processor architecture: '${arch}'. Unable to install Docker"
         return 1
