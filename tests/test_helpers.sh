@@ -23,6 +23,8 @@ readonly MOCKED_APT_KEY_CALL_ARGS_PREFIX="mock_apt-key:"
 readonly MOCKED_DNF_CALL_ARGS_PREFIX="mock_dnf:"
 readonly MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX="mock_add-apt-repository:"
 readonly MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX="mock_remove_package:"
+readonly MOCKED_DPKG_CALL_ARGS_PREFIX="mock_dpkg:"
+readonly MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX="mock_add_package_repository:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -261,4 +263,34 @@ function assert_correct_call_count() {
   assert_line "${inc_call_count_prefix} ${exp_call_count}"
   local -i exp_plus_one=exp_call_count+1
   refute_line "${inc_call_count_prefix} ${exp_plus_one}"
+}
+
+function mock_dpkg() {
+  function dpkg() {
+    echo "${MOCKED_DPKG_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f dpkg
+}
+
+function assert_dpkg_call_args() {
+  assert_line "${MOCKED_DPKG_CALL_ARGS_PREFIX} ${1}"
+}
+
+function refute_dpkg_called() {
+  refute_line "${MOCKED_DPKG_CALL_ARGS_PREFIX}"
+}
+
+function mock_add_package_repository() {
+  function add_package_repository() {
+    echo "${MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f add_package_repository
+}
+
+function assert_add_package_repository_call_args() {
+  assert_line "${MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX} ${1}"
+}
+
+function refute_add_package_repository_called() {
+  refute_line "${MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX}"
 }
