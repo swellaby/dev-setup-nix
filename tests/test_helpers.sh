@@ -22,6 +22,7 @@ readonly MOCKED_RPM_CALL_ARGS_PREFIX="mock_rpm:"
 readonly MOCKED_APT_KEY_CALL_ARGS_PREFIX="mock_apt-key:"
 readonly MOCKED_DNF_CALL_ARGS_PREFIX="mock_dnf:"
 readonly MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX="mock_add-apt-repository:"
+readonly MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX="mock_remove_package:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -236,4 +237,28 @@ function mock_add_apt_repository() {
 
 function assert_add_apt_repository_call_args() {
   assert_line "${MOCKED_ADD_APT_REPOSITORY_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_remove_package() {
+  function remove_package() {
+    echo "${MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f remove_package
+}
+
+function assert_remove_package_call_args() {
+  assert_line "${MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX} ${1}"
+}
+
+function refute_remove_package_called() {
+  refute_line "${MOCKED_REMOVE_PACKAGE_CALL_ARGS_PREFIX}"
+}
+
+function assert_correct_call_count() {
+  local inc_call_count_prefix="${1}"
+  local -i exp_call_count=${2}
+
+  assert_line "${inc_call_count_prefix} ${exp_call_count}"
+  local -i exp_plus_one=exp_call_count+1
+  refute_line "${inc_call_count_prefix} ${exp_plus_one}"
 }
