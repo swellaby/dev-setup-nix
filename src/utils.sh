@@ -461,10 +461,10 @@ function add_package_repository() {
     esac
   done
 
-  if [ "${LINUX_DISTRO_FAMILY}" != "${DEBIAN_DISTRO_FAMILY}" ]
-    && [ "${LINUX_DISTRO_FAMILY}" != "${FEDORA_DISTRO_FAMILY}" ]; then
-      error "Tried to install a package signing key on an supported distro: '${LINUX_DISTRO}'. This is likely a bug."
-      return 1
+  if [ "${LINUX_DISTRO_FAMILY}" != "${DEBIAN_DISTRO_FAMILY}" ] &&
+    [ "${LINUX_DISTRO_FAMILY}" != "${FEDORA_DISTRO_FAMILY}" ]; then
+    error "Tried to install a package signing key on an supported distro: '${LINUX_DISTRO}'. This is likely a bug."
+    return 1
   fi
 
   if [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
