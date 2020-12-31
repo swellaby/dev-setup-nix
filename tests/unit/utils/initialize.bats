@@ -142,19 +142,23 @@ function assert_debian_variables() {
   assert_error_call_args "Unsupported distro: '${distro}'"
 }
 
-@test "${TEST_SUITE_PREFIX}linux install prefix set correctly with root" {
+@test "${TEST_SUITE_PREFIX}linux commands prefix set correctly with root" {
   mock_grep_distro "${DEBIAN_DISTRO}"
   USER_ID=0 initialize
 
   assert_equal "${INSTALLER_PREFIX}" ""
   assert_equal "${INSTALL_COMMAND}" " ${DEBIAN_PACKAGE_MANAGER} ${DEBIAN_INSTALL_SUBCOMMAND} ${DEBIAN_INSTALLER_SUFFIX}"
+  assert_equal "${REMOVE_COMMAND}" " ${DEBIAN_PACKAGE_MANAGER} ${DEBIAN_REMOVE_SUBCOMMAND} ${DEBIAN_REMOVE_SUFFIX}"
+  assert_equal "${ADD_PACKAGE_REPOSITORY_COMMAND}" " ${PACKAGE_REPOSITORY_MANAGEMENT_TOOL}  "
 }
 
-@test "${TEST_SUITE_PREFIX}linux install prefix set correctly without root" {
+@test "${TEST_SUITE_PREFIX}linux commands prefix set correctly without root" {
   mock_grep_distro "${FEDORA_DISTRO}"
   USER_ID=1 initialize
   assert_equal "${INSTALLER_PREFIX}" "sudo"
   assert_equal "${INSTALL_COMMAND}" "sudo ${FEDORA_PACKAGE_MANAGER} ${FEDORA_INSTALL_SUBCOMMAND} ${FEDORA_INSTALLER_SUFFIX}"
+  assert_equal "${REMOVE_COMMAND}" "sudo ${FEDORA_PACKAGE_MANAGER} ${FEDORA_REMOVE_SUBCOMMAND} ${FEDORA_REMOVE_SUFFIX}"
+  assert_equal "${ADD_PACKAGE_REPOSITORY_COMMAND}" "sudo ${FEDORA_PACKAGE_REPOSITORY_MANAGEMENT_TOOL} ${FEDORA_ADD_PACKAGE_REPOSITORY_SUBCOMMAND} ${FEDORA_ADD_PACKAGE_REPOSITORY_SUFFIX}"
 }
 
 @test "${TEST_SUITE_PREFIX}global defaults set correctly" {
