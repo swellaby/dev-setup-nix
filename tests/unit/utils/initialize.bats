@@ -24,13 +24,16 @@ function teardown() {
 
 function assert_fedora_variables() {
   local distro
+  local distro_version_id
   local result
   distro=${1}
-  result=${2}
+  distro_version_id=${2}
+  result=${3}
 
   assert_equal "${result}" 0
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
+  assert_equal "${LINUX_DISTRO_VERSION_ID}" "${distro_version_id}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${FEDORA_DISTRO_FAMILY}"
   assert_equal "${PACKAGE_MANAGER}" "${FEDORA_PACKAGE_MANAGER}"
   assert_equal "${INSTALL_SUBCOMMAND}" "${FEDORA_INSTALL_SUBCOMMAND}"
@@ -45,13 +48,16 @@ function assert_fedora_variables() {
 
 function assert_debian_variables() {
   local distro
+  local distro_version_id
   local result
   distro=${1}
-  result=${2}
+  distro_version_id=${2}
+  result=${3}
 
   assert_equal "${result}" 0
   assert_equal "${OPERATING_SYSTEM}" "${LINUX_OS}"
   assert_equal "${LINUX_DISTRO}" "${distro}"
+  assert_equal "${LINUX_DISTRO_VERSION_ID}" "${distro_version_id}"
   assert_equal "${LINUX_DISTRO_FAMILY}" "${DEBIAN_DISTRO_FAMILY}"
   assert_equal "${PACKAGE_MANAGER}" "${DEBIAN_PACKAGE_MANAGER}"
   assert_equal "${INSTALL_SUBCOMMAND}" "${DEBIAN_INSTALL_SUBCOMMAND}"
@@ -85,7 +91,7 @@ function assert_debian_variables() {
 
   UNIX_NAME="MINGW" run initialize
 
-  assert_equal "$status" 1
+  assert_failure
   assert_error_call_args "${exp_err}"
 }
 
@@ -94,43 +100,43 @@ function assert_debian_variables() {
   exp_err="Detected Linux OS but did not find '${OS_RELEASE_TMP_FILE}' file"
 
   LINUX_DISTRO_OS_IDENTIFICATION_FILE="${OS_RELEASE_TMP_FILE}" run initialize
-  assert_equal "$status" 1
+  assert_failure
   assert_error_call_args "${exp_err}"
 }
 
 @test "${TEST_SUITE_PREFIX}centos bootstrapped correctly" {
-  mock_grep_distro "${CENTOS_DISTRO}"
+  mock_grep_distro "${CENTOS_DISTRO}" "7"
   initialize
 
-  assert_fedora_variables "${CENTOS_DISTRO}" $?
+  assert_fedora_variables "${CENTOS_DISTRO}" "7" $?
 }
 
 @test "${TEST_SUITE_PREFIX}rhel bootstrapped correctly" {
-  mock_grep_distro "${RHEL_DISTRO}"
+  mock_grep_distro "${RHEL_DISTRO}" "8"
   initialize
 
-  assert_fedora_variables "${RHEL_DISTRO}" $?
+  assert_fedora_variables "${RHEL_DISTRO}" "8" $?
 }
 
 @test "${TEST_SUITE_PREFIX}fedora bootstrapped correctly" {
-  mock_grep_distro "${FEDORA_DISTRO}"
+  mock_grep_distro "${FEDORA_DISTRO}" "23"
   initialize
 
-  assert_fedora_variables "${FEDORA_DISTRO}" $?
+  assert_fedora_variables "${FEDORA_DISTRO}" "23" $?
 }
 
 @test "${TEST_SUITE_PREFIX}ubuntu bootstrapped correctly" {
-  mock_grep_distro "${UBUNTU_DISTRO}"
+  mock_grep_distro "${UBUNTU_DISTRO}" "20.04"
   initialize
 
-  assert_debian_variables "${UBUNTU_DISTRO}" $?
+  assert_debian_variables "${UBUNTU_DISTRO}" "20.04" $?
 }
 
 @test "${TEST_SUITE_PREFIX}debian bootstrapped correctly" {
-  mock_grep_distro "${DEBIAN_DISTRO}"
+  mock_grep_distro "${DEBIAN_DISTRO}" "10"
   initialize
 
-  assert_debian_variables "${DEBIAN_DISTRO}" $?
+  assert_debian_variables "${DEBIAN_DISTRO}" "10" $?
 }
 
 @test "${TEST_SUITE_PREFIX}unsupported distro errors correctly" {
