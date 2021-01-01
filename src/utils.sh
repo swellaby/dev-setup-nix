@@ -144,7 +144,7 @@ function set_linux_variables() {
   function get_os_metadata_by_key_search() {
     local search_key="${1}"
     local search="(?<=${search_key}).+"
-    grep -oP ${search} ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} | tr -d '"'
+    grep -oP "${search}" ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} | tr -d '"'
   }
   LINUX_DISTRO=$(get_os_metadata_by_key_search "^ID=")
   info "Detected Linux distro: '${LINUX_DISTRO}'"
