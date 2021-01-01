@@ -25,6 +25,8 @@ declare -x LINUX_DISTRO_FAMILY=""
 readonly DEBIAN_DISTRO_FAMILY=${DEBIAN_DISTRO}
 readonly FEDORA_DISTRO_FAMILY=${FEDORA_DISTRO}
 
+declare -x LINUX_DISTRO_VERSION_ID=""
+
 # Configure package managers.
 # Maybe one day these can be added...
 # FreeBSD = pkg
@@ -139,10 +141,15 @@ function set_linux_variables() {
     exit 1
   fi
 
-  local id
-  id=$(grep -oP '(?<=^ID=).+' ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} | tr -d '"')
-  LINUX_DISTRO=$id
+  function get_os_metadata_by_key_search() {
+    local search_key="${1}"
+    local search="(?<=${search_key}).+"
+    grep -oP ${search} ${LINUX_DISTRO_OS_IDENTIFICATION_FILE} | tr -d '"'
+  }
+  LINUX_DISTRO=$(get_os_metadata_by_key_search "^ID=")
   info "Detected Linux distro: '${LINUX_DISTRO}'"
+  LINUX_DISTRO_VERSION_ID=$(get_os_metadata_by_key_search "^VERSION_ID=")
+  info "Detected Linux distro version id: '${LINUX_DISTRO_VERSION_ID}'"
 
   if [ ${USER_ID} -ne 0 ]; then
     INSTALLER_PREFIX="sudo"
@@ -150,7 +157,7 @@ function set_linux_variables() {
 
   check_snapd_availability
 
-  case $id in
+  case ${LINUX_DISTRO} in
     "${DEBIAN_DISTRO}")
       set_debian_variables
       ;;
@@ -505,6 +512,7 @@ function initialize() {
   readonly LINUX_DISTRO_OS_IDENTIFICATION_FILE
   readonly LINUX_DISTRO
   readonly LINUX_DISTRO_FAMILY
+  readonly LINUX_DISTRO_VERSION_ID
   readonly INSTALLER_PREFIX
   readonly INSTALLER_SUFFIX
   readonly PACKAGE_MANAGER
