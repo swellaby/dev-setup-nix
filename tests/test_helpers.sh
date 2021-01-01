@@ -113,9 +113,19 @@ function assert_install_curl_called() {
 
 function mock_grep_distro() {
   _distro=$1
+  _distro_version_id=${2:-""}
 
   function grep() {
-    echo "${_distro}"
+    if [ "${1}" == "-oP" ]; then
+      if [ "${2}" == "(?<=^ID=).+" ]; then
+        echo "${_distro}"
+        return
+      elif [ "${2}" == "(?<=^VERSION_ID=).+" ]; then
+        echo "${_distro_version_id}"
+        return
+      fi
+    fi
+    echo "Unhandled grep mock scenario. Check test_helpers.sh"
   }
 
   declare -f grep
