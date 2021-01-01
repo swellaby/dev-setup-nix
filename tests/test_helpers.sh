@@ -148,6 +148,7 @@ function assert_mock_install_package_call_args() {
 }
 
 function refute_mock_install_package_called() {
+  echo ""
   refute_line --partial "${MOCKED_INSTALL_PACKAGE_CALL_ARGS_PREFIX}"
 }
 
@@ -340,8 +341,8 @@ function mock_add_remote_signing_key() {
   declare -f add_remote_signing_key
 }
 
-function assert_add_remote_signing_key_called() {
-  assert_line "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX}"
+function assert_add_remote_signing_key_call_args() {
+  assert_line "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX} ${1}"
 }
 
 function refute_add_remote_signing_key_called() {
