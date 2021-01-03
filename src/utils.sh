@@ -86,6 +86,10 @@ function info() {
   echo "[swellaby_dotfiles]: $*" >&1
 }
 
+function print_tool_installation_message() {
+  info "Installing ${1}..."
+}
+
 function tool_installed() {
   local application_name=${1}
 
