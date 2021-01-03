@@ -75,6 +75,11 @@ function assert_tool_installed_call_args() {
   assert_line "${MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX} ${1}"
 }
 
+function refute_tool_installed_called() {
+  echo ""
+  refute_line "${MOCKED_TOOL_INSTALLED_CALL_ARGS_PREFIX}"
+}
+
 function mock_install() {
   function install() {
     echo "${MOCKED_INSTALL_CALL_ARGS_PREFIX} $*"
@@ -112,6 +117,11 @@ function mock_install_curl() {
 function assert_install_curl_called() {
   assert_line "${MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
+
+function refute_install_curl_called() {
+  refute_line --partial "${MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX}"
+}
+
 
 function mock_grep_distro() {
   _distro=$1
