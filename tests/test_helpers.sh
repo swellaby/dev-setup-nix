@@ -27,6 +27,7 @@ readonly MOCKED_DPKG_CALL_ARGS_PREFIX="mock_dpkg:"
 readonly MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX="mock_add_package_repository:"
 readonly MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX="mock_update_package_lists:"
 readonly MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX="mock_add_remote_signing_key:"
+readonly MOCKED_PWSH_CALL_ARGS_PREFIX="mock_pwsh:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -210,6 +211,17 @@ function mock_info() {
   declare -f info
 }
 
+function mock_print_tool_installation_message() {
+  function print_tool_installation_message() {
+    echo "${MOCKED_PRINT_TOOL_INSTALLATION_MESSAGE_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f print_tool_installation_message
+}
+
+function assert_print_tool_installation_message_call_args() {
+  assert_line "${MOCKED_PRINT_TOOL_INSTALLATION_MESSAGE_CALL_ARGS_PREFIX} ${1}"
+}
+
 function assert_info_call_args() {
   assert_line "${MOCKED_INFO_CALL_ARGS_PREFIX} ${1}"
 }
@@ -348,4 +360,15 @@ function assert_add_remote_signing_key_call_args() {
 function refute_add_remote_signing_key_called() {
   echo " "
   refute_line "${MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX}"
+}
+
+function mock_pwsh() {
+  function pwsh() {
+    echo "${MOCKED_PWSH_CALL_ARGS_PREFIX} $*"
+  }
+  declare -f pwsh
+}
+
+function assert_pwsh_call_args() {
+  assert_line "${MOCKED_PWSH_CALL_ARGS_PREFIX} ${1}"
 }
