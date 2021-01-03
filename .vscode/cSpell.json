@@ -8,6 +8,7 @@
     "cfsb",
     "cfss",
     "clippy",
+    "compat",
     "containerd",
     "cygwin",
     "distro",
