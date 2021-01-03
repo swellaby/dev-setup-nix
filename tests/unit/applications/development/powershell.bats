@@ -151,7 +151,7 @@ function assert_installs_correctly_on_ubuntu_lts() {
   unsupported_version=12.10
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO="${UBUNTU_DISTRO}" \
     LINUX_DISTRO_VERSION_ID="${unsupported_version}"
-    run install_powershell
+  run install_powershell
 
   assert_failure
   assert_error_call_args "PowerShell not supported on Ubuntu version: '${unsupported_version}'"
@@ -177,7 +177,7 @@ function assert_installs_correctly_on_ubuntu_lts() {
   unsupported_version=2
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO="${DEBIAN_DISTRO}" \
     LINUX_DISTRO_VERSION_ID="${unsupported_version}"
-    run install_powershell
+  run install_powershell
 
   assert_failure
   assert_error_call_args "PowerShell not supported on Debian version: '${unsupported_version}'"
@@ -191,7 +191,7 @@ function assert_installs_correctly_on_ubuntu_lts() {
     "${FEDORA_DISTRO}" \
     "32" \
     true \
-  "${exp_dependencies[@]}"
+    "${exp_dependencies[@]}"
 }
 
 @test "${TEST_SUITE_PREFIX}installs correctly on RHEL" {
