@@ -44,8 +44,8 @@ function install_powershell() {
             "gnupg"
           )
           ;;
-        "10")
-          ;;
+        "10") ;;
+
         *)
           error "PowerShell not supported on Debian version: '${LINUX_DISTRO_VERSION_ID}'"
           return 1
