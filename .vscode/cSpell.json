@@ -4,6 +4,7 @@
   "words": [
     "armhf",
     "authy",
+    "bitness",
     "centos",
     "cfsb",
     "cfss",
@@ -20,6 +21,7 @@
     "fcss",
     "ffpn",
     "flameshot",
+    "getconf",
     "gnupg",
     "pacman",
     "logrotate",
