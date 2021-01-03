@@ -25,13 +25,13 @@ function install_zoom() {
         error "Unsupported architecture bitness: '${BITNESS}' for Zoom installation"
         return 1
       fi
-        if ! tool_installed "curl"; then
-          install_curl
-        fi
-        local tmpdir="${TMPDIR:-/tmp}"
-        debian_package_target="${tmpdir}/zoom.deb"
-        rm -f "${linux_package_target}" || true
-        curl -sSL "${deb_download_url}" -o "${debian_package_target}"
+      if ! tool_installed "curl"; then
+        install_curl
+      fi
+      local tmpdir="${TMPDIR:-/tmp}"
+      debian_package_target="${tmpdir}/zoom.deb"
+      rm -f "${linux_package_target}" || true
+      curl -sSL "${deb_download_url}" -o "${debian_package_target}"
     elif [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
       if [ "${BITNESS}" == "64" ]; then
         fedora_package_target="${base_64_bit_download_url}/zoom_x86_64.rpm"
@@ -48,11 +48,11 @@ function install_zoom() {
 
   local dfpn
   local ffpn
-  if [ -n "${debian_package_target}" ];then
+  if [ -n "${debian_package_target}" ]; then
     dfpn="--debian-family-package-name ${debian_package_target}"
   fi
 
-  if [ -n "${fedora_package_target}" ];then
+  if [ -n "${fedora_package_target}" ]; then
     ffpn="--fedora-family-package-name ${fedora_package_target}"
   fi
 
