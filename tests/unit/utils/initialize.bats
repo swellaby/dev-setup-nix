@@ -16,10 +16,12 @@ function setup() {
   declare -f check_snapd_availability
   mock_error
   mock_info
+  mock_getconf_default
 }
 
 function teardown() {
   teardown_os_release_file
+  rm -f "${STD_OUT_TMP_FILE}" || true
 }
 
 function assert_fedora_variables() {
@@ -165,6 +167,27 @@ function assert_debian_variables() {
   assert_equal "${INSTALL_COMMAND}" "sudo ${FEDORA_PACKAGE_MANAGER} ${FEDORA_INSTALL_SUBCOMMAND} ${FEDORA_INSTALLER_SUFFIX}"
   assert_equal "${REMOVE_COMMAND}" "sudo ${FEDORA_PACKAGE_MANAGER} ${FEDORA_REMOVE_SUBCOMMAND} ${FEDORA_REMOVE_SUFFIX}"
   assert_equal "${ADD_PACKAGE_REPOSITORY_COMMAND}" "sudo ${FEDORA_PACKAGE_REPOSITORY_MANAGEMENT_TOOL} ${FEDORA_ADD_PACKAGE_REPOSITORY_SUBCOMMAND} ${FEDORA_ADD_PACKAGE_REPOSITORY_SUFFIX}"
+}
+
+@test "${TEST_SUITE_PREFIX}bitness set correctly on Mac" {
+  mock_getconf_default "64"
+  UNIX_NAME="Darwin" initialize
+  # shellcheck disable=SC2153
+  assert_equal "${BITNESS}" "64"
+}
+
+@test "${TEST_SUITE_PREFIX}bitness set correctly on Linux" {
+  mock_getconf_default "32"
+  mock_grep_distro "${FEDORA_DISTRO}"
+  UNIX_NAME="Linux" initialize
+  assert_equal "${BITNESS}" "32"
+}
+
+@test "${TEST_SUITE_PREFIX}bitness detected correctly" {
+  mock_getconf true
+  mock_grep_distro "${DEBIAN_DISTRO}"
+  UNIX_NAME="Linux" run initialize
+  assert_getconf_call_args "LONG_BIT"
 }
 
 @test "${TEST_SUITE_PREFIX}global defaults set correctly" {

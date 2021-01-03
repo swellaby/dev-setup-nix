@@ -28,6 +28,7 @@ readonly MOCKED_ADD_PACKAGE_REPOSITORY_CALL_ARGS_PREFIX="mock_add_package_reposi
 readonly MOCKED_UPDATE_PACKAGE_LISTS_CALL_ARGS_PREFIX="mock_update_package_lists:"
 readonly MOCKED_ADD_REMOTE_SIGNING_KEY_CALL_ARGS_PREFIX="mock_add_remote_signing_key:"
 readonly MOCKED_PWSH_CALL_ARGS_PREFIX="mock_pwsh:"
+readonly MOCKED_GETCONF_CALL_ARGS_PREFIX="mock_getconf:"
 declare -ir MOCKED_DEFAULT_RETURN_CODE=0
 
 readonly SRC_DIRECTORY_PATH_FROM_ROOT="src"
@@ -371,4 +372,29 @@ function mock_pwsh() {
 
 function assert_pwsh_call_args() {
   assert_line "${MOCKED_PWSH_CALL_ARGS_PREFIX} ${1}"
+}
+
+function mock_getconf() {
+  _mock_getconf_check_params=${1}
+  _mock_getconf_long_bitness="${2:-"64"}"
+  function getconf() {
+    if [ "${_mock_getconf_check_params}" == true ]; then
+      echo "${MOCKED_GETCONF_CALL_ARGS_PREFIX} $*" >&"${STD_OUT_TMP_FILE}"
+      return
+    fi
+    if [ "${1}" == "LONG_BIT" ]; then
+      echo "${_mock_getconf_long_bitness}"
+    fi
+  }
+  declare -f getconf
+}
+
+function mock_getconf_default() {
+  local bitness="${1:-"64"}"
+  mock_getconf false "${bitness}"
+}
+
+function assert_getconf_call_args() {
+  act=$(cat "${STD_OUT_TMP_FILE}")
+  assert_equal "${act}" "${MOCKED_GETCONF_CALL_ARGS_PREFIX} ${1}"
 }
