@@ -122,7 +122,6 @@ function refute_install_curl_called() {
   refute_line --partial "${MOCKED_INSTALL_CURL_CALL_ARGS_PREFIX}"
 }
 
-
 function mock_grep_distro() {
   _distro=$1
   _distro_version_id=${2:-""}
