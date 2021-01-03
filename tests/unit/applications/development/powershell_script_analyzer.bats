@@ -21,10 +21,6 @@ function setup() {
   declare -f install_powershell
 }
 
-function assert_install_powershell_called() {
-  assert_line --partial "${INSTALL_POWERSHELL_MOCK_PREFIX}"
-}
-
 @test "${TEST_SUITE_PREFIX}installs correctly when PowerShell already available" {
   run install_powershell_script_analyzer
   assert_tool_installed_call_args "pwsh"
