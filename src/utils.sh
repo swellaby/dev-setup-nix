@@ -9,6 +9,8 @@ readonly MAC_OS="macos"
 readonly LINUX_OS="linux"
 declare -x OPERATING_SYSTEM=""
 
+declare -x BITNESS=""
+
 # This file should be present on the vast majority of modern versions
 # of most major distributions, as well as anything running systemd
 declare -x LINUX_DISTRO_OS_IDENTIFICATION_FILE="/etc/os-release"
@@ -507,12 +509,15 @@ function initialize() {
     exit 1
   fi
 
+  BITNESS=$(getconf LONG_BIT)
+
   INSTALL_COMMAND="${INSTALLER_PREFIX} ${PACKAGE_MANAGER} ${INSTALL_SUBCOMMAND} ${INSTALLER_SUFFIX}"
   REMOVE_COMMAND="${INSTALLER_PREFIX} ${PACKAGE_MANAGER} ${REMOVE_SUBCOMMAND} ${REMOVE_SUFFIX}"
   ADD_PACKAGE_REPOSITORY_COMMAND="${INSTALLER_PREFIX} ${PACKAGE_REPOSITORY_MANAGEMENT_TOOL} ${ADD_PACKAGE_REPOSITORY_SUBCOMMAND} ${ADD_PACKAGE_REPOSITORY_SUFFIX}"
 
   readonly UNIX_NAME
   readonly OPERATING_SYSTEM
+  readonly BITNESS
   readonly LINUX_DISTRO_OS_IDENTIFICATION_FILE
   readonly LINUX_DISTRO
   readonly LINUX_DISTRO_FAMILY
