@@ -30,7 +30,7 @@ function install_zoom() {
       fi
       local tmpdir="${TMPDIR:-/tmp}"
       debian_package_target="${tmpdir}/zoom.deb"
-      rm -f "${linux_package_target}" || true
+      rm -f "${debian_package_target}" || true
       curl -sSL "${deb_download_url}" -o "${debian_package_target}"
     elif [ "${LINUX_DISTRO_FAMILY}" == "${FEDORA_DISTRO_FAMILY}" ]; then
       if [ "${BITNESS}" == "64" ]; then
@@ -56,6 +56,7 @@ function install_zoom() {
     ffpn="--fedora-family-package-name ${fedora_package_target}"
   fi
 
+  # shellcheck disable=SC2086
   install \
     ${dfpn} \
     ${ffpn} \
