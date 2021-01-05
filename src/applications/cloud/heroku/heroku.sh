@@ -1,7 +1,6 @@
 # shellcheck shell=bash
 
 function install_heroku() {
-  local package_name="Heroku"
   install \
     --application-name "Heroku CLI" \
     --snap-name "heroku" \
