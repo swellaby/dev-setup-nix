@@ -52,9 +52,9 @@ function assert_installed_correctly_on_debian_based_distro() {
   assert_install_call_args "${EXP_INSTALL_CALL_ARGS}"
 
   local -i exp_package_count=${#debian_dependencies[@]}
-    for package in "${debian_dependencies[@]}"; do
-      assert_mock_install_package_call_args "-n ${package}"
-    done
+  for package in "${debian_dependencies[@]}"; do
+    assert_mock_install_package_call_args "-n ${package}"
+  done
 
   assert_correct_call_count "${install_count_prefix}" "${exp_package_count}"
 
