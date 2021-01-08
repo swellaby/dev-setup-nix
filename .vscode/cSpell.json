@@ -28,6 +28,7 @@
     "gnupg",
     "pacman",
     "logrotate",
+    "lynis",
     "mingw",
     "mkdir",
     "nyancat",
