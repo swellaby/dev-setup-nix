@@ -37,7 +37,7 @@ function assert_installs_correctly_on_fedora_based_distros() {
   }
 
   OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" \
-    LINUX_DISTRO="${distro}"  run install_lynis
+    LINUX_DISTRO="${distro}" run install_lynis
 
   assert_success
   assert_add_package_repository_call_args "--package-repository ${exp_repo}"
