@@ -5,7 +5,7 @@ readonly APPLICATION_BROWSER_DIR_FOR_LIB=$(dirname "${BASH_SOURCE[0]}")
 source "${APPLICATION_BROWSER_DIR_FOR_LIB}/chromium/chromium.sh"
 source "${APPLICATION_BROWSER_DIR_FOR_LIB}/firefox/firefox.sh"
 
-function install_browsers_tools_bin() {
+function install_browsers_tools() {
   local chromium=false
   local firefox=false
 
