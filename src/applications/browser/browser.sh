@@ -1,9 +1,9 @@
 # shellcheck shell=bash
 
-readonly APPLICATION_BROWSERS_DIR_FOR_LIB=$(dirname "${BASH_SOURCE[0]}")
+readonly APPLICATION_BROWSER_DIR_FOR_LIB=$(dirname "${BASH_SOURCE[0]}")
 
-source "${APPLICATION_BROWSERS_DIR_FOR_LIB}/chromium/chromium.sh"
-source "${APPLICATION_BROWSERS_DIR_FOR_LIB}/firefox/firefox.sh"
+source "${APPLICATION_BROWSER_DIR_FOR_LIB}/chromium/chromium.sh"
+source "${APPLICATION_BROWSER_DIR_FOR_LIB}/firefox/firefox.sh"
 
 function install_browsers_tools_bin() {
   local chromium=false
