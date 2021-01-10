@@ -3,7 +3,7 @@
 # shellcheck source=tests/unit/applications/browsers/common.sh
 source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/browsers/chromium/chromium.sh
-source "${BROWSERS_DIRECTORY}/chromium/chromium.sh"
+source "${BROWSER_DIRECTORY}/chromium/chromium.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSER_SUITE_PREFIX}::chromium::install_chromium::"
 

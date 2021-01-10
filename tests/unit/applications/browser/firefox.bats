@@ -3,7 +3,7 @@
 # shellcheck source=tests/unit/applications/browsers/common.sh
 source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/browsers/firefox/firefox.sh
-source "${BROWSERS_DIRECTORY}/firefox/firefox.sh"
+source "${BROWSER_DIRECTORY}/firefox/firefox.sh"
 
 readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSER_SUITE_PREFIX}::firefox::install_firefox::"
 
