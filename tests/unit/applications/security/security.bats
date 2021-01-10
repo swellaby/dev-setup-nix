@@ -103,3 +103,19 @@ function setup() {
   assert_install_clamav_called
   refute_install_lynis_called
 }
+
+@test "${TEST_SUITE_PREFIX}installs lynis with shorthand arg" {
+  run install_security_tools_bin -l
+  assert_success
+  refute_install_authy_called
+  refute_install_clamav_called
+  assert_install_lynis_called
+}
+
+@test "${TEST_SUITE_PREFIX}installs lynis with longhand arg" {
+  run install_security_tools_bin --install-lynis
+  assert_success
+  refute_install_authy_called
+  refute_install_clamav_called
+  assert_install_lynis_called
+}
