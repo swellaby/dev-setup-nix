@@ -61,3 +61,29 @@ function setup() {
   refute_install_clamav_called
   refute_install_lynis_called
 }
+
+@test "${TEST_SUITE_PREFIX}errors correctly on invalid args" {
+  invalid_arg="--what-is-your-quest"
+  run install_security_tools_bin "${invalid_arg}"
+  assert_failure
+  assert_error_call_args "Invalid arg: '${invalid_arg}' for security tool install script."
+  refute_install_authy_called
+  refute_install_clamav_called
+  refute_install_lynis_called
+}
+
+@test "${TEST_SUITE_PREFIX}installs authy with shorthand arg" {
+  run install_security_tools_bin -a
+  assert_success
+  assert_install_authy_called
+  refute_install_clamav_called
+  refute_install_lynis_called
+}
+
+@test "${TEST_SUITE_PREFIX}installs authy with longhand arg" {
+  run install_security_tools_bin --install-authy
+  assert_success
+  assert_install_authy_called
+  refute_install_clamav_called
+  refute_install_lynis_called
+}
