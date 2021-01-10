@@ -5,7 +5,7 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/browsers/browsers.sh
 source "${BROWSERS_DIRECTORY}/browsers.sh"
 
-readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSERS_SUITE_PREFIX}::browsers::install_browsers_tools_bin::"
+readonly TEST_SUITE_PREFIX="${APPLICATIONS_BROWSER_SUITE_PREFIX}::browsers::install_browsers_tools_bin::"
 readonly INSTALL_CHROMIUM_MOCK_PREFIX="mock_install_chromium:"
 readonly INSTALL_FIREFOX_MOCK_PREFIX="mock_install_firefox:"
 
