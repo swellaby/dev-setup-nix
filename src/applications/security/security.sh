@@ -7,9 +7,9 @@ source "${APPLICATION_SECURITY_DIR_FOR_LIB}/clamav/clamav.sh"
 source "${APPLICATION_SECURITY_DIR_FOR_LIB}/lynis/lynis.sh"
 
 function install_security_tools_bin() {
-  local install_authy=false
-  local install_clamav=false
-  local install_lynis=false
+  local authy=false
+  local clamav=false
+  local lynis=false
 
   if [ "$#" -eq 0 ]; then
     info "No security tools specified for installation!"
@@ -19,13 +19,13 @@ function install_security_tools_bin() {
   while [[ "$#" -gt 0 ]]; do
     case $1 in
       -a | --install-authy)
-        install_authy=true
+        authy=true
         ;;
       -c | --install-clamav)
-        install_clamav=true
+        clamav=true
         ;;
       -l | --install-lynis)
-        install_lynis=true
+        lynis=true
         ;;
       *)
         error "Invalid arg: '${1}' for security tool install script."
@@ -35,15 +35,15 @@ function install_security_tools_bin() {
     shift
   done
 
-  if [ "${install_authy}" == true ]; then
+  if [ "${authy}" == true ]; then
     install_authy
   fi
 
-  if [ "${install_clamav}" == true ]; then
+  if [ "${clamav}" == true ]; then
     install_clamav
   fi
 
-  if [ "${install_lynis}" == true ]; then
+  if [ "${lynis}" == true ]; then
     install_lynis
   fi
 }
