@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-# shellcheck source=tests/unit/applications/browsers/common.sh
+# shellcheck source=tests/unit/applications/browser/common.sh
 source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/browser/browser.sh
 source "${BROWSER_DIRECTORY}/browser.sh"
