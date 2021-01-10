@@ -119,3 +119,11 @@ function setup() {
   refute_install_clamav_called
   assert_install_lynis_called
 }
+
+@test "${TEST_SUITE_PREFIX}installs correctly with multiple apps" {
+  run install_security_tools_bin -a -c --install-lynis
+  assert_success
+  assert_install_authy_called
+  assert_install_clamav_called
+  assert_install_lynis_called
+}
