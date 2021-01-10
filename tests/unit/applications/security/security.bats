@@ -5,7 +5,7 @@ source "${BATS_TEST_DIRNAME}/common.sh"
 # shellcheck source=src/applications/security/security.sh
 source "${SECURITY_DIRECTORY}/security.sh"
 
-readonly TEST_SUITE_PREFIX="${APPLICATIONS_SECURITY_SUITE_PREFIX}::security::install_security_tools_bin::"
+readonly TEST_SUITE_PREFIX="${APPLICATIONS_SECURITY_SUITE_PREFIX}::security::install_security_tools::"
 readonly INSTALL_AUTH_MOCK_PREFIX="mock_install_authy:"
 readonly INSTALL_CLAMAV_MOCK_PREFIX="mock_install_clamav:"
 readonly INSTALL_LYNIS_MOCK_PREFIX="mock_install_lynis:"
@@ -54,7 +54,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}correctly handles no args" {
-  run install_security_tools_bin
+  run install_security_tools
   assert_success
   assert_info_call_args "No security tools specified for installation!"
   refute_install_authy_called
@@ -64,7 +64,7 @@ function setup() {
 
 @test "${TEST_SUITE_PREFIX}errors correctly on invalid args" {
   invalid_arg="--what-is-your-quest"
-  run install_security_tools_bin "${invalid_arg}"
+  run install_security_tools "${invalid_arg}"
   assert_failure
   assert_error_call_args "Invalid arg: '${invalid_arg}' for security tool install script."
   refute_install_authy_called
@@ -73,7 +73,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs authy with shorthand arg" {
-  run install_security_tools_bin -a
+  run install_security_tools -a
   assert_success
   assert_install_authy_called
   refute_install_clamav_called
@@ -81,7 +81,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs authy with longhand arg" {
-  run install_security_tools_bin --install-authy
+  run install_security_tools --install-authy
   assert_success
   assert_install_authy_called
   refute_install_clamav_called
@@ -89,7 +89,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs clamav with shorthand arg" {
-  run install_security_tools_bin -c
+  run install_security_tools -c
   assert_success
   refute_install_authy_called
   assert_install_clamav_called
@@ -97,7 +97,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs clamav with longhand arg" {
-  run install_security_tools_bin --install-clamav
+  run install_security_tools --install-clamav
   assert_success
   refute_install_authy_called
   assert_install_clamav_called
@@ -105,7 +105,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs lynis with shorthand arg" {
-  run install_security_tools_bin -l
+  run install_security_tools -l
   assert_success
   refute_install_authy_called
   refute_install_clamav_called
@@ -113,7 +113,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs lynis with longhand arg" {
-  run install_security_tools_bin --install-lynis
+  run install_security_tools --install-lynis
   assert_success
   refute_install_authy_called
   refute_install_clamav_called
@@ -121,7 +121,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs correctly with multiple apps" {
-  run install_security_tools_bin -a -c --install-lynis
+  run install_security_tools -a -c --install-lynis
   assert_success
   assert_install_authy_called
   assert_install_clamav_called
