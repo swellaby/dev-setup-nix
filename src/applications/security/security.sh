@@ -6,7 +6,7 @@ source "${APPLICATION_SECURITY_DIR_FOR_LIB}/authy/authy.sh"
 source "${APPLICATION_SECURITY_DIR_FOR_LIB}/clamav/clamav.sh"
 source "${APPLICATION_SECURITY_DIR_FOR_LIB}/lynis/lynis.sh"
 
-function install_security_tools_bin() {
+function install_security_tools() {
   local authy=false
   local clamav=false
   local lynis=false
