@@ -12,6 +12,7 @@
     "clippy",
     "compat",
     "containerd",
+    "cronie",
     "cygwin",
     "distro",
     "distros",
