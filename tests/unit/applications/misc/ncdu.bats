@@ -17,7 +17,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs correctly on Fedora based distros" {
-  OPERATING_SYSTEM="${LINUX_OS}"  LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" \
+  OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${FEDORA_DISTRO_FAMILY}" \
     run install_ncdu
   assert_success
   assert_mock_install_package_call_args "-n epel-release"
@@ -25,7 +25,7 @@ function setup() {
 }
 
 @test "${TEST_SUITE_PREFIX}installs correctly on Debian based distros" {
-  OPERATING_SYSTEM="${LINUX_OS}"  LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" \
+  OPERATING_SYSTEM="${LINUX_OS}" LINUX_DISTRO_FAMILY="${DEBIAN_DISTRO_FAMILY}" \
     run install_ncdu
   assert_success
   refute_mock_install_package_called
