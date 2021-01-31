@@ -12,7 +12,7 @@ function setup() {
   # shellcheck source=src/utils.sh
   source "${UTILS_SOURCE_PATH}"
   mock_install
-  mock_install_package
+  mock_install_package 0
   mock_info
 }
 
