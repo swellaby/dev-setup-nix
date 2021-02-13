@@ -67,4 +67,6 @@ jobs:
 
       - name: Run unit tests
         shell: bash
-        run: bats -r tests/unit
+        run: |
+          bats --version
+          bats -r tests/unit
