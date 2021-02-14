@@ -77,5 +77,5 @@ jobs:
           domain: ${{github.repository_owner}}
         if: always()
       - name: Publish test results
-        run: testspace .testresults/junit.xml
+        run: testspace .testresults
         if: always()
