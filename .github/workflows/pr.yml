@@ -58,13 +58,7 @@ jobs:
         with:
           submodules: 'true'
 
-      # I think this version is a bit older and
-      # doesn't contain the JUnit support, but should
-      # suffice for the time being.
-      # - name: Install bats
-      #   shell: bash
-      #   run: sudo apt install bats
-      - name: Setup BATS
+      - name: Install bats
         uses: mig4/setup-bats@v1
         with:
           bats-version: 1.2.1
@@ -73,4 +67,13 @@ jobs:
         shell: bash
         run: |
           bats --version
-          bats -r tests/unit
+          bats -r tests/unit -F junit -o .testresults
+
+      - name: Setup testspace publisher
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{github.repository_owner}}
+        if: always()
+      - name: Publish test results
+        run: testspace .testresults/junit.xml
+        if: always()
