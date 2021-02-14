@@ -66,7 +66,7 @@ jobs:
       - name: Run unit tests
         shell: bash
         run: |
-          bats --version
+          mkdir -p .testresults
           bats -r tests/unit -F junit -o .testresults
 
       - name: Setup testspace publisher
