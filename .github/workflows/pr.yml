@@ -68,6 +68,8 @@ jobs:
         run: |
           mkdir -p .testresults
           bats -r tests/unit -F junit -o .testresults
+          ls
+          ls -la .testresults
 
       - name: Setup testspace publisher
         uses: testspace-com/setup-testspace@v1
