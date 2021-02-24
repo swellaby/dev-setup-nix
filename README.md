@@ -1,7 +1,7 @@
 # dotfiles
 Scripts and utilities for setting up a dev environment on *nix based systems.
 
-[![][ci-status-badge]][ci-url][![][unit-tests-badge]][ci-url]
+[![][ci-status-badge]][ci-url] [![][unit-tests-badge]][ci-url]
 
 
 [ci-status-badge]: https://img.shields.io/github/workflow/status/swellaby/dotfiles/PR/main?style=flat-square
